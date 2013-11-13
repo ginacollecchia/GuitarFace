@@ -34,6 +34,8 @@
 		077F41401833514300CCAE1D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F413F1833514300CCAE1D /* OpenGL.framework */; };
 		077F4142183351B300CCAE1D /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4141183351B300CCAE1D /* ApplicationServices.framework */; };
 		077F4144183351B900CCAE1D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4143183351B900CCAE1D /* GLUT.framework */; };
+		077F414B183355A300CCAE1D /* libopencv_core.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */; };
+		077F414C183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,6 +104,10 @@
 		077F413F1833514300CCAE1D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		077F4141183351B300CCAE1D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		077F4143183351B900CCAE1D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		077F41451833551800CCAE1D /* libopencv_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.dylib; path = ../../../../usr/local/lib/libopencv_core.dylib; sourceTree = "<group>"; };
+		077F41461833551800CCAE1D /* libopencv_highgui.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.dylib; path = ../../../../usr/local/lib/libopencv_highgui.dylib; sourceTree = "<group>"; };
+		077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_core.2.4.6.dylib; sourceTree = "<group>"; };
+		077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_highgui.2.4.6.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,8 @@
 			files = (
 				077F4144183351B900CCAE1D /* GLUT.framework in Frameworks */,
 				077F4142183351B300CCAE1D /* ApplicationServices.framework in Frameworks */,
+				077F414B183355A300CCAE1D /* libopencv_core.2.4.6.dylib in Frameworks */,
+				077F414C183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib in Frameworks */,
 				077F413E1833513B00CCAE1D /* AppKit.framework in Frameworks */,
 				077F41401833514300CCAE1D /* OpenGL.framework in Frameworks */,
 			);
@@ -122,6 +130,10 @@
 		077F40D4183349A000CCAE1D = {
 			isa = PBXGroup;
 			children = (
+				077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */,
+				077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */,
+				077F41451833551800CCAE1D /* libopencv_core.dylib */,
+				077F41461833551800CCAE1D /* libopencv_highgui.dylib */,
 				077F4143183351B900CCAE1D /* GLUT.framework */,
 				077F4141183351B300CCAE1D /* ApplicationServices.framework */,
 				077F413F1833514300CCAE1D /* OpenGL.framework */,
@@ -367,6 +379,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/opencv/2.4.6.1/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -375,6 +391,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/opencv/2.4.6.1/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
