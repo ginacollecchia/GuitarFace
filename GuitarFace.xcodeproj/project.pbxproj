@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		077F40E4183349A000CCAE1D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40E3183349A000CCAE1D /* main.cpp */; };
 		077F40E6183349A000CCAE1D /* GuitarFace.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 077F40E5183349A000CCAE1D /* GuitarFace.1 */; };
 		077F412018334BD300CCAE1D /* RtAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40EE18334BD300CCAE1D /* RtAudio.cpp */; };
 		077F412118334BD300CCAE1D /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F218334BD300CCAE1D /* Delay.cpp */; };
@@ -55,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		077F40DF183349A000CCAE1D /* GuitarFace */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GuitarFace; sourceTree = BUILT_PRODUCTS_DIR; };
-		077F40E3183349A000CCAE1D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		077F40E5183349A000CCAE1D /* GuitarFace.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GuitarFace.1; sourceTree = "<group>"; };
 		077F40EE18334BD300CCAE1D /* RtAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtAudio.cpp; sourceTree = "<group>"; };
 		077F40EF18334BD300CCAE1D /* RtAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtAudio.h; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				33ECEF9D18338B1F0054E06B /* domidistuff.cpp */,
-				077F40E3183349A000CCAE1D /* main.cpp */,
 				077F40E5183349A000CCAE1D /* GuitarFace.1 */,
 			);
 			path = GuitarFace;
@@ -304,7 +301,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				077F40E4183349A000CCAE1D /* main.cpp in Sources */,
 				077F412018334BD300CCAE1D /* RtAudio.cpp in Sources */,
 				077F412118334BD300CCAE1D /* Delay.cpp in Sources */,
 				077F412218334BD300CCAE1D /* DelayL.cpp in Sources */,
