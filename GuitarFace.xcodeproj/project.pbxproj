@@ -36,6 +36,8 @@
 		077F4144183351B900CCAE1D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4143183351B900CCAE1D /* GLUT.framework */; };
 		077F414B183355A300CCAE1D /* libopencv_core.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */; };
 		077F414C183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */; };
+		33ECEF9E18338B1F0054E06B /* domidistuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEF9D18338B1F0054E06B /* domidistuff.cpp */; };
+		33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEFA118338C4C0054E06B /* RtMidi.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -108,6 +110,9 @@
 		077F41461833551800CCAE1D /* libopencv_highgui.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.dylib; path = ../../../../usr/local/lib/libopencv_highgui.dylib; sourceTree = "<group>"; };
 		077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_core.2.4.6.dylib; sourceTree = "<group>"; };
 		077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_highgui.2.4.6.dylib; sourceTree = "<group>"; };
+		33ECEF9B18338AF70054E06B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
+		33ECEF9D18338B1F0054E06B /* domidistuff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = domidistuff.cpp; sourceTree = "<group>"; };
+		33ECEFA118338C4C0054E06B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +160,7 @@
 		077F40E2183349A000CCAE1D /* GuitarFace */ = {
 			isa = PBXGroup;
 			children = (
+				33ECEF9D18338B1F0054E06B /* domidistuff.cpp */,
 				077F40E3183349A000CCAE1D /* main.cpp */,
 				077F40E5183349A000CCAE1D /* GuitarFace.1 */,
 			);
@@ -175,6 +181,8 @@
 		077F40ED18334BD300CCAE1D /* rtaudio */ = {
 			isa = PBXGroup;
 			children = (
+				33ECEFA118338C4C0054E06B /* RtMidi.cpp */,
+				33ECEF9B18338AF70054E06B /* RtMidi.h */,
 				077F40EE18334BD300CCAE1D /* RtAudio.cpp */,
 				077F40EF18334BD300CCAE1D /* RtAudio.h */,
 				077F40F018334BD300CCAE1D /* RtError.h */,
@@ -310,11 +318,13 @@
 				077F412A18334BD300CCAE1D /* x-loadrgb.cpp in Sources */,
 				077F412B18334BD300CCAE1D /* x-network.mm in Sources */,
 				077F412C18334BD300CCAE1D /* x-thread.cpp in Sources */,
+				33ECEF9E18338B1F0054E06B /* domidistuff.cpp in Sources */,
 				077F412D18334BD300CCAE1D /* x-vector3d.cpp in Sources */,
 				077F412E18334BD300CCAE1D /* y-charting.cpp in Sources */,
 				077F412F18334BD300CCAE1D /* y-echo.cpp in Sources */,
 				077F413018334BD300CCAE1D /* y-entity.cpp in Sources */,
 				077F413118334BD300CCAE1D /* y-fft.cpp in Sources */,
+				33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */,
 				077F413318334BD300CCAE1D /* y-particle.cpp in Sources */,
 				077F413418334BD300CCAE1D /* y-score-reader.cpp in Sources */,
 				077F413518334BD300CCAE1D /* y-waveform.cpp in Sources */,

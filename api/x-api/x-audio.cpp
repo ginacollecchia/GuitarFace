@@ -33,7 +33,7 @@
 //   date: 2013
 //-----------------------------------------------------------------------------
 #include "x-audio.h"
-#include "RtAudio.h"
+#include "../rtaudio/RtAudio.h"
 #include <iostream>
 using namespace std;
 
