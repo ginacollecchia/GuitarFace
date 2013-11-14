@@ -37,6 +37,8 @@
 		077F414C183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */; };
 		33ECEF9E18338B1F0054E06B /* domidistuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEF9D18338B1F0054E06B /* domidistuff.cpp */; };
 		33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEFA118338C4C0054E06B /* RtMidi.cpp */; };
+		33ECEFA4183448CF0054E06B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA3183448CF0054E06B /* CoreAudio.framework */; };
+		33ECEFA6183448D40054E06B /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA5183448D40054E06B /* CoreMIDI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,13 +106,15 @@
 		077F413F1833514300CCAE1D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		077F4141183351B300CCAE1D /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		077F4143183351B900CCAE1D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
-		077F41451833551800CCAE1D /* libopencv_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.dylib; path = ../../../../usr/local/lib/libopencv_core.dylib; sourceTree = "<group>"; };
-		077F41461833551800CCAE1D /* libopencv_highgui.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.dylib; path = ../../../../usr/local/lib/libopencv_highgui.dylib; sourceTree = "<group>"; };
-		077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_core.2.4.6.dylib; sourceTree = "<group>"; };
-		077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_highgui.2.4.6.dylib; sourceTree = "<group>"; };
+		077F41451833551800CCAE1D /* libopencv_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.dylib; path = /usr/local/lib/libopencv_core.dylib; sourceTree = "<absolute>"; };
+		077F41461833551800CCAE1D /* libopencv_highgui.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.dylib; path = /usr/local/lib/libopencv_highgui.dylib; sourceTree = "<absolute>"; };
+		077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.6.dylib; path = /usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_core.2.4.6.dylib; sourceTree = "<absolute>"; };
+		077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.6.dylib; path = /usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_highgui.2.4.6.dylib; sourceTree = "<absolute>"; };
 		33ECEF9B18338AF70054E06B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
 		33ECEF9D18338B1F0054E06B /* domidistuff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = domidistuff.cpp; sourceTree = "<group>"; };
 		33ECEFA118338C4C0054E06B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
+		33ECEFA3183448CF0054E06B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		33ECEFA5183448D40054E06B /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +122,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33ECEFA6183448D40054E06B /* CoreMIDI.framework in Frameworks */,
+				33ECEFA4183448CF0054E06B /* CoreAudio.framework in Frameworks */,
 				077F4144183351B900CCAE1D /* GLUT.framework in Frameworks */,
 				077F4142183351B300CCAE1D /* ApplicationServices.framework in Frameworks */,
 				077F414B183355A300CCAE1D /* libopencv_core.2.4.6.dylib in Frameworks */,
@@ -133,14 +139,7 @@
 		077F40D4183349A000CCAE1D = {
 			isa = PBXGroup;
 			children = (
-				077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */,
-				077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */,
-				077F41451833551800CCAE1D /* libopencv_core.dylib */,
-				077F41461833551800CCAE1D /* libopencv_highgui.dylib */,
-				077F4143183351B900CCAE1D /* GLUT.framework */,
-				077F4141183351B300CCAE1D /* ApplicationServices.framework */,
-				077F413F1833514300CCAE1D /* OpenGL.framework */,
-				077F413D1833513B00CCAE1D /* AppKit.framework */,
+				33ECEFA7183448DB0054E06B /* frameworks */,
 				077F40EC18334BD300CCAE1D /* api */,
 				077F40E2183349A000CCAE1D /* GuitarFace */,
 				077F40E0183349A000CCAE1D /* Products */,
@@ -248,6 +247,23 @@
 				077F411F18334BD300CCAE1D /* y-waveform.h */,
 			);
 			path = "y-api";
+			sourceTree = "<group>";
+		};
+		33ECEFA7183448DB0054E06B /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				33ECEFA5183448D40054E06B /* CoreMIDI.framework */,
+				33ECEFA3183448CF0054E06B /* CoreAudio.framework */,
+				077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */,
+				077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */,
+				077F41451833551800CCAE1D /* libopencv_core.dylib */,
+				077F41461833551800CCAE1D /* libopencv_highgui.dylib */,
+				077F4143183351B900CCAE1D /* GLUT.framework */,
+				077F4141183351B300CCAE1D /* ApplicationServices.framework */,
+				077F413F1833514300CCAE1D /* OpenGL.framework */,
+				077F413D1833513B00CCAE1D /* AppKit.framework */,
+			);
+			name = frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
