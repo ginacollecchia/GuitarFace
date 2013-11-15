@@ -9,6 +9,6 @@
 #ifndef __GuitarFace__gf_midi__
 #define __GuitarFace__gf_midi__
 
-#include <iostream>
+int gf_midi_init();
 
 #endif /* defined(__GuitarFace__gf_midi__) */

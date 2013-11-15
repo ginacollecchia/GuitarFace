@@ -1,59 +1,37 @@
-#include<iostream>
-#include "domidistuff.cpp"
+//
+//  main.cpp
+//  GuitarFace
+//
+//  Created by Roshan Vid on 14/11/13.
+//  Copyright (c) 2013 GuitarFace Inc. All rights reserved.
+//
 
+#include <iostream>
+#include "gf-gfx.h"
+#include "gf-sim.h"
+#include "gf-midi.h"
 
 using namespace std;
 
-int main(){
-    RtMidiIn * midiin = NULL;
-	RtAudio * audio = NULL;
-	
-	unsigned int bufferBytes = 0;
-	
-	unsigned int bufferFrames = 512;
-	
-    // MIDI config + init
-    try
+int main( int argc, const char ** argv )
+{
+    // invoke graphics setup and loop
+    if( !gf_gfx_init( argc, argv ) )
     {
-        midiin = new RtMidiIn();
-    }
-    catch( RtError & err ) {
-        err.printMessage();
-        goto cleanup;
+        // error message
+        cerr << "Cannot initialize graphics/data system..." << endl;
+        return -1;
     }
     
-    // Check available ports.
-    if ( midiin->getPortCount() == 0 )
+    if( !gf_midi_init() )
     {
-        std::cout << "No ports available!\n";
-        goto cleanup;
+        // error message
+        cerr << "Cannot initialize MIDI system..." << endl;
+        return -1;
     }
-    // use the first available port
-    midiin->openPort( 0 );
     
-    // set midi callback
-    midiin->setCallback( &midiCallback );
+    // graphics loop
+    gf_gfx_loop();
     
-    // Don't ignore sysex, timing, or active sensing messages.
-    midiin->ignoreTypes( false, false, false );
-	
-	
-	
-    // wait ...
-    char input;
-    cout << "Reading MIDI from port 0 ... press <enter> to quit" << endl;
-    cin.get(input);
-	
-	
-cleanup:
-	if(midiin)
-		delete midiin;
-	if(audio)
-	{
-		if( audio->isStreamOpen() )
-			audio->closeStream();
-		delete audio;
-	}
-	
-	return 0;
+    return 0;
 }

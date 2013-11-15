@@ -5,8 +5,8 @@
 // author: Ge Wang (ge@ccrma.stanford.edu)
 //   date: 2013
 //-----------------------------------------------------------------------------
-#ifndef __RAKA_GLOBALS_H__
-#define __RAKA_GLOBALS_H__
+#ifndef __GF_GLOBALS_H__
+#define __GF_GLOBALS_H__
 
 
 #include "x-def.h"

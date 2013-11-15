@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		077F40E6183349A000CCAE1D /* GuitarFace.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 077F40E5183349A000CCAE1D /* GuitarFace.1 */; };
 		077F412018334BD300CCAE1D /* RtAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40EE18334BD300CCAE1D /* RtAudio.cpp */; };
 		077F412118334BD300CCAE1D /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F218334BD300CCAE1D /* Delay.cpp */; };
 		077F412218334BD300CCAE1D /* DelayL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F418334BD300CCAE1D /* DelayL.cpp */; };
@@ -40,7 +39,7 @@
 		07C52AA01835F4AF00918F40 /* gf-globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52A981835F4AF00918F40 /* gf-globals.cpp */; };
 		07C52AA11835F4AF00918F40 /* gf-midi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52A9A1835F4AF00918F40 /* gf-midi.cpp */; };
 		07C52AA21835F4AF00918F40 /* gf-sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52A9C1835F4AF00918F40 /* gf-sim.cpp */; };
-		33ECEF9E18338B1F0054E06B /* domidistuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEF9D18338B1F0054E06B /* domidistuff.cpp */; };
+		07C52AA71835F77000918F40 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52AA61835F77000918F40 /* main.cpp */; };
 		33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEFA118338C4C0054E06B /* RtMidi.cpp */; };
 		33ECEFA4183448CF0054E06B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA3183448CF0054E06B /* CoreAudio.framework */; };
 		33ECEFA6183448D40054E06B /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA5183448D40054E06B /* CoreMIDI.framework */; };
@@ -53,7 +52,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				077F40E6183349A000CCAE1D /* GuitarFace.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -61,7 +59,6 @@
 
 /* Begin PBXFileReference section */
 		077F40DF183349A000CCAE1D /* GuitarFace */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GuitarFace; sourceTree = BUILT_PRODUCTS_DIR; };
-		077F40E5183349A000CCAE1D /* GuitarFace.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GuitarFace.1; sourceTree = "<group>"; };
 		077F40EE18334BD300CCAE1D /* RtAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtAudio.cpp; sourceTree = "<group>"; };
 		077F40EF18334BD300CCAE1D /* RtAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtAudio.h; sourceTree = "<group>"; };
 		077F40F018334BD300CCAE1D /* RtError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtError.h; sourceTree = "<group>"; };
@@ -125,8 +122,8 @@
 		07C52A9B1835F4AF00918F40 /* gf-midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-midi.h"; sourceTree = "<group>"; };
 		07C52A9C1835F4AF00918F40 /* gf-sim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-sim.cpp"; sourceTree = "<group>"; };
 		07C52A9D1835F4AF00918F40 /* gf-sim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-sim.h"; sourceTree = "<group>"; };
+		07C52AA61835F77000918F40 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		33ECEF9B18338AF70054E06B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
-		33ECEF9D18338B1F0054E06B /* domidistuff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = domidistuff.cpp; sourceTree = "<group>"; };
 		33ECEFA118338C4C0054E06B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
 		33ECEFA3183448CF0054E06B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		33ECEFA5183448D40054E06B /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
@@ -173,8 +170,7 @@
 		077F40E2183349A000CCAE1D /* GuitarFace */ = {
 			isa = PBXGroup;
 			children = (
-				33ECEF9D18338B1F0054E06B /* domidistuff.cpp */,
-				077F40E5183349A000CCAE1D /* GuitarFace.1 */,
+				07C52AA61835F77000918F40 /* main.cpp */,
 			);
 			path = GuitarFace;
 			sourceTree = "<group>";
@@ -363,7 +359,6 @@
 				077F412A18334BD300CCAE1D /* x-loadrgb.cpp in Sources */,
 				077F412B18334BD300CCAE1D /* x-network.mm in Sources */,
 				077F412C18334BD300CCAE1D /* x-thread.cpp in Sources */,
-				33ECEF9E18338B1F0054E06B /* domidistuff.cpp in Sources */,
 				077F412D18334BD300CCAE1D /* x-vector3d.cpp in Sources */,
 				077F412E18334BD300CCAE1D /* y-charting.cpp in Sources */,
 				077F412F18334BD300CCAE1D /* y-echo.cpp in Sources */,
@@ -378,6 +373,7 @@
 				07C52AA01835F4AF00918F40 /* gf-globals.cpp in Sources */,
 				07C52AA11835F4AF00918F40 /* gf-midi.cpp in Sources */,
 				07C52AA21835F4AF00918F40 /* gf-sim.cpp in Sources */,
+				07C52AA71835F77000918F40 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
