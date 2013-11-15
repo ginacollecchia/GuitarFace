@@ -27,9 +27,9 @@ int main( int argc, const char ** argv )
     {
         // error message
         cerr << "Cannot initialize MIDI system..." << endl;
-        return -1;
+        //return -1;
     }
-    
+    cerr<<"done";
     // graphics loop
     gf_gfx_loop();
     

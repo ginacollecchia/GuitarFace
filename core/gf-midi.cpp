@@ -1,4 +1,7 @@
-// name: do midi stuff
+//-----------------------------------------------------------------------------
+// name: do gf-midi.cpp
+// desc: reads in midi data,
+//-----------------------------------------------------------------------------
 
 #include <iostream>
 #include <cstdlib>
@@ -17,21 +20,25 @@ using namespace std;
 #define MIDI_MAX 127
 #define MY_CHANNELS 1
 
-
-/* CONSTANTS: threshholds, ranges, constants */
-int note_goal;
-float time_thresh;
-float velocity_thresh;
+//-----------------------------------------------------------------------------
+// GOALS, CONSTANTS, RANGES
+//-----------------------------------------------------------------------------
+int note_goal = 100;
 int pitch_bend_goal;
 int dynamic_range_goal;
-int dynamic_range;
-int * key;
-int jump_thresh;
+int jump_goal;
+int vibrato_goal;
 int key_size = 7;
+float time_thresh;
+float velocity_thresh;
+int * key;
 
-/* RECORDS: arrays, counts, variables */
+//-----------------------------------------------------------------------------
+// RECORDS: arrays, counts, variables
+//-----------------------------------------------------------------------------
 // pitch data
 int * notes;
+int dynamic_range;
 int note_count = 0;
 // intonation
 int in_key_count = 0;
@@ -79,9 +86,10 @@ int idx = 0;
 //-----------------------------------------------------------------------------
 // RtMidiCallback data-type:
 // typedef void (*RtMidiCallback)( double timeStamp, std::vector<unsigned char> *message, void *userData);
-void midiCallback( double time_stamp, std::vector< unsigned char > *message, void *user_data )
+void midiCallback( double time_stamp, std::vector<unsigned char> *message, void *user_data )
 {
 	unsigned int nBytes = message->size();
+    
 	notes[idx] = (int)message->at(1);
 	velocities[idx] = (int)message->at(2);
     
@@ -147,13 +155,10 @@ void setKey( char root_letter, char * key_quality )
 	
 }
 
-
-
 //-----------------------------------------------------------------------------
-// name: gf_midi_init()
+// name: main()
 //
 //-----------------------------------------------------------------------------
-
 int gf_midi_init()
 {
 	RtMidiIn * midiin = NULL;
@@ -167,6 +172,14 @@ int gf_midi_init()
     try
     {
         midiin = new RtMidiIn();
+        notes = new int[note_goal];
+        velocities = new int[note_goal];
+        key = new int[key_size];
+        beats = new float[note_goal];
+        jumps = new bool[jump_goal];
+        pitch_bends = new bool[pitch_bend_goal];
+        vibrato = new bool[vibrato_goal];
+        
     }
     catch( RtError & err ) {
         err.printMessage();
@@ -188,14 +201,8 @@ int gf_midi_init()
     // Don't ignore sysex, timing, or active sensing messages.
     midiin->ignoreTypes( false, false, false );
 	
-	
-	
-    // wait ...
-    char input;
-    cout << "Reading MIDI from port 0 ... press <enter> to quit" << endl;
-    cin.get(input);
-	
-	
+	return 1;
+    
 cleanup:
 	if(midiin)
 		delete midiin;

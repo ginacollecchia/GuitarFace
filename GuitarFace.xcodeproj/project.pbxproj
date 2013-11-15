@@ -439,6 +439,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/opencv/2.4.6.1/lib,
 				);
+				"OTHER_CFLAGS[arch=*]" = "-D__MACOSX_CORE__";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
