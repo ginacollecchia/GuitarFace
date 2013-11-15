@@ -35,6 +35,11 @@
 		077F4144183351B900CCAE1D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4143183351B900CCAE1D /* GLUT.framework */; };
 		077F414B183355A300CCAE1D /* libopencv_core.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */; };
 		077F414C183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */; };
+		078EA0961835E01300856C7C /* gf-midi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078EA0941835E01300856C7C /* gf-midi.cpp */; };
+		078EA09A1835E0CD00856C7C /* gf-gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078EA0981835E0CD00856C7C /* gf-gfx.cpp */; };
+		078EA09D1835E0EE00856C7C /* gf-globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078EA09B1835E0EE00856C7C /* gf-globals.cpp */; };
+		078EA0A01835E69F00856C7C /* gf-sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078EA09E1835E69F00856C7C /* gf-sim.cpp */; };
+		078EA0A31835E7A400856C7C /* gf-entities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078EA0A11835E7A400856C7C /* gf-entities.cpp */; };
 		33ECEF9E18338B1F0054E06B /* domidistuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEF9D18338B1F0054E06B /* domidistuff.cpp */; };
 		33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEFA118338C4C0054E06B /* RtMidi.cpp */; };
 /* End PBXBuildFile section */
@@ -108,6 +113,16 @@
 		077F41461833551800CCAE1D /* libopencv_highgui.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.dylib; path = ../../../../usr/local/lib/libopencv_highgui.dylib; sourceTree = "<group>"; };
 		077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_core.2.4.6.dylib; sourceTree = "<group>"; };
 		077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_highgui.2.4.6.dylib; sourceTree = "<group>"; };
+		078EA0941835E01300856C7C /* gf-midi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-midi.cpp"; sourceTree = "<group>"; };
+		078EA0951835E01300856C7C /* gf-midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-midi.h"; sourceTree = "<group>"; };
+		078EA0981835E0CD00856C7C /* gf-gfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-gfx.cpp"; sourceTree = "<group>"; };
+		078EA0991835E0CD00856C7C /* gf-gfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-gfx.h"; sourceTree = "<group>"; };
+		078EA09B1835E0EE00856C7C /* gf-globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-globals.cpp"; sourceTree = "<group>"; };
+		078EA09C1835E0EE00856C7C /* gf-globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-globals.h"; sourceTree = "<group>"; };
+		078EA09E1835E69F00856C7C /* gf-sim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-sim.cpp"; sourceTree = "<group>"; };
+		078EA09F1835E69F00856C7C /* gf-sim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-sim.h"; sourceTree = "<group>"; };
+		078EA0A11835E7A400856C7C /* gf-entities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-entities.cpp"; sourceTree = "<group>"; };
+		078EA0A21835E7A400856C7C /* gf-entities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-entities.h"; sourceTree = "<group>"; };
 		33ECEF9B18338AF70054E06B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
 		33ECEF9D18338B1F0054E06B /* domidistuff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = domidistuff.cpp; sourceTree = "<group>"; };
 		33ECEFA118338C4C0054E06B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
@@ -133,6 +148,7 @@
 		077F40D4183349A000CCAE1D = {
 			isa = PBXGroup;
 			children = (
+				078EA0971835E01900856C7C /* core */,
 				077F4149183355A300CCAE1D /* libopencv_core.2.4.6.dylib */,
 				077F414A183355A300CCAE1D /* libopencv_highgui.2.4.6.dylib */,
 				077F41451833551800CCAE1D /* libopencv_core.dylib */,
@@ -250,6 +266,23 @@
 			path = "y-api";
 			sourceTree = "<group>";
 		};
+		078EA0971835E01900856C7C /* core */ = {
+			isa = PBXGroup;
+			children = (
+				078EA0941835E01300856C7C /* gf-midi.cpp */,
+				078EA0951835E01300856C7C /* gf-midi.h */,
+				078EA0981835E0CD00856C7C /* gf-gfx.cpp */,
+				078EA0991835E0CD00856C7C /* gf-gfx.h */,
+				078EA09B1835E0EE00856C7C /* gf-globals.cpp */,
+				078EA09C1835E0EE00856C7C /* gf-globals.h */,
+				078EA09E1835E69F00856C7C /* gf-sim.cpp */,
+				078EA09F1835E69F00856C7C /* gf-sim.h */,
+				078EA0A11835E7A400856C7C /* gf-entities.cpp */,
+				078EA0A21835E7A400856C7C /* gf-entities.h */,
+			);
+			path = core;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -324,6 +357,11 @@
 				077F413318334BD300CCAE1D /* y-particle.cpp in Sources */,
 				077F413418334BD300CCAE1D /* y-score-reader.cpp in Sources */,
 				077F413518334BD300CCAE1D /* y-waveform.cpp in Sources */,
+				078EA0961835E01300856C7C /* gf-midi.cpp in Sources */,
+				078EA09A1835E0CD00856C7C /* gf-gfx.cpp in Sources */,
+				078EA09D1835E0EE00856C7C /* gf-globals.cpp in Sources */,
+				078EA0A01835E69F00856C7C /* gf-sim.cpp in Sources */,
+				078EA0A31835E7A400856C7C /* gf-entities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
