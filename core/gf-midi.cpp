@@ -11,6 +11,7 @@
 #include "../api/rtaudio/RtAudio.h"
 #include "gf-gfx.h"
 #include "gf-globals.h"
+#include "gf-midi.h"
 
 using namespace std;
 
@@ -88,10 +89,15 @@ int idx = 0;
 // typedef void (*RtMidiCallback)( double timeStamp, std::vector<unsigned char> *message, void *userData);
 void midiCallback( double time_stamp, std::vector<unsigned char> *message, void *user_data )
 {
-	unsigned int nBytes = message->size();
+
+    unsigned int nBytes = message->size();
     
 	notes[idx] = (int)message->at(1);
 	velocities[idx] = (int)message->at(2);
+
+    GFMIDIEvent e((int)message->at(1),(int)message->at(2));
+    
+    Globals::data->appendNote(e);
     
     // dynamic range is calculated from local velocities
     if( idx > 10 )
@@ -193,7 +199,7 @@ int gf_midi_init()
         goto cleanup;
     }
     // use the first available port
-    midiin->openPort( 0 );
+    midiin->openVirtualPort( "vport" );
     
     // set midi callback
     midiin->setCallback( &midiCallback );
@@ -216,3 +222,25 @@ cleanup:
 	return 0;
 	
 }
+
+GFMIDIEvent::GFMIDIEvent(int note, int vel): m_midinote(note), m_velocity(vel){
+    //Calculate pitch & other stuff
+}
+
+GFMIDIEvent::~GFMIDIEvent(){
+    
+}
+
+GFNoteStore::GFNoteStore(){
+
+}
+
+GFNoteStore::~GFNoteStore(){
+    
+}
+
+void GFNoteStore::appendNote(GFMIDIEvent e){
+    notes.push_back(e);
+}
+
+

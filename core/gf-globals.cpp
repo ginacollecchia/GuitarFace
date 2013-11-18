@@ -17,6 +17,7 @@
 #define DEFAULT_VERSION       "1.0.0"
 
 GFSim * Globals::sim = NULL;
+GFNoteStore * Globals::data = NULL;
 
 GLsizei Globals::windowWidth = DEFAULT_WINDOW_WIDTH;
 GLsizei Globals::windowHeight = DEFAULT_WINDOW_HEIGHT;

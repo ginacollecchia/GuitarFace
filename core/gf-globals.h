@@ -13,6 +13,7 @@
 #include "x-audio.h"
 #include "x-gfx.h"
 #include "x-vector3d.h"
+#include "gf-midi.h"
 
 // c++
 #include <string>
@@ -55,6 +56,7 @@ class Globals
 public:
     // top level root simulation
     static GFSim * sim;
+    static GFNoteStore *data;
     
     // path
     static std::string path;

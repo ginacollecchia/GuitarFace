@@ -24,4 +24,45 @@ public:
     void render();
 };
 
+//-----------------------------------------------------------------------------
+// name: class GFInfoBar
+// desc: info bar
+//-----------------------------------------------------------------------------
+class GFInfoBar : public YEntity
+{
+public:
+    void update( YTimeInterval dt);
+    
+    void render();
+};
+
+//-----------------------------------------------------------------------------
+// name: class GFOverlayMessage
+// desc: cool overlay messages
+//-----------------------------------------------------------------------------
+class GFOverlayMessage : public YEntity
+{
+public:
+    void update( YTimeInterval dt);
+    
+    void render();
+    
+    void setMessage();
+
+private:
+    std::string message;
+};
+
+//-----------------------------------------------------------------------------
+// name: class GFTunnel
+// desc: note tunnel
+//-----------------------------------------------------------------------------
+class GFTunnel : public YEntity
+{
+public:
+    void update(YTimeInterval dt);
+    
+    void render();
+};
+
 #endif /* defined(__GuitarFace__gf_entities__) */

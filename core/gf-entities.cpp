@@ -35,3 +35,26 @@ void GFTeapot::render()
     // disable lighting
     glDisable( GL_LIGHTING );
 }
+
+
+void GFInfoBar::render(){
+    // enable lighting
+    glEnable( GL_LIGHTING );
+    // set color
+    glColor4f( col.x, col.y, col.z, alpha );
+    // render stuff
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(-3.5, -1.5);
+    glVertex2f(-3.5, -1);
+    glVertex2f(3.5, -1);
+    glVertex2f(3.5, -1.5);
+    glEnd();
+    // disable lighting
+    glDisable( GL_LIGHTING );
+    
+}
+
+void GFInfoBar::update( YTimeInterval dt )
+{
+    // do nothing for now
+}
