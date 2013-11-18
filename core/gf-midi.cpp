@@ -278,10 +278,11 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         
         // compute intervals
         // if greater than an octave, call it a "jump"
-        if( m_intervals[idx] > 12 && !this->isSimultaneous() )
+        if( m_intervals[idx] > 12 )
         {
             Globals::data->m_jump_count++;
             m_jumps[idx] = true;
+            cout << "Jump! count: " << Globals::data->m_jump_count << endl;
             m_interval_label[idx] = Globals::interval_names[interval%12];
         }
         
