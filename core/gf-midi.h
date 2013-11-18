@@ -51,7 +51,11 @@ public:
     int getIntonationCount(){ return m_in_key_count; }
     long double getNotesPerHour(){ return m_notes_per_hour; }
     int * getPitchClasses(){ return m_pitch_classes; }
-    
+    long double m_notes_per_hour = 0.0f;
+    int m_jump_count = 0;
+    int m_power_chord_count = 0;
+    int m_note_count = 0;
+
     
 private:
     vector<GFMIDIEvent> notes;
@@ -66,10 +70,7 @@ private:
     int m_jump_goal = 20;
     int m_power_chord_goal = 20;
     int * m_intervals;
-    int m_jump_count;
-    int m_power_chord_count;
     int m_in_key_count;
-    float m_notes_per_hour;
     int * m_pitch_classes;
     // store old delta time to detect if it's a power chord
     float m_delta_time_old;

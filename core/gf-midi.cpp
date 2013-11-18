@@ -22,15 +22,12 @@ int m_dynamic_range_goal;
 int m_jump_goal;
 int m_power_chord_goal;
 int * m_intervals;
-int m_note_count = 0;
-int m_jump_count = 0;
-int m_power_chord_count = 0;
 // intonation
 int m_in_key_count = 0;
 int m_key_size = 7;
 int * m_key;
 
-float m_time_thresh = 0.003f; // might need a second time thresh, if midi code is buggy
+float m_time_thresh = 0.009f; // might need a second time thresh, if midi code is buggy
 float m_velocity_thresh; // if midi code is buggy
 double m_global_time = 0.0;
 
@@ -59,7 +56,6 @@ bool * m_pitch_bends = false;
 int * m_power_chords = false;
 // notes per hour over time
 long double * m_pace;
-long double m_notes_per_hour = 0.0;
 // vibrato (oscillating pitch bends)
 bool * m_vibrato = false;
 int m_vibrato_count = 0;
@@ -216,10 +212,10 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
     if( m_note_on == 144 )
     {
         // first things first: advance note_count
-        m_note_count++;
+        Globals::data->m_note_count++;
         // reward!
-        if( m_note_count % 50 == 0 )
-            cout << "whoooa! " << m_note_count << " notes played!!!" << endl;
+        if( Globals::data->m_note_count % 50 == 0 )
+            cout << "whoooa! " << Globals::data->m_note_count << " notes played!!!" << endl;
         
         // store pitch in notes array
         m_notes[idx] = pitch;
@@ -252,8 +248,9 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         // compute notes per hour
         if( m_velocities[idx] != 0 && m_delta_time != 0 )
         {
-            m_notes_per_hour = (3600.0f/m_delta_time + m_notes_per_hour)/2.0f;
-            cout << "Notes per hour: " << m_notes_per_hour << endl;
+            // compute notes per hour
+            Globals::data->m_notes_per_hour = (3600.0f/m_delta_time + Globals::data->m_notes_per_hour)/2.0f;
+            cout << "Notes per hour: " << Globals::data->m_notes_per_hour << endl;
         }
         
         
@@ -263,8 +260,8 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
             if( m_velocities[idx] != 0 && m_delta_time < m_time_thresh ) // would prefer that this be based on note_on
             {
                 if( m_intervals[idx] == 7 && m_delta_time_old >= m_time_thresh )
-                    m_power_chord_count++;
-                cout << "Simultaneity!" << endl;
+                    Globals::data->m_power_chord_count++;
+                cout << "Simultaneity! Power chord count: " << Globals::data->m_power_chord_count << endl;
             }
         }
         
@@ -283,7 +280,7 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         // if greater than an octave, call it a "jump"
         if( m_intervals[idx] > 12 && !this->isSimultaneous() )
         {
-            m_jump_count++;
+            Globals::data->m_jump_count++;
             m_jumps[idx] = true;
             m_interval_label[idx] = Globals::interval_names[interval%12];
         }
@@ -314,7 +311,6 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         
         
         // beat_stamps[idx] = delta_time;
-        // compute notes per hour
         
         
         cerr << idx << ", ";
