@@ -38,35 +38,39 @@ void GFTeapot::render()
 }
 
 GFInfoBar::GFInfoBar(){
-    
+    a = new YText(1.0);
+    a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
+    this->addChild(a);
+    b = new YText(1.0);
+    this->addChild(b);
+    c = new YText(1.0);
+    this->addChild(c);
+    d = new YText(1.0);
+    this->addChild(d);
 }
 void GFInfoBar::render(){
     // enable lighting
     glEnable( GL_LIGHTING );
     // set color
-    YText *y = new YText(1.0);
-    y->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
-    y->loc.x = -3.4;
-    y->loc.y = -1.8;
-    this->addChild(y);
 
-    y = new YText(1.0);
-    y->set("NPH: " + to_string(Globals::data->getNotesPerHour()));
-    y->loc.x = -1.7;
-    y->loc.y = -1.8;
-    this->addChild(y);
+    a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
+    a->loc.x = -3.4;
+    a->loc.y = -1.8;
     
-    y = new YText(1.0);
-    y->set("Power Chords: " + to_string(Globals::data->getPowerChordCount()));
-    y->loc.x = 0.0;
-    y->loc.y = -1.8;
-    this->addChild(y);
 
-    y = new YText(1.0);
-    y->set("Jumps: " + to_string(Globals::data->getJumpCount()));
-    y->loc.x = 1.7;
-    y->loc.y = -1.8;
-    this->addChild(y);
+    b->set("NPH: " + to_string(Globals::data->getNotesPerHour()));
+    b->loc.x = -1.7;
+    b->loc.y = -1.8;
+    
+    
+    c->set("Power Chords: " + to_string(Globals::data->getPowerChordCount()));
+    c->loc.x = 0.0;
+    c->loc.y = -1.8;
+
+    d->set("Jumps: " + to_string(Globals::data->getJumpCount()));
+    d->loc.x = 1.7;
+    d->loc.y = -1.8;
+
     
     
     glColor4f( col.x, col.y, col.z, alpha );

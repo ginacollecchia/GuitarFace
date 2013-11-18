@@ -33,7 +33,10 @@ class GFInfoBar : public YEntity
 public:
     GFInfoBar();
     ~GFInfoBar();
-    YText *y;
+    YText *a;
+        YText *b;
+        YText *c;
+        YText *d;
     void update( YTimeInterval dt);
     
     void render();
