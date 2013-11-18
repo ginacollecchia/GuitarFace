@@ -71,7 +71,14 @@ std::string Globals::datapath = "";
 std::string Globals::version = DEFAULT_VERSION;
 
 // midi keys
+// add these to the root value, mod 12
 int Globals::minor_key[7] = { 0, 2, 3, 5, 7, 8, 10 };
 int Globals::major_key[7] = { 0, 2, 4, 5, 7, 9, 11 };
-char * Globals::root_names[17] = { "A", "A#", "Ab", "B", "Bb", "C", "C#", "D", "Db",
-    "D#", "E", "Eb", "F", "F#", "G", "G#", "Gb" };
+char * Globals::note_names[17] = { "A", "A#", "Ab", "B", "Bb", "C", "C#", "D", "Db",
+     "D#", "E", "Eb", "F", "F#", "G", "G#", "Gb" };
+char * Globals::interval_names[13] = { "P1", "m2", "M2", "m3", "M3", "P4", "TT", "P5",
+    "m6", "M6", "m7", "M7", "P8" };
+
+int Globals::root_number = 0;
+string Globals::key_quality = "minor";
+int Globals::note_goal = 100;

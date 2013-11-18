@@ -129,7 +129,14 @@ public:
     // midi stuff
     static int minor_key[7];
     static int major_key[7];
-    static char * root_names[17];
+    // C, C#, etc.
+    static char * note_names[17];
+    // P1, m2, etc.
+    static char * interval_names[13];
+    
+    static int root_number;
+    static string key_quality;
+    static int note_goal;
 };
 
 
