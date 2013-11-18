@@ -71,6 +71,8 @@ private:
     int m_in_key_count;
     float m_notes_per_hour;
     int * m_pitch_classes;
+    // store old delta time to detect if it's a power chord
+    float m_delta_time_old;
 
     
     // not using these yet

@@ -30,7 +30,7 @@ int m_in_key_count = 0;
 int m_key_size = 7;
 int * m_key;
 
-float m_time_thresh = 0.05f; // might need a second time thresh, if midi code is buggy
+float m_time_thresh = 0.003f; // might need a second time thresh, if midi code is buggy
 float m_velocity_thresh; // if midi code is buggy
 double m_global_time = 0.0;
 
@@ -67,7 +67,7 @@ int m_vibrato_count = 0;
 float * m_time_stamps;
 float * m_beat_stamps;
 const char * m_interval_label[500];
-
+float m_delta_time_old;
 
 // indices
 int idx = 0;
@@ -235,6 +235,7 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         {
             interval = abs(m_notes[idx] - m_notes[idx-1]);
             m_intervals[idx] = interval;
+            cout << "Interval: " << m_intervals[idx] << endl;
             
             // name the interval
             if( interval < 13 )
@@ -259,14 +260,12 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         // power chords
         if( idx > 2 )
         {
-            if( m_velocities[idx] != 0 && m_velocities[idx-1] != 0 ) // would prefer that this be based on note_on
+            if( m_velocities[idx] != 0 && m_delta_time < m_time_thresh ) // would prefer that this be based on note_on
             {
-                if( m_intervals[idx] == 7 && m_velocities[idx-2] != 0 )
+                if( m_intervals[idx] == 7 && m_delta_time_old >= m_time_thresh )
                     m_power_chord_count++;
                 cout << "Simultaneity!" << endl;
             }
-        } else {
-            m_power_chord_count = 0;
         }
         
         
@@ -340,6 +339,7 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
     // m_older_note_on = m_old_note_on;
     // m_old_note_on = m_note_on;
     
+    m_delta_time_old = m_delta_time;
 
 }
 
