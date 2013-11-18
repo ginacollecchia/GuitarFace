@@ -26,6 +26,7 @@
 #define GF_FRAMESIZE    1024
 #define GF_NUMCHANNELS  2
 #define GF_MAX_TEXTURES 32
+#define GF_MIDI_MAX     127
 
 
 
@@ -57,15 +58,6 @@ public:
     // top level root simulation
     static GFSim * sim;
     static GFNoteStore *data;
-    
-    // path
-    static std::string path;
-    // path to datapath
-    static std::string relpath;
-    // datapath
-    static std::string datapath;
-    // version
-    static std::string version;
     
     // last audio buffer
     static SAMPLE * lastAudioBuffer;
@@ -124,6 +116,20 @@ public:
     static Vector3D ourYellow;
     static Vector3D ourSoftYellow;
     static Vector3D ourPurple;
+    
+    // path
+    static std::string path;
+    // path to datapath
+    static std::string relpath;
+    // datapath
+    static std::string datapath;
+    // version
+    static std::string version;
+    
+    // midi stuff
+    static int minor_key[7];
+    static int major_key[7];
+    static char * root_names[17];
 };
 
 

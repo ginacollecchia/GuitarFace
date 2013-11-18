@@ -8,18 +8,12 @@
 #include <math.h>
 // #include "domidistuff.h"
 #include "RtMidi.h"
-#include "../api/rtaudio/RtAudio.h"
+#include "RtAudio.h"
 #include "gf-gfx.h"
 #include "gf-globals.h"
 #include "gf-midi.h"
 
 using namespace std;
-
-#define SAMPLE double
-#define MY_FORMAT RTAUDIO_FLOAT64
-#define MY_SRATE 44100
-#define MIDI_MAX 127
-#define MY_CHANNELS 1
 
 //-----------------------------------------------------------------------------
 // GOALS, CONSTANTS, RANGES
@@ -28,6 +22,7 @@ int note_goal = 100;
 int pitch_bend_goal;
 int dynamic_range_goal;
 int jump_goal;
+int power_chord_goal;
 int vibrato_goal;
 int key_size = 7;
 float time_thresh;
@@ -64,7 +59,8 @@ float notes_per_hour;
 bool * vibrato;
 int vibrato_count = 0;
 // timing array (difference in timestamp)
-float * beats;
+float * time_stamps;
+float * beat_stamps;
 int num_P1;
 int num_m2;
 int num_M2;
@@ -87,7 +83,7 @@ int idx = 0;
 //-----------------------------------------------------------------------------
 // RtMidiCallback data-type:
 // typedef void (*RtMidiCallback)( double timeStamp, std::vector<unsigned char> *message, void *userData);
-void midiCallback( double time_stamp, std::vector<unsigned char> *message, void *user_data )
+void midiCallback( double delta_time, std::vector<unsigned char> *message, void *user_data )
 {
 
     unsigned int nBytes = message->size();
@@ -118,10 +114,12 @@ void midiCallback( double time_stamp, std::vector<unsigned char> *message, void 
     for ( unsigned int i = 0; i < nBytes; i++ )
         std::cout << "Byte " << i << " = " << (int)message->at(i) << ", ";
     if ( nBytes > 0 )
-        std::cout << "stamp = " << time_stamp << std::endl;
+        std::cout << "stamp = " << delta_time << std::endl;
+    
+    time_stamps[idx] += delta_time;
 	
     // if a NoteOn message is received, record data
-    if ( nBytes > 0 && (int)message->at(0) == 144 )
+    if ( nBytes > 0 && (int)message->at(0) == 144 && (int)message->at(2) != 0 )
     {
         // pitch stuff
         for( int i = 0; i < key_size; i++ )
@@ -135,20 +133,19 @@ void midiCallback( double time_stamp, std::vector<unsigned char> *message, void 
         
         // velocity stuff
         
-        // duration stuff
-        if( idx != 0 )
-        {
-            // difference in time between beats
-            beats[idx] = time_stamp - beats[idx-1];
-            // compute notes per hour
-            note_count++;
-            
-        } else {
-            beats[idx] = 0;
-        }
+        beat_stamps[idx] = delta_time;
+        // compute notes per hour
+        
+        idx++;
+        cerr << idx << ", ";
+        // displayNotesPlayed(idx);
     }
     
-    idx++;
+    if ( idx == note_goal )
+    {
+        cout << "Note goal reached!" << endl;
+        exit(-1);
+    }
 	
 }
 
@@ -170,9 +167,8 @@ int gf_midi_init()
 	RtMidiIn * midiin = NULL;
 	RtAudio * audio = NULL;
 	
-	unsigned int bufferBytes = 0;
-	
-	unsigned int bufferFrames = 512;
+	// unsigned int bufferBytes = 0;
+	// unsigned int bufferFrames = 512;
 	
     // MIDI config + init
     try
@@ -181,10 +177,17 @@ int gf_midi_init()
         notes = new int[note_goal];
         velocities = new int[note_goal];
         key = new int[key_size];
-        beats = new float[note_goal];
-        jumps = new bool[jump_goal];
-        pitch_bends = new bool[pitch_bend_goal];
-        vibrato = new bool[vibrato_goal];
+        time_stamps = new float[note_goal];
+        beat_stamps = new float[note_goal];
+        
+        // these need to be "note_goal" in size because player should be able to
+        // exceed these goals, even though they have their own goals, displayed
+        // in the denominator. reaching note_goal will terminate the application.
+        jumps = new bool[note_goal];
+        pitch_bends = new bool[note_goal];
+        vibrato = new bool[note_goal];
+        power_chords = new int[note_goal];
+        pace = new float[note_goal];
         
     }
     catch( RtError & err ) {

@@ -69,3 +69,9 @@ std::string Globals::path = "";
 std::string Globals::relpath = "data/texture/";
 std::string Globals::datapath = "";
 std::string Globals::version = DEFAULT_VERSION;
+
+// midi keys
+int Globals::minor_key[7] = { 0, 2, 3, 5, 7, 8, 10 };
+int Globals::major_key[7] = { 0, 2, 4, 5, 7, 9, 11 };
+char * Globals::root_names[17] = { "A", "A#", "Ab", "B", "Bb", "C", "C#", "D", "Db",
+    "D#", "E", "Eb", "F", "F#", "G", "G#", "Gb" };
