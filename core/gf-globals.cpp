@@ -82,3 +82,4 @@ char * Globals::interval_names[13] = { "P1", "m2", "M2", "m3", "M3", "P4", "TT",
 int Globals::root_number = 0;
 string Globals::key_quality = "minor";
 int Globals::note_goal = 100;
+queue<GFMIDIEvent> Globals::note_queue;

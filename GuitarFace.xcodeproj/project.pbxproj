@@ -40,6 +40,7 @@
 		07C52AA11835F4AF00918F40 /* gf-midi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52A9A1835F4AF00918F40 /* gf-midi.cpp */; };
 		07C52AA21835F4AF00918F40 /* gf-sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52A9C1835F4AF00918F40 /* gf-sim.cpp */; };
 		07C52AA71835F77000918F40 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52AA61835F77000918F40 /* main.cpp */; };
+		07C52ABA183A3CE200918F40 /* gf-misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52AB8183A3CE100918F40 /* gf-misc.cpp */; };
 		33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEFA118338C4C0054E06B /* RtMidi.cpp */; };
 		33ECEFA4183448CF0054E06B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA3183448CF0054E06B /* CoreAudio.framework */; };
 		33ECEFA6183448D40054E06B /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA5183448D40054E06B /* CoreMIDI.framework */; };
@@ -123,6 +124,8 @@
 		07C52A9C1835F4AF00918F40 /* gf-sim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-sim.cpp"; sourceTree = "<group>"; };
 		07C52A9D1835F4AF00918F40 /* gf-sim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-sim.h"; sourceTree = "<group>"; };
 		07C52AA61835F77000918F40 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		07C52AB8183A3CE100918F40 /* gf-misc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-misc.cpp"; sourceTree = "<group>"; };
+		07C52AB9183A3CE200918F40 /* gf-misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-misc.h"; sourceTree = "<group>"; };
 		33ECEF9B18338AF70054E06B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
 		33ECEFA118338C4C0054E06B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
 		33ECEFA3183448CF0054E06B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -273,6 +276,8 @@
 				07C52A9A1835F4AF00918F40 /* gf-midi.cpp */,
 				07C52A9B1835F4AF00918F40 /* gf-midi.h */,
 				07C52A9C1835F4AF00918F40 /* gf-sim.cpp */,
+				07C52AB8183A3CE100918F40 /* gf-misc.cpp */,
+				07C52AB9183A3CE200918F40 /* gf-misc.h */,
 				07C52A9D1835F4AF00918F40 /* gf-sim.h */,
 			);
 			path = core;
@@ -374,6 +379,7 @@
 				07C52AA11835F4AF00918F40 /* gf-midi.cpp in Sources */,
 				07C52AA21835F4AF00918F40 /* gf-sim.cpp in Sources */,
 				07C52AA71835F77000918F40 /* main.cpp in Sources */,
+				07C52ABA183A3CE200918F40 /* gf-misc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

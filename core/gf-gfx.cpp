@@ -237,7 +237,8 @@ void initialize_graphics()
 //-----------------------------------------------------------------------------
 void initialize_simulation()
 {
-        Globals::sim = new GFSim();
+    
+    Globals::sim = new GFSim();
     
     // create test teapot
     GFTeapot * teapot = new GFTeapot();
@@ -246,10 +247,14 @@ void initialize_simulation()
     teapot->loc.z = -10;
     
     GFInfoBar * pbar = new GFInfoBar();
-    
+    GFTunnel * tunnel = new GFTunnel();
+
     // add to simulation
-    Globals::sim->root().addChild( teapot );
+    //Globals::sim->root().addChild( teapot );
     Globals::sim->root().addChild( pbar );
+    Globals::sim->root().addChild( tunnel );
+
+
     
 }
 

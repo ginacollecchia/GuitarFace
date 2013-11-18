@@ -20,6 +20,7 @@
 #include <map>
 #include <vector>
 #include <utility>
+#include <queue>
 
 // defines
 #define GF_SRATE        44100
@@ -137,6 +138,7 @@ public:
     static int root_number;
     static string key_quality;
     static int note_goal;
+    static queue<GFMIDIEvent> note_queue;
 };
 
 

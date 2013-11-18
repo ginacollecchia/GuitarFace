@@ -31,8 +31,18 @@ public:
 class GFInfoBar : public YEntity
 {
 public:
+    GFInfoBar();
+    ~GFInfoBar();
+    YText *y;
     void update( YTimeInterval dt);
     
+    void render();
+};
+
+class GFPanel : public YEntity{
+public:
+    void update(YTimeInterval dt);
+
     void render();
 };
 
@@ -60,6 +70,24 @@ private:
 class GFTunnel : public YEntity
 {
 public:
+    static YTimeInterval deltatime;
+    void update(YTimeInterval dt);
+    
+    void render();
+};
+
+class GFTunnelLayer : public YEntity
+{
+public:
+    void update(YTimeInterval dt);
+    
+    void render();
+};
+
+class GFNoteObject : public YEntity
+{
+public:
+    int pitch;
     void update(YTimeInterval dt);
     
     void render();

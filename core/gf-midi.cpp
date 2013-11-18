@@ -85,6 +85,7 @@ void midiCallback( double delta_time, std::vector<unsigned char> *message, void 
     
     // create a midi event
     GFMIDIEvent e( (int)message->at(0), (int)message->at(1), (int)message->at(2), delta_time );
+    Globals::note_queue.push(e);
     
     // if the message is the right size and we have a note-on, record data
     if ( nBytes == 3 && (int)message->at(0)==144 )
@@ -179,7 +180,7 @@ int gf_midi_init()
     
     
     // use the first available port
-    midiin->openPort( 0 );
+    midiin->openVirtualPort( "vport" );
     
     // set midi callback
     midiin->setCallback( &midiCallback );
