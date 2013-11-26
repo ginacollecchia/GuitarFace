@@ -39,7 +39,7 @@ void GFTeapot::render()
 
 GFInfoBar::GFInfoBar(){
     a = new YText(1.0);
-    a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
+//    a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + itoa(Globals::note_goal));
     this->addChild(a);
     b = new YText(1.0);
     this->addChild(b);
@@ -53,21 +53,21 @@ void GFInfoBar::render(){
     glEnable( GL_LIGHTING );
     // set color
 
-    a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
+  //  a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
     a->loc.x = -3.4;
     a->loc.y = -1.8;
     
 
-    b->set("NPH: " + to_string(Globals::data->getNotesPerHour()));
+  //  b->set("NPH: " + to_string(Globals::data->getNotesPerHour()));
     b->loc.x = -1.7;
     b->loc.y = -1.8;
     
     
-    c->set("Power Chords: " + to_string(Globals::data->getPowerChordCount()));
+  //  c->set("Power Chords: " + to_string(Globals::data->getPowerChordCount()));
     c->loc.x = 0.0;
     c->loc.y = -1.8;
 
-    d->set("Jumps: " + to_string(Globals::data->getJumpCount()));
+  //  d->set("Jumps: " + to_string(Globals::data->getJumpCount()));
     d->loc.x = 1.7;
     d->loc.y = -1.8;
 
@@ -98,7 +98,7 @@ void GFTunnelLayer::update(YTimeInterval dt){
 void GFTunnelLayer::render(){
     this->loc.z -= 0.01;
     circle(0, 0, 2, 12);
-    if(this->loc.z < -3){
+    if(this->loc.z < -4){
         this->active = false;
     }
     

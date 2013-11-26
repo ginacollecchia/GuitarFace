@@ -12,7 +12,7 @@
 #include "gf-midi.h"
 
 using namespace std;
-
+/*
 int main( int argc, const char ** argv )
 {
     // invoke graphics setup and loop
@@ -35,3 +35,5 @@ int main( int argc, const char ** argv )
     
     return 0;
 }
+*/
+
