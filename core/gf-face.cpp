@@ -25,6 +25,8 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                    CascadeClassifier& nestedCascade,
                    double scale, bool tryflip );
 
+int detectBlackPixels( Mat& img );
+
 string cascadeName = "../../data/haarcascade_frontalface_alt.xml";
 string nestedCascadeName = "../../data/haarcascade_eye_tree_eyeglasses.xml";
 
@@ -70,7 +72,7 @@ int main( int argc, const char** argv )
         else if( tryFlipOpt.compare( 0, tryFlipOptLen, argv[i], tryFlipOptLen ) == 0 )
         {
             tryflip = true;
-            cout << " will try to flip image horizontally to detect assymetric objects\n";
+            cout << " will try to flip image horizontally to detect asymmetric objects\n";
         }
         else if( argv[i][0] == '-' )
         {
@@ -111,6 +113,7 @@ int main( int argc, const char** argv )
                     flip( frame, frameCopy, 0 );
                 
                 detectAndDraw( frameCopy, cascade, nestedCascade, scale, tryflip );
+                // detectBlackPixels(frameCopy);
             }
             
             
@@ -182,19 +185,32 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         Point center;
         Scalar color = colors[i%8];
         int radius;
+
+        // crop image to the coordinates given by vector<Rect>faces, but just the bottom half
+        cv::Rect myROI( r->x+3, r->y+3, r->width-6, (r->height-6)/2.0 );
+        // something funky going on; is reading in the RGB of the rectangle
+        cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
         
-        double aspect_ratio = (double)r->width/r->height;
-        if( 0.75 < aspect_ratio && aspect_ratio < 1.3 )
+        // double aspect_ratio = (double)r->width/(double)r->height;
+        // aspect_ratio = 0.6;
+        // cout << "Width: " << r->width << " Height: " << r->height << endl;
+        /* if( 1.1 < aspect_ratio && aspect_ratio < 1.25 )
         {
             center.x = cvRound((r->x + r->width*0.5)*scale);
             center.y = cvRound((r->y + r->height*0.5)*scale);
             radius = cvRound((r->width + r->height)*0.25*scale);
             circle( img, center, radius, color, 3, 8, 0 );
         }
-        else
+        else */
             rectangle( img, cvPoint(cvRound(r->x*scale), cvRound(r->y*scale)),
                       cvPoint(cvRound((r->x + r->width-1)*scale), cvRound((r->y + r->height-1)*scale)),
                       color, 3, 8, 0);
+        
+        cout << myROI.width << endl;
+        cv::Mat croppedImage = img(myROI);
+        detectBlackPixels( croppedImage );
+
+        
         if( nestedCascade.empty() )
             continue;
         smallImgROI = smallImg(*r);
@@ -213,9 +229,75 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
             radius = cvRound((nr->width + nr->height)*0.25*scale);
             circle( img, center, radius, color, 3, 8, 0 );
         }
+        
     }
     cv::imshow( "result", img );
     // IplImage* frame2 = cvCloneImage(&(IplImage)img);
     //         cvShowImage("result", frame2);
     
+    
+    
+}
+
+int detectBlackPixels( Mat& img ) {
+    
+    /// Load image
+    // src = imread( argv[1], 1 );
+    
+    if( !img.data )
+    { return -1; }
+    cout<<"test";
+    /// Separate the image in 3 places ( B, G and R )
+    vector<Mat> bgr_planes;
+    split( img, bgr_planes );
+    
+    /// Establish the number of bins
+    int histSize = 256;
+    
+    /// Set the ranges ( for B,G,R) )
+    float range[] = { 0, 256 } ;
+    const float* histRange = { range };
+    
+    bool uniform = true; bool accumulate = false;
+    
+    Mat b_hist, g_hist, r_hist;
+    
+    /// Compute the histograms:
+    calcHist( &bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate );
+    calcHist( &bgr_planes[1], 1, 0, Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate );
+    calcHist( &bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate );
+    
+    // Draw the histograms for B, G and R
+    int hist_w = 512; int hist_h = 400;
+    int bin_w = cvRound( (double) hist_w/histSize );
+    
+    Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
+    
+    /// Normalize the result to [ 0, histImage.rows ]
+    normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+    normalize(g_hist, g_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+    normalize(r_hist, r_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
+    
+    /// Draw for each channel
+    for( int i = 1; i < histSize; i++ )
+    {
+        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ) ,
+             Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
+             Scalar( 255, 0, 0), 2, 8, 0  );
+        cout << "Blue: " << cvRound(b_hist.at<float>(i));
+        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ) ,
+             Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
+             Scalar( 0, 255, 0), 2, 8, 0  );
+        cout << " Green: " << cvRound(g_hist.at<float>(i));
+        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ) ,
+             Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
+             Scalar( 0, 0, 255), 2, 8, 0  );
+        cout << " Red: " << cvRound(r_hist.at<float>(i)) << endl;
+    }
+    
+    /// Display
+    namedWindow("calcHist Demo", WINDOW_AUTOSIZE );
+    imshow("calcHist Demo", histImage );
+    
+    // waitKey(0);
 }

@@ -535,7 +535,7 @@
 				"OTHER_CFLAGS[arch=*]" = "-D__MACOSX_CORE__";
 				OTHER_LDFLAGS = "-lopencv_objdetect";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -552,7 +552,7 @@
 				);
 				OTHER_LDFLAGS = "-lopencv_objdetect";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
