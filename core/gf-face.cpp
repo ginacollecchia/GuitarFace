@@ -186,9 +186,8 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         Scalar color = colors[i%8];
         int radius;
 
-        // crop image to the coordinates given by vector<Rect>faces, but just the bottom half
-        cv::Rect myROI( r->x+3, r->y+3+(r->height-6)/2.0, r->width-6, (r->height-6)/2.0 );
-        // something funky going on; is reading in the RGB of the rectangle
+        // crop image to the coordinates given by vector<Rect>faces, but just the bottom one third and the middle one third
+        cv::Rect myROI( r->x+3+(r->width-6)/3.0, r->y+3+(r->height-6)*2.0/3.0, (r->width-6)/3.0, (r->height-6)/3.0 );
         cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
         
         // double aspect_ratio = (double)r->width/(double)r->height;
@@ -239,6 +238,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
     
 }
 
+// maybe a better name would be detectBrownPixels, as the red does not shift as much as blue and green
 int detectBlackPixels( Mat& img ) {
     
     /// Load image
