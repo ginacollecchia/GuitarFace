@@ -27,7 +27,7 @@ int m_in_key_count = 0;
 int m_key_size = 7;
 int * m_key;
 
-float m_time_thresh = 0.009f; // might need a second time thresh, if midi code is buggy
+float m_time_thresh = 0.05f; // might need a second time thresh, if midi code is buggy
 float m_velocity_thresh; // if midi code is buggy
 double m_global_time = 0.0;
 
@@ -249,6 +249,7 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         if( m_velocities[idx] != 0 && m_delta_time != 0 )
         {
             // compute notes per hour
+            if (m_delta_time > 1.0f) Globals::data->m_notes_per_hour = 0.0f;
             Globals::data->m_notes_per_hour = (3600.0f/m_delta_time + Globals::data->m_notes_per_hour)/2.0f;
             cout << "Notes per hour: " << Globals::data->m_notes_per_hour << endl;
         }
