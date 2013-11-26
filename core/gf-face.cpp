@@ -187,7 +187,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         int radius;
 
         // crop image to the coordinates given by vector<Rect>faces, but just the bottom half
-        cv::Rect myROI( r->x+3, r->y+3, r->width-6, (r->height-6)/2.0 );
+        cv::Rect myROI( r->x+3, r->y+3+(r->height-6)/2.0, r->width-6, (r->height-6)/2.0 );
         // something funky going on; is reading in the RGB of the rectangle
         cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
         
