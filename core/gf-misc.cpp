@@ -43,3 +43,21 @@ void circle(float x, float y, float r, int segments)
     }
     glEnd();
 }
+
+int loadTexture_Ipl(IplImage *image, GLuint *text) {
+    
+    if (image==NULL) return -1;
+    
+    glGenTextures(1, text);
+    
+	glBindTexture( GL_TEXTURE_2D, *text ); //bind the texture to it's array
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	
+    
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height,0, GL_BGR, GL_UNSIGNED_BYTE, image->imageData);
+    return 0;
+    
+}
