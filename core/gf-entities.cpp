@@ -178,4 +178,41 @@ void GFTunnel::render(){
  */
 }
 
+void GFCameraWall::initCamera(){
+    
+    int ret = 0;
+    
+    if (!(camCapture = cvCaptureFromCAM(CV_CAP_ANY))) {
+        std::cout << "Failed to capture from camera" << std::endl;
+        
+        ret = 1;
+    }
+    
+    
+    
+    std::cout << "Camera opened successfully" << std::endl;
+}
 
+void GFCameraWall::render(){
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
+    glBegin (GL_QUADS);
+    glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
+    glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
+    glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
+    glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
+    glEnd();
+    
+    IplImage *cameraFrame;
+    
+    if ((cameraFrame = cvQueryFrame(camCapture))) {
+        IplImage img;
+        memcpy(&img, cameraFrame, sizeof(img));
+        loadTexture_Ipl(&img);        
+    }
+
+}
+
+void GFCameraWall::update(YTimeInterval dt){
+
+
+}

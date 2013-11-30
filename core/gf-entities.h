@@ -10,6 +10,10 @@
 #define __GuitarFace__gf_entities__
 
 #include "y-entity.h"
+#include "opencv2/objdetect/objdetect.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+
 
 //-----------------------------------------------------------------------------
 // name: class GFTeapot
@@ -91,6 +95,19 @@ class GFNoteObject : public YEntity
 {
 public:
     int pitch;
+    void update(YTimeInterval dt);
+    
+    void render();
+};
+
+class GFCameraWall : public YEntity {
+private:
+
+    CvCapture *camCapture;
+    GLuint texture;
+public:
+    void initCamera();
+    
     void update(YTimeInterval dt);
     
     void render();
