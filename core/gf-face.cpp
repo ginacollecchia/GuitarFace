@@ -9,78 +9,19 @@
 
 #include "gf-face.h"
 
-#include "opencv2/objdetect/objdetect.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-
-#include <cctype>
-#include <iostream>
-#include <iterator>
-#include <stdio.h>
-
-using namespace std;
-using namespace cv;
-
-void detectAndDraw( Mat& img, CascadeClassifier& cascade,
-                   CascadeClassifier& nestedCascade,
-                   double scale, bool tryflip );
-
-int detectBlackPixels( Mat& img );
-
 string cascadeName = "../../data/haarcascade_frontalface_alt.xml";
 string nestedCascadeName = "../../data/haarcascade_eye_tree_eyeglasses.xml";
 
-int main( int argc, const char** argv )
+int gf_init_face_rec()
 {
     CvCapture* capture = 0;
     Mat frame, frameCopy, image;
-    const string scaleOpt = "--scale=";
-    size_t scaleOptLen = scaleOpt.length();
-    const string cascadeOpt = "--cascade=";
-    size_t cascadeOptLen = cascadeOpt.length();
-    const string nestedCascadeOpt = "--nested-cascade";
-    size_t nestedCascadeOptLen = nestedCascadeOpt.length();
-    const string tryFlipOpt = "--try-flip";
-    size_t tryFlipOptLen = tryFlipOpt.length();
+
     string inputName;
     bool tryflip = false;
     
     CascadeClassifier cascade, nestedCascade;
     double scale = 1;
-    
-    for( int i = 1; i < argc; i++ )
-    {
-        cout << "Processing " << i << " " <<  argv[i] << endl;
-        if( cascadeOpt.compare( 0, cascadeOptLen, argv[i], cascadeOptLen ) == 0 )
-        {
-            cascadeName.assign( argv[i] + cascadeOptLen );
-            cout << "  from which we have cascadeName= " << cascadeName << endl;
-        }
-        else if( nestedCascadeOpt.compare( 0, nestedCascadeOptLen, argv[i], nestedCascadeOptLen ) == 0 )
-        {
-            if( argv[i][nestedCascadeOpt.length()] == '=' )
-                nestedCascadeName.assign( argv[i] + nestedCascadeOpt.length() + 1 );
-            if( !nestedCascade.load( nestedCascadeName ) )
-                cerr << "WARNING: Could not load classifier cascade for nested objects" << endl;
-        }
-        else if( scaleOpt.compare( 0, scaleOptLen, argv[i], scaleOptLen ) == 0 )
-        {
-            if( !sscanf( argv[i] + scaleOpt.length(), "%lf", &scale ) || scale < 1 )
-                scale = 1;
-            cout << " from which we read scale = " << scale << endl;
-        }
-        else if( tryFlipOpt.compare( 0, tryFlipOptLen, argv[i], tryFlipOptLen ) == 0 )
-        {
-            tryflip = true;
-            cout << " will try to flip image horizontally to detect asymmetric objects\n";
-        }
-        else if( argv[i][0] == '-' )
-        {
-            cerr << "WARNING: Unknown option %s" << argv[i] << endl;
-        }
-        else
-            inputName.assign( argv[i] );
-    }
     
     if( !cascade.load( cascadeName ) )
     {
@@ -88,12 +29,7 @@ int main( int argc, const char** argv )
         return -1;
     }
     
-    if( inputName.empty() || (isdigit(inputName.c_str()[0]) && inputName.c_str()[1] == '\0') )
-    {
-        capture = cvCaptureFromCAM( inputName.empty() ? 0 : inputName.c_str()[0] - '0' );
-        int c = inputName.empty() ? 0 : inputName.c_str()[0] - '0' ;
-        if(!capture) cout << "Capture from CAM " <<  c << " didn't work" << endl;
-    }
+    capture = cvCaptureFromCAM(CV_CAP_ANY);
     
     cvNamedWindow( "result", CV_WINDOW_AUTOSIZE );
     
@@ -112,7 +48,7 @@ int main( int argc, const char** argv )
                 else
                     flip( frame, frameCopy, 0 );
                 
-                detectAndDraw( frameCopy, cascade, nestedCascade, scale, tryflip );
+                //detectAndDraw( frameCopy, cascade, nestedCascade, scale, tryflip );
                 // detectBlackPixels(frameCopy);
             }
             
@@ -126,13 +62,16 @@ int main( int argc, const char** argv )
     _cleanup_:
         cvReleaseCapture( &capture );
     }
+    else{
+        cerr<<"Couldn't capture from CAM."<<endl;
+    }
     
     cvDestroyWindow("result");
     
     return 0;
 }
 
-void detectAndDraw( Mat& img, CascadeClassifier& cascade,
+void GFFaceRecognizer::detectAndDraw( Mat& img, CascadeClassifier& cascade,
                    CascadeClassifier& nestedCascade,
                    double scale, bool tryflip )
 {
@@ -239,13 +178,14 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 }
 
 // maybe a better name would be detectBrownPixels, as the red does not shift as much as blue and green
-int detectBlackPixels( Mat& img ) {
+void GFFaceRecognizer::detectBlackPixels( Mat& img ) {
     
     /// Load image
     // src = imread( argv[1], 1 );
     
     if( !img.data )
-    { return -1; }
+     return;
+    
     cout<<"test";
     /// Separate the image in 3 places ( B, G and R )
     vector<Mat> bgr_planes;
