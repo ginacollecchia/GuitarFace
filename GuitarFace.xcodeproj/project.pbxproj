@@ -41,6 +41,14 @@
 		07C52AA21835F4AF00918F40 /* gf-sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52A9C1835F4AF00918F40 /* gf-sim.cpp */; };
 		07C52AA71835F77000918F40 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52AA61835F77000918F40 /* main.cpp */; };
 		07C52ABA183A3CE200918F40 /* gf-misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07C52AB8183A3CE100918F40 /* gf-misc.cpp */; };
+		07DD0E19184E96DD006B8AB2 /* CLM.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E09184E96DD006B8AB2 /* CLM.cc */; };
+		07DD0E1A184E96DD006B8AB2 /* FCheck.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E0B184E96DD006B8AB2 /* FCheck.cc */; };
+		07DD0E1B184E96DD006B8AB2 /* FDet.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E0D184E96DD006B8AB2 /* FDet.cc */; };
+		07DD0E1C184E96DD006B8AB2 /* IO.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E0F184E96DD006B8AB2 /* IO.cc */; };
+		07DD0E1D184E96DD006B8AB2 /* Patch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E11184E96DD006B8AB2 /* Patch.cc */; };
+		07DD0E1E184E96DD006B8AB2 /* PAW.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E13184E96DD006B8AB2 /* PAW.cc */; };
+		07DD0E1F184E96DD006B8AB2 /* PDM.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E15184E96DD006B8AB2 /* PDM.cc */; };
+		07DD0E20184E96DD006B8AB2 /* Tracker.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E17184E96DD006B8AB2 /* Tracker.cc */; };
 		07E94C07183D7BED00DD36C9 /* gf-utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E94C05183D7BED00DD36C9 /* gf-utils.cpp */; };
 		07E94C0A1844134E00DD36C9 /* gf-face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E94C081844134E00DD36C9 /* gf-face.cpp */; };
 		07E94C0C1844139A00DD36C9 /* OpenCVtoOpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E94C0B1844139A00DD36C9 /* OpenCVtoOpenGL.cpp */; };
@@ -146,6 +154,22 @@
 		07C52AA61835F77000918F40 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		07C52AB8183A3CE100918F40 /* gf-misc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-misc.cpp"; sourceTree = "<group>"; };
 		07C52AB9183A3CE200918F40 /* gf-misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-misc.h"; sourceTree = "<group>"; };
+		07DD0E09184E96DD006B8AB2 /* CLM.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CLM.cc; sourceTree = "<group>"; };
+		07DD0E0A184E96DD006B8AB2 /* CLM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLM.h; sourceTree = "<group>"; };
+		07DD0E0B184E96DD006B8AB2 /* FCheck.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FCheck.cc; sourceTree = "<group>"; };
+		07DD0E0C184E96DD006B8AB2 /* FCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCheck.h; sourceTree = "<group>"; };
+		07DD0E0D184E96DD006B8AB2 /* FDet.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FDet.cc; sourceTree = "<group>"; };
+		07DD0E0E184E96DD006B8AB2 /* FDet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDet.h; sourceTree = "<group>"; };
+		07DD0E0F184E96DD006B8AB2 /* IO.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IO.cc; sourceTree = "<group>"; };
+		07DD0E10184E96DD006B8AB2 /* IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO.h; sourceTree = "<group>"; };
+		07DD0E11184E96DD006B8AB2 /* Patch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Patch.cc; sourceTree = "<group>"; };
+		07DD0E12184E96DD006B8AB2 /* Patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patch.h; sourceTree = "<group>"; };
+		07DD0E13184E96DD006B8AB2 /* PAW.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PAW.cc; sourceTree = "<group>"; };
+		07DD0E14184E96DD006B8AB2 /* PAW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAW.h; sourceTree = "<group>"; };
+		07DD0E15184E96DD006B8AB2 /* PDM.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PDM.cc; sourceTree = "<group>"; };
+		07DD0E16184E96DD006B8AB2 /* PDM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDM.h; sourceTree = "<group>"; };
+		07DD0E17184E96DD006B8AB2 /* Tracker.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tracker.cc; sourceTree = "<group>"; };
+		07DD0E18184E96DD006B8AB2 /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
 		07E94C05183D7BED00DD36C9 /* gf-utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-utils.cpp"; sourceTree = "<group>"; };
 		07E94C06183D7BED00DD36C9 /* gf-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-utils.h"; sourceTree = "<group>"; };
 		07E94C081844134E00DD36C9 /* gf-face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-face.cpp"; sourceTree = "<group>"; };
@@ -213,6 +237,7 @@
 		077F40D4183349A000CCAE1D = {
 			isa = PBXGroup;
 			children = (
+				07DD0E08184E96DD006B8AB2 /* facetracker */,
 				07E94C0D18447B4A00DD36C9 /* libopencv_calib3d.2.4.6.dylib */,
 				07E94C0E18447B4B00DD36C9 /* libopencv_contrib.2.4.6.dylib */,
 				07E94C0F18447B4B00DD36C9 /* libopencv_features2d.2.4.6.dylib */,
@@ -364,6 +389,29 @@
 			path = core;
 			sourceTree = "<group>";
 		};
+		07DD0E08184E96DD006B8AB2 /* facetracker */ = {
+			isa = PBXGroup;
+			children = (
+				07DD0E09184E96DD006B8AB2 /* CLM.cc */,
+				07DD0E0A184E96DD006B8AB2 /* CLM.h */,
+				07DD0E0B184E96DD006B8AB2 /* FCheck.cc */,
+				07DD0E0C184E96DD006B8AB2 /* FCheck.h */,
+				07DD0E0D184E96DD006B8AB2 /* FDet.cc */,
+				07DD0E0E184E96DD006B8AB2 /* FDet.h */,
+				07DD0E0F184E96DD006B8AB2 /* IO.cc */,
+				07DD0E10184E96DD006B8AB2 /* IO.h */,
+				07DD0E11184E96DD006B8AB2 /* Patch.cc */,
+				07DD0E12184E96DD006B8AB2 /* Patch.h */,
+				07DD0E13184E96DD006B8AB2 /* PAW.cc */,
+				07DD0E14184E96DD006B8AB2 /* PAW.h */,
+				07DD0E15184E96DD006B8AB2 /* PDM.cc */,
+				07DD0E16184E96DD006B8AB2 /* PDM.h */,
+				07DD0E17184E96DD006B8AB2 /* Tracker.cc */,
+				07DD0E18184E96DD006B8AB2 /* Tracker.h */,
+			);
+			path = facetracker;
+			sourceTree = "<group>";
+		};
 		33ECEFA7183448DB0054E06B /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,6 +512,14 @@
 				07E94C07183D7BED00DD36C9 /* gf-utils.cpp in Sources */,
 				07E94C0A1844134E00DD36C9 /* gf-face.cpp in Sources */,
 				07E94C0C1844139A00DD36C9 /* OpenCVtoOpenGL.cpp in Sources */,
+				07DD0E19184E96DD006B8AB2 /* CLM.cc in Sources */,
+				07DD0E1A184E96DD006B8AB2 /* FCheck.cc in Sources */,
+				07DD0E1B184E96DD006B8AB2 /* FDet.cc in Sources */,
+				07DD0E1C184E96DD006B8AB2 /* IO.cc in Sources */,
+				07DD0E1D184E96DD006B8AB2 /* Patch.cc in Sources */,
+				07DD0E1E184E96DD006B8AB2 /* PAW.cc in Sources */,
+				07DD0E1F184E96DD006B8AB2 /* PDM.cc in Sources */,
+				07DD0E20184E96DD006B8AB2 /* Tracker.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +582,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -544,7 +600,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
