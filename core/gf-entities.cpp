@@ -9,6 +9,7 @@
 #include "gf-entities.h"
 #include "gf-globals.h"
 #include "gf-misc.h"
+
 //-------------------------------------------------------------------------------
 // name: update()
 // desc: ...
@@ -188,12 +189,22 @@ void GFCameraWall::initCamera(){
         ret = 1;
     }
     
+    glGenTextures(1, &texture);
+    
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture to it's array
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     
     
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 480,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
+    
+
     std::cout << "Camera opened successfully" << std::endl;
 }
 
 void GFCameraWall::render(){
+    glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
     glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
@@ -205,14 +216,20 @@ void GFCameraWall::render(){
     IplImage *cameraFrame;
     
     if ((cameraFrame = cvQueryFrame(camCapture))) {
-        IplImage img;
-        memcpy(&img, cameraFrame, sizeof(img));
-        loadTexture_Ipl(&img);        
+        cv::Mat frame, frameCopy;
+        frame = cameraFrame;
+    
+        if( cameraFrame->origin == IPL_ORIGIN_TL ){ //Dont know why this is here.
+            cv::flip( frame, frameCopy, -1 ); //This is what we need
+        }
+        else{
+            cv::flip( frame, frameCopy, 0 );
+        }
+        
+        loadTexture_Mat(&frameCopy, &texture);
     }
-
 }
 
 void GFCameraWall::update(YTimeInterval dt){
-
 
 }

@@ -56,8 +56,32 @@ int loadTexture_Ipl(IplImage *image, GLuint *text) {
 	
     
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height,0, GL_BGR, GL_UNSIGNED_BYTE, image->imageData);
     return 0;
     
+}
+
+int loadTexture_Ipl2(IplImage *image, GLuint *text) {
+    
+    glGenTextures(1,text);
+    glBindTexture(GL_TEXTURE_2D,*text);
+    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+    gluBuild2DMipmaps(GL_TEXTURE_2D,3,image->width,image->height,
+                      GL_BGR,GL_UNSIGNED_BYTE,image->imageData);
+    
+    return 0;
+}
+
+//Use this only after glGenTextures and glTexImage2D
+int loadTexture_Mat(cv::Mat *image, GLuint *text){
+    if (image==NULL) return -1;
+    
+	glBindTexture( GL_TEXTURE_2D, *text ); //bind the texture to it's array
+    std::cerr<<image->cols<<" "<<image->rows<<" "<<*text<<std::endl;
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->cols,image->rows, GL_BGR,GL_UNSIGNED_BYTE, image->data);
+    return 0;
 }

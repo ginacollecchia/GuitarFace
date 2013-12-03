@@ -20,6 +20,9 @@ float degreesToRadian(float i);
 void GLDrawEllipse (int segments, float width, float height, float x, float y , bool filled);
 void GLDrawCircle (int circleSegments, float circleSize, float x, float y, bool filled);
 void circle(float x, float y, float r, int segments);
-int loadTexture_Ipl(IplImage *image);
-    
+int loadTexture_Ipl(IplImage *image, GLuint *text);
+int loadTexture_Ipl2(IplImage *image, GLuint *text);
+
+int loadTexture_Mat(cv::Mat *image, GLuint *text);
+
 #endif /* defined(__GuitarFace__gf_misc__) */
