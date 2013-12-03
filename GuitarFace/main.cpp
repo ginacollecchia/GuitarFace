@@ -10,9 +10,10 @@
 #include "gf-gfx.h"
 #include "gf-sim.h"
 #include "gf-midi.h"
+#include "gf-face.h"
 
 using namespace std;
-/*
+
 int main( int argc, const char ** argv )
 {
     // invoke graphics setup and loop
@@ -29,11 +30,10 @@ int main( int argc, const char ** argv )
         cerr << "Cannot initialize MIDI system..." << endl;
         //return -1;
     }
+
     cerr<<"done";
     // graphics loop
     gf_gfx_loop();
     
     return 0;
 }
-*/
-

@@ -239,21 +239,15 @@ void initialize_simulation()
 {
     
     Globals::sim = new GFSim();
+    GFCameraWall *camwall = new GFCameraWall();
+    camwall->initCamera();
     
-    // create test teapot
-    GFTeapot * teapot = new GFTeapot();
-    // set attributes
-    teapot->col = Globals::ourSoftYellow;
-    teapot->loc.z = -10;
+    GFInfoBar *pbar = new GFInfoBar();
+    GFTunnel *tunnel = new GFTunnel();
     
-    GFInfoBar * pbar = new GFInfoBar();
-    GFTunnel * tunnel = new GFTunnel();
-
-    // add to simulation
-    //Globals::sim->root().addChild( teapot );
     Globals::sim->root().addChild( pbar );
     Globals::sim->root().addChild( tunnel );
-
+    Globals::sim->root().addChild( camwall);
 
     
 }
