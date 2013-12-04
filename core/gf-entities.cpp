@@ -54,22 +54,28 @@ void GFInfoBar::render(){
     
     glEnable( GL_LIGHTING );
     // set color
-
-  //  a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + to_string(Globals::note_goal));
+    
+    ostringstream s1;
+    s1<<"Notes Goal: "<<Globals::data->getNoteCount()<< "/"<<Globals::note_goal;
+    a->set(s1.str());
     a->loc.x = -3.4;
     a->loc.y = -1.8;
     
-
-  //  b->set("NPH: " + to_string(Globals::data->getNotesPerHour()));
+    ostringstream s2;
+    s2<<"NPH: " << Globals::data->getNotesPerHour();
+    b->set(s2.str());
     b->loc.x = -1.7;
     b->loc.y = -1.8;
-    
-    
-  //  c->set("Power Chords: " + to_string(Globals::data->getPowerChordCount()));
+
+    ostringstream s3;
+    s3<<"Power Chords: "<<Globals::data->getPowerChordCount();
+    c->set(s3.str());
     c->loc.x = 0.0;
     c->loc.y = -1.8;
 
-  //  d->set("Jumps: " + to_string(Globals::data->getJumpCount()));
+    ostringstream s4;
+    s4<<"Jumps: " << Globals::data->getJumpCount();
+    d->set(s4.str());
     d->loc.x = 1.7;
     d->loc.y = -1.8;
 
