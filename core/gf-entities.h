@@ -113,4 +113,17 @@ public:
     void render();
 };
 
+class GFVideoPlayer : public YEntity{
+private:
+    string file;
+    VideoCapture cam;
+    GLuint texture;
+public:
+    GFVideoPlayer(string _file);
+    ~GFVideoPlayer();
+    void update(YTimeInterval dt);
+    
+    void render();
+};
+
 #endif /* defined(__GuitarFace__gf_entities__) */

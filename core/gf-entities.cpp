@@ -51,6 +51,7 @@ GFInfoBar::GFInfoBar(){
 }
 void GFInfoBar::render(){
     // enable lighting
+    
     glEnable( GL_LIGHTING );
     // set color
 
@@ -204,15 +205,17 @@ void GFCameraWall::initCamera(){
 }
 
 void GFCameraWall::render(){
+
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
-    glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
-    glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
-    glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
-    glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.0,-2.0,-3.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.0,-2.0,-3.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.0,+2.0,-3.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.0,+2.0,-3.0);
     glEnd();
     
+
     IplImage *cameraFrame;
     
     if ((cameraFrame = cvQueryFrame(camCapture))) {
@@ -225,11 +228,57 @@ void GFCameraWall::render(){
         else{
             cv::flip( frame, frameCopy, 0 );
         }
-        ftDetect(frameCopy);
+        //ftDetect(frameCopy);
         loadTexture_Mat(&frameCopy, &texture);
     }
 }
 
+GFVideoPlayer::GFVideoPlayer(string _file){
+    file = _file;
+    cam.open(file);
+    
+    if(!cam.isOpened()){
+        std::cerr << "Failed opening video file." << endl;
+    }
+    
+    glGenTextures(1, &texture);
+    
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture to it's array
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 480,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
+    
+    
+    std::cerr << "Camera opened successfully" << std::endl;
+}
+
+GFVideoPlayer::~GFVideoPlayer(){
+    
+}
+
 void GFCameraWall::update(YTimeInterval dt){
 
+}
+
+void GFVideoPlayer::render(){
+    glEnable( GL_TEXTURE_2D ); //enable 2D texturing
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
+    glBegin (GL_QUADS);
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.0,-2.0,-3.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.0,-2.0,-3.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.0,+2.0,-3.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.0,+2.0,-3.0);
+    glEnd();
+    std::cerr<<"doing stuff";
+    Mat im;
+    cam >> im;
+    
+    loadTexture_Mat(&im, &texture);
+}
+
+void GFVideoPlayer::update(YTimeInterval dt){
+     
 }

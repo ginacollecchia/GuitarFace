@@ -32,13 +32,13 @@ public:
     
     //Decides if its a guitarface, takes screenshot, does something cool
     void draw();
+    void detectAndDraw( Mat& img, CascadeClassifier& cascade,
+                       CascadeClassifier& nestedCascade,
+                       double scale, bool tryflip );
     
 private:
     int getBlackPixelLevel();
     void detectBlackPixels( Mat& img );
-    void detectAndDraw( Mat& img, CascadeClassifier& cascade,
-                       CascadeClassifier& nestedCascade,
-                       double scale, bool tryflip );
     
 };
 
