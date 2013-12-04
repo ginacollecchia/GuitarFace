@@ -225,7 +225,7 @@ void GFCameraWall::render(){
         else{
             cv::flip( frame, frameCopy, 0 );
         }
-        
+        ftDetect(frameCopy);
         loadTexture_Mat(&frameCopy, &texture);
     }
 }

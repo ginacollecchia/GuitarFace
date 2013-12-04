@@ -20,6 +20,8 @@
 #include <iterator>
 #include <stdio.h>
 
+#include "Tracker.h"
+
 using namespace std;
 using namespace cv;
 
@@ -41,5 +43,8 @@ private:
 };
 
 int gf_init_face_rec();
+
+void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi);
+void ftDetect(Mat& img);
 
 #endif /* defined(__GuitarFace__gf_face__) */
