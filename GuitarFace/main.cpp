@@ -16,13 +16,16 @@ using namespace std;
 
 int main( int argc, const char ** argv )
 {
+    //gf_init_face_rec();
+    
+    
     // invoke graphics setup and loop
     if( !gf_gfx_init( argc, argv ) )
     {
         // error message
         cerr << "Cannot initialize graphics/data system..." << endl;
         return -1;
-    }
+    }    
     
     if( !gf_midi_init() )
     {
@@ -34,6 +37,6 @@ int main( int argc, const char ** argv )
     cerr<<"done";
     // graphics loop
     gf_gfx_loop();
-    
+
     return 0;
 }

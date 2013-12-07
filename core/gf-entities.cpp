@@ -215,12 +215,15 @@ void GFCameraWall::render(){
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
-    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.0,-2.0,-3.0); //with our vertices we have to assign a texcoord
-    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.0,-2.0,-3.0); //so that our texture has some points to draw to
-    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.0,+2.0,-3.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.0,+2.0,-3.0);
-    glEnd();
     
+    double ratio = 640.0/480.0;
+    double scale = 2.0;
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-3.0);
+    glEnd();
+    glDisable( GL_TEXTURE_2D );
 
     IplImage *cameraFrame;
     
@@ -234,7 +237,9 @@ void GFCameraWall::render(){
         else{
             cv::flip( frame, frameCopy, 0 );
         }
+        
         //ftDetect(frameCopy);
+
         loadTexture_Mat(&frameCopy, &texture);
     }
 }
@@ -276,9 +281,9 @@ void GFVideoPlayer::render(){
     glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.0,-2.0,-3.0); //with our vertices we have to assign a texcoord
     glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.0,-2.0,-3.0); //so that our texture has some points to draw to
     glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.0,+2.0,-3.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.0,+2.0,-3.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.0,+2.0,-3.0);    
     glEnd();
-    std::cerr<<"doing stuff";
+    glDisable(GL_TEXTURE_2D);
     Mat im;
     cam >> im;
     
@@ -286,5 +291,67 @@ void GFVideoPlayer::render(){
 }
 
 void GFVideoPlayer::update(YTimeInterval dt){
-     
+    
 }
+
+GFOverlayMessage::GFOverlayMessage(string _filename):filename(_filename){
+    string path = "/Users/roshanvid/Code/GuitarFace/build/Debug/data/texture/";    
+    texture = gf_loadTexture(path + filename);
+}
+
+GFOverlayMessage::~GFOverlayMessage(){
+    
+}
+void GFOverlayMessage::update(YTimeInterval dt){
+
+    
+}
+
+void GFOverlayMessage::render(){
+    
+    glEnable( GL_TEXTURE_2D ); //enable 2D texturing
+    glBindTexture( GL_TEXTURE_2D, texture->name); //bind the texture
+    glBegin (GL_QUADS);
+    
+//    double ratio = texture->origWidth/texture->origHeight;
+//    double scale = 2.0;
+//    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
+//    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
+//    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
+//    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-3.0);
+    
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.6666,-2.6666,0.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.6666,-2.6666,0.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.6666,+2.6666,0.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.6666,+2.6666,0.0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+    this->loc.z += 0.08;
+    if(this->loc.z > 1){
+        this->active = false;
+    }
+}
+
+GFBackgroundImage::GFBackgroundImage(string _filename):filename(_filename){
+    string path = "/Users/roshanvid/Code/GuitarFace/build/Debug/data/texture/";
+    texture = gf_loadTexture(path + filename);
+}
+
+void GFBackgroundImage::update(YTimeInterval dt){
+}
+
+void GFBackgroundImage::render(){
+    glEnable( GL_TEXTURE_2D ); //enable 2D texturing
+    glBindTexture( GL_TEXTURE_2D, texture->name); //bind the texture
+    glBegin (GL_QUADS);    
+    
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.6666,-2.6666,0.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.6666,-2.6666,0.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.6666,+2.6666,0.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.6666,+2.6666,0.0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
+
+

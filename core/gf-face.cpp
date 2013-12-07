@@ -48,8 +48,8 @@ int gf_init_face_rec()
                 else
                     flip( frame, frameCopy, 0 );
                 
-                //detectAndDraw( frameCopy, cascade, nestedCascade, scale, tryflip );
-                // detectBlackPixels(frameCopy);
+                detectAndDraw( frameCopy, cascade, nestedCascade, scale, tryflip );
+                 //detectBlackPixels(frameCopy);
             }
             
             
@@ -71,7 +71,7 @@ int gf_init_face_rec()
     return 0;
 }
 
-void GFFaceRecognizer::detectAndDraw( Mat& img, CascadeClassifier& cascade,
+void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                    CascadeClassifier& nestedCascade,
                    double scale, bool tryflip )
 {
@@ -178,7 +178,7 @@ void GFFaceRecognizer::detectAndDraw( Mat& img, CascadeClassifier& cascade,
 }
 
 // maybe a better name would be detectBrownPixels, as the red does not shift as much as blue and green
-void GFFaceRecognizer::detectBlackPixels( Mat& img ) {
+void detectBlackPixels( Mat& img ) {
     
     /// Load image
     // src = imread( argv[1], 1 );

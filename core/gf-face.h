@@ -43,7 +43,11 @@ private:
 };
 
 int gf_init_face_rec();
+void detectBlackPixels( Mat& img );
 
+void detectAndDraw( Mat& img, CascadeClassifier& cascade,
+                   CascadeClassifier& nestedCascade,
+                   double scale, bool tryflip );
 void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi);
 void ftDetect(Mat& img);
 

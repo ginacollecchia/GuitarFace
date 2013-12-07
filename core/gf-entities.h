@@ -64,10 +64,18 @@ public:
     
     void render();
     
-    void setMessage();
+    void setMessage(string _filename){ filename = _filename; };
+    
+    string getMessage(){ return filename; }
+    
+    GFOverlayMessage(string _filename);
+    ~GFOverlayMessage();
 
 private:
-    std::string message;
+    XTexture *texture;
+    static YTimeInterval deltatime;
+
+    std::string filename;
 };
 
 //-----------------------------------------------------------------------------
@@ -124,6 +132,17 @@ public:
     void update(YTimeInterval dt);
     
     void render();
+};
+
+class GFBackgroundImage : public YEntity{
+private:
+    XTexture *texture;
+    string filename;
+public:
+    void update(YTimeInterval dt);
+    GFBackgroundImage(string filename);
+    void render();
+    
 };
 
 #endif /* defined(__GuitarFace__gf_entities__) */
