@@ -51,4 +51,6 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi);
 void ftDetect(Mat& img);
 
+void getBrightness(const cv::Mat& frame, double& brightness);
+
 #endif /* defined(__GuitarFace__gf_face__) */
