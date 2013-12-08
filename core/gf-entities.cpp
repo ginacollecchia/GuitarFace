@@ -106,8 +106,9 @@ void GFTunnelLayer::update(YTimeInterval dt){
 
 void GFTunnelLayer::render(){
     this->loc.z -= 0.01;
+    this->alpha -= 0.002;
     circle(0, 0, 2, 12);
-    if(this->loc.z < -4){
+    if(this->loc.z < -10){
         this->active = false;
     }
     
@@ -120,6 +121,7 @@ void GFNoteObject::render(){
     float deg = 2*M_PI*(float)pitch/(float)12;
     glTranslatef(2 * sin(deg), 2*cos(deg),1);
     glColor3f(1,0,0);
+    this->alpha -= 0.002;
     glutSolidCube(0.2);
 }
 
@@ -215,17 +217,28 @@ void GFCameraWall::initCamera(){
 // renders at 30fps; face detect runs at 15fps or so
 void GFCameraWall::render(){
     frameCount++;
-
+    if(this->loc.z > 15)
+        this->loc.z = -10;
+    this->loc.z += 0.05;
+    angle += diff;
+    if(angle > 30){
+        diff = -5;
+    }
+    if(angle < -30){
+        diff = +5;
+    }
+    
+    glRotated(angle, 0, 0, 1);
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
     
     double ratio = 640.0/480.0;
     double scale = 3.0;
-    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
-    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
-    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-3.0);
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-10.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-10.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-10.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-10.0);
     glEnd();
     glDisable( GL_TEXTURE_2D );
 
@@ -248,6 +261,7 @@ void GFCameraWall::render(){
 //        thread->start(detect);
                 
         loadTexture_Mat(&frameCopy, &texture);
+        
         // std::cout << cameraFrame->width << " " << cameraFrame->height << endl;
         
     }

@@ -110,6 +110,8 @@ public:
 
 class GFCameraWall : public YEntity {
 private:
+    int angle = 0;
+    int diff = 5;
     int frameCount = 0;
     CvCapture *camCapture;
     GLuint texture;
