@@ -9,6 +9,7 @@
 #include "gf-entities.h"
 #include "gf-globals.h"
 #include "gf-misc.h"
+#include "x-thread.h"
 
 //-------------------------------------------------------------------------------
 // name: update()
@@ -219,7 +220,7 @@ void GFCameraWall::render(){
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
     
-    double ratio = 1280.0/1024.0;
+    double ratio = 640.0/480.0;
     double scale = 3.0;
     glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
     glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
@@ -242,9 +243,10 @@ void GFCameraWall::render(){
         }
         
         // detect face and compute mouth height
-        if ( frameCount%10 == 0 )
-            ftDetect(frameCopy);
         
+//        XThread *thread = new XThread();
+//        thread->start(detect);
+                
         loadTexture_Mat(&frameCopy, &texture);
         // std::cout << cameraFrame->width << " " << cameraFrame->height << endl;
         
@@ -285,10 +287,13 @@ void GFVideoPlayer::render(){
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
-    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.0,-2.0,-3.0); //with our vertices we have to assign a texcoord
-    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.0,-2.0,-3.0); //so that our texture has some points to draw to
-    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.0,+2.0,-3.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.0,+2.0,-3.0);    
+   
+    double ratio = 640/480;
+    double scale = 2.0;
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,0.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,0.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,0.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,0.0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
     Mat im;
@@ -320,17 +325,13 @@ void GFOverlayMessage::render(){
     glBindTexture( GL_TEXTURE_2D, texture->name); //bind the texture
     glBegin (GL_QUADS);
     
-//    double ratio = texture->origWidth/texture->origHeight;
-//    double scale = 2.0;
-//    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
-//    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
-//    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
-//    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-3.0);
+    double ratio = texture->origWidth/texture->origHeight;
+    double scale = 2.0;
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,0.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,0.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,0.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,0.0);
     
-    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.6666,-2.6666,0.0); //with our vertices we have to assign a texcoord
-    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.6666,-2.6666,0.0); //so that our texture has some points to draw to
-    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.6666,+2.6666,0.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.6666,+2.6666,0.0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
 
@@ -353,10 +354,13 @@ void GFBackgroundImage::render(){
     glBindTexture( GL_TEXTURE_2D, texture->name); //bind the texture
     glBegin (GL_QUADS);    
     
-    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-2.6666,-2.6666,0.0); //with our vertices we have to assign a texcoord
-    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+2.6666,-2.6666,0.0); //so that our texture has some points to draw to
-    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+2.6666,+2.6666,0.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-2.6666,+2.6666,0.0);
+    double ratio = texture->origWidth/texture->origHeight;
+    double scale = 2.0;
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,0.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,0.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,0.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,0.0);
+    
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
