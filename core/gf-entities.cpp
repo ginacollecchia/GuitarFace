@@ -249,13 +249,14 @@ void GFCameraWall::render(){
         frame = cameraFrame;
     
         if( cameraFrame->origin == IPL_ORIGIN_TL ){ //Dont know why this is here.
-            cv::flip( frame, frameCopy, -1 ); //This is what we need
+            cv::flip( frame, frameCopy, 1 ); //This is what we need
         }
         else{
             cv::flip( frame, frameCopy, 0 );
         }
         
         // detect face and compute mouth height
+        ftDetect( frameCopy );
         
 //        XThread *thread = new XThread();
 //        thread->start(detect);

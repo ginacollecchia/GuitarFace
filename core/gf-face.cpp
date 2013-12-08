@@ -282,25 +282,31 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
         cv::line(image,p1,p2,c,1);
     }
     // draw points
-    // lips = 60 - 66
-    for(i = 61; i < 62; i++){
+    // lips ~= 49 - 66
+    for(i = 0; i < n; i++){
         if(visi.at<int>(i,0) == 0)continue;
         p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
         c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
     }
-    
-    double upperLipY, lowerLipY, mouthHeight;
+
+    double upperLipY, lowerLipY, mouthHeight, openMouthThresh;
     
     // compute mouth height
-    upperLipY = shape.at<double>(61+n,0);
-    lowerLipY = shape.at<double>(64+n,0);
-    std::cout << "upper lip height: " << upperLipY << ", lower lip height: " << lowerLipY << endl;
-    mouthHeight = upperLipY - lowerLipY;
-    if (mouthHeight > 20.0f )
+    upperLipY = shape.at<double>(51+n,0); // i=51 is the middle of the exterior upper lip
+    lowerLipY = shape.at<double>(57+n,0); // i=57 is the middle of the exterior lower lip
+    mouthHeight = abs(upperLipY - lowerLipY);
+    openMouthThresh = (float)image.rows / 14.5f; // 70.0 seems to be a good number, maybe on the high end, but won't detect mouth open if the subject is far away. could take running average and compare, but what's to say the average case isn't a bit of mouth open? it is relative to window height because face will be smaller with small window size.
+    std::cout << "lip height: " << mouthHeight << endl;
+    if (mouthHeight > openMouthThresh )
     {
-        std::cout << "mouth height: " << mouthHeight << endl;
+        std::cout << "Mouth is open!" << endl;
+        // do something in graphics, disable mouth detection for 4 seconds
     }
 
+    /// Display
+    namedWindow("face tracker mask", WINDOW_AUTOSIZE );
+    imshow("face tracker mask", image );
+    
     return;
     
 
