@@ -556,7 +556,7 @@ void MidiInCore :: openPort( unsigned int portNumber, const std::string portName
     return;
   }
 
-  unsigned int nSrc = MIDIGetNumberOfSources();
+  unsigned int nSrc = (unsigned int)MIDIGetNumberOfSources();
   if (nSrc < 1) {
     errorString_ = "MidiInCore::openPort: no MIDI input sources found!";
     RtMidi::error( RtError::NO_DEVICES_FOUND, errorString_ );
@@ -633,7 +633,7 @@ void MidiInCore :: closePort( void )
 
 unsigned int MidiInCore :: getPortCount()
 {
-  return MIDIGetNumberOfSources();
+  return (unsigned int)MIDIGetNumberOfSources();
 }
 
 // This function was submitted by Douglas Casey Tucker and apparently
@@ -723,7 +723,7 @@ static CFStringRef ConnectedEndpointName( MIDIEndpointRef endpoint )
   if ( connections != NULL ) {
     // It has connections, follow them
     // Concatenate the names of all connected devices
-    nConnected = CFDataGetLength( connections ) / sizeof(MIDIUniqueID);
+    nConnected = (int)CFDataGetLength( connections ) / sizeof(MIDIUniqueID);
     if ( nConnected ) {
       const SInt32 *pid = (const SInt32 *)(CFDataGetBytePtr(connections));
       for ( i=0; i<nConnected; ++i, ++pid ) {
@@ -825,7 +825,7 @@ void MidiOutCore :: initialize( const std::string& clientName )
 
 unsigned int MidiOutCore :: getPortCount()
 {
-  return MIDIGetNumberOfDestinations();
+  return (unsigned int)MIDIGetNumberOfDestinations();
 }
 
 std::string MidiOutCore :: getPortName( unsigned int portNumber )
@@ -860,7 +860,7 @@ void MidiOutCore :: openPort( unsigned int portNumber, const std::string portNam
     return;
   }
 
-  unsigned int nDest = MIDIGetNumberOfDestinations();
+  unsigned int nDest = (unsigned int)MIDIGetNumberOfDestinations();
   if (nDest < 1) {
     errorString_ = "MidiOutCore::openPort: no MIDI output destinations found!";
     RtMidi::error( RtError::NO_DEVICES_FOUND, errorString_ );
@@ -945,7 +945,7 @@ void MidiOutCore :: sendMessage( std::vector<unsigned char> *message )
 {
   // We use the MIDISendSysex() function to asynchronously send sysex
   // messages.  Otherwise, we use a single CoreMidi MIDIPacket.
-  unsigned int nBytes = message->size();
+  unsigned int nBytes = (int)message->size();
   if ( nBytes == 0 ) {
     errorString_ = "MidiOutCore::sendMessage: no data in message argument!";      
     RtMidi::error( RtError::WARNING, errorString_ );

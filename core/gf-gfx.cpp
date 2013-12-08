@@ -561,9 +561,9 @@ void renderBackground()
 //-------------------------------------------------------------------------------
 void loadTextures()
 {
-    char filename[256];
+    // char filename[256];
     GLenum minFilter, maxFilter;
-    int i;
+    // int i;
     
     // log
     fprintf( stderr, "[bokeh]: loading textures...\n" );

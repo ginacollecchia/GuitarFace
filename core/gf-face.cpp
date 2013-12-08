@@ -308,7 +308,10 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
 
 void ftDetect(Mat& im){
 
-    bool fcheck = false; double scale = 1; int fpd = -1; bool show = true;
+    bool fcheck = false;
+    // double scale = 1;
+    int fpd = -1;
+    bool show = true;
 
     char ftFile[256] = "./data/face2.tracker";
     char triFile[256] = "./data/face.tri";
@@ -322,7 +325,10 @@ void ftDetect(Mat& im){
     cv::Mat tri=FACETRACKER::IO::LoadTri(triFile);
     cv::Mat con=FACETRACKER::IO::LoadCon(conFile);
 
-    cv::Mat gray; double fps=0; char sss[256]; std::string text;    
+    cv::Mat gray;
+    // double fps=0;
+    // char sss[256];
+    std::string text;
 
         bool failed = true;
     

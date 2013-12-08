@@ -77,7 +77,7 @@ int idx = 0;
 // typedef void (*RtMidiCallback)( double timeStamp, std::vector<unsigned char> *message, void *userData);
 void midiCallback( double delta_time, std::vector<unsigned char> *message, void *user_data )
 {
-    unsigned int nBytes = message->size();
+    unsigned int nBytes = (int)message->size();
     
     // create a midi event
     GFMIDIEvent e( (int)message->at(0), (int)message->at(1), (int)message->at(2), delta_time );
