@@ -208,16 +208,19 @@ void GFCameraWall::initCamera(){
     
 
     std::cout << "Camera opened successfully" << std::endl;
+    
 }
 
+// renders at 30fps; face detect runs at 15fps or so
 void GFCameraWall::render(){
+    frameCount++;
 
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
     
-    double ratio = 640.0/480.0;
-    double scale = 2.0;
+    double ratio = 1280.0/1024.0;
+    double scale = 3.0;
     glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
     glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
     glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
@@ -238,9 +241,13 @@ void GFCameraWall::render(){
             cv::flip( frame, frameCopy, 0 );
         }
         
-        //ftDetect(frameCopy);
-
+        // detect face and compute mouth height
+        if ( frameCount%10 == 0 )
+            ftDetect(frameCopy);
+        
         loadTexture_Mat(&frameCopy, &texture);
+        // std::cout << cameraFrame->width << " " << cameraFrame->height << endl;
+        
     }
 }
 
@@ -334,7 +341,7 @@ void GFOverlayMessage::render(){
 }
 
 GFBackgroundImage::GFBackgroundImage(string _filename):filename(_filename){
-    string path = "/Users/roshanvid/Code/GuitarFace/build/Debug/data/texture/";
+    string path = "./data/texture/";
     texture = gf_loadTexture(path + filename);
 }
 

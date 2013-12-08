@@ -110,7 +110,7 @@ public:
 
 class GFCameraWall : public YEntity {
 private:
-
+    int frameCount = 0;
     CvCapture *camCapture;
     GLuint texture;
 public:

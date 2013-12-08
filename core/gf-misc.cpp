@@ -19,11 +19,11 @@ void GLDrawEllipse (int segments, float width, float height, float x, float y , 
     int count=0;
     for (float i = 0; i < 360.0f; i+=(360.0f/segments))
     {
-        std::cout<<"x:"<<vertices[count]<<" ";
+        // std::cout<<"x:"<<vertices[count]<<" ";
         vertices[count++] = (cos(degreesToRadian(i))*width);
-        std::cout<<"y:"<<vertices[count]<<" ";
+        // std::cout<<"y:"<<vertices[count]<<" ";
         vertices[count++] = (sin(degreesToRadian(i))*height);
-        std::cout<<std::endl;
+        // std::cout<<std::endl;
     }
     glVertexPointer (2, GL_FLOAT , 0, vertices);
     glDrawArrays ((filled) ? GL_TRIANGLE_FAN : GL_LINE_LOOP, 0, segments);
@@ -81,7 +81,7 @@ int loadTexture_Mat(cv::Mat *image, GLuint *text){
     if (image==NULL) return -1;
     
 	glBindTexture( GL_TEXTURE_2D, *text ); //bind the texture to it's array
-    std::cerr<<image->cols<<" "<<image->rows<<" "<<*text<<std::endl;
+    // std::cerr<<image->cols<<" "<<image->rows<<" "<<*text<<std::endl;
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->cols,image->rows, GL_BGR,GL_UNSIGNED_BYTE, image->data);
     return 0;
 }

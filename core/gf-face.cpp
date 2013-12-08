@@ -144,7 +144,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                       cvPoint(cvRound((r->x + r->width-1)*scale), cvRound((r->y + r->height-1)*scale)),
                       color, 3, 8, 0);
         
-        cout << myROI.width << endl;
+        // cout << myROI.width << endl;
         cv::Mat croppedImage = img(myROI);
         detectBlackPixels( croppedImage );
 
@@ -242,11 +242,12 @@ void detectBlackPixels( Mat& img ) {
     // waitKey(0);
 }
 
+// this is from FaceTracker; put this in a new thread (currently in graphics thread)
 void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
 {
     int i,n = shape.rows/2; cv::Point p1,p2; cv::Scalar c;
     
-    //draw triangulation
+    // draw triangulation
     c = CV_RGB(0,0,0);
     
     for(i = 0; i < tri.rows; i++){
@@ -269,7 +270,7 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
                        shape.at<double>(tri.at<int>(i,1)+n,0));
         cv::line(image,p1,p2,c);
     }
-    //draw connections
+    // draw connections
     c = CV_RGB(0,0,255);
     for(i = 0; i < con.cols; i++){
         if(visi.at<int>(con.at<int>(0,i),0) == 0 ||
@@ -280,24 +281,40 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
                        shape.at<double>(con.at<int>(1,i)+n,0));
         cv::line(image,p1,p2,c,1);
     }
-    //draw points
-    //lips = 60 - 66
-    for(i = 0; i < n; i++){    
+    // draw points
+    // lips = 60 - 66
+    for(i = 61; i < 62; i++){
         if(visi.at<int>(i,0) == 0)continue;
         p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
         c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
-    }return;
+    }
+    
+    double upperLipY, lowerLipY, mouthHeight;
+    
+    // compute mouth height
+    upperLipY = shape.at<double>(61+n,0);
+    lowerLipY = shape.at<double>(64+n,0);
+    std::cout << "upper lip height: " << upperLipY << ", lower lip height: " << lowerLipY << endl;
+    mouthHeight = upperLipY - lowerLipY;
+    if (mouthHeight > 20.0f )
+    {
+        std::cout << "mouth height: " << mouthHeight << endl;
+    }
+
+    return;
+    
+
 }
 
 void ftDetect(Mat& im){
 
     bool fcheck = false; double scale = 1; int fpd = -1; bool show = true;
 
-    char ftFile[256] = "./face2.tracker";
-    char triFile[256] = "./face.tri";
-    char conFile[256] = "./face.con";
+    char ftFile[256] = "./data/face2.tracker";
+    char triFile[256] = "./data/face.tri";
+    char conFile[256] = "./data/face.con";
     
-    //set other tracking parameters    
+    // set other tracking parameters
     std::vector<int> wSize1(1); wSize1[0] = 7;
     std::vector<int> wSize2(3); wSize2[0] = 11; wSize2[1] = 9; wSize2[2] = 7;
     int nIter = 5; double clamp=3,fTol=0.01;
@@ -311,7 +328,7 @@ void ftDetect(Mat& im){
     
     cv::flip(im,im,1); cv::cvtColor(im,gray,CV_BGR2GRAY);
     
-    //track this image
+    // track this image
     std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1;
     if(model.Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
         int idx = model._clm.GetViewIdx(); failed = false;
@@ -320,4 +337,5 @@ void ftDetect(Mat& im){
         if(show){cv::Mat R(im,cvRect(0,0,150,50)); R = cv::Scalar(0,0,255);}
         model.FrameReset(); failed = true;
     }
+    
 }

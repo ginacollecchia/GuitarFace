@@ -134,11 +134,17 @@ public:
     static char * note_names[17];
     // P1, m2, etc.
     static char * interval_names[13];
-    
     static int root_number;
     static string key_quality;
     static int note_goal;
     static queue<GFMIDIEvent> note_queue;
+    
+    // face detection vars
+    static GLfloat upperLipY;
+    static GLfloat lowerLipY;
+    static GLfloat mouthHeight;
+    static GLfloat openMouthThresh;
+    static GLboolean isMouthOpen;
 };
 
 

@@ -240,7 +240,7 @@ void initialize_simulation()
     GFCameraWall *camwall = new GFCameraWall();
     camwall->initCamera();
     
-    GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
+    // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
     
     GFInfoBar *pbar = new GFInfoBar();
     GFTunnel *tunnel = new GFTunnel();
@@ -248,7 +248,8 @@ void initialize_simulation()
     Globals::sim->root().addChild( pbar );
     Globals::sim->root().addChild( tunnel );
     Globals::sim->root().addChild( camwall );
-    Globals::sim->root().addChild( bimage );
+    // draw mask
+    // Globals::sim->root().addChild( bimage );
     
 }
 
