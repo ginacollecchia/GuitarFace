@@ -11,6 +11,8 @@
 #include "gf-sim.h"
 #include "gf-midi.h"
 #include "gf-face.h"
+#include "x-thread.h"
+#include "gf-globals.h"
 
 using namespace std;
 
@@ -33,7 +35,9 @@ int main( int argc, const char ** argv )
         cerr << "Cannot initialize MIDI system..." << endl;
         //return -1;
     }
-
+    
+    //gf_init_cam_thread();
+    
     cerr<<"done";
     // graphics loop
     gf_gfx_loop();

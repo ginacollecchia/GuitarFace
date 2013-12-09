@@ -313,8 +313,7 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
     namedWindow("face tracker mask", WINDOW_AUTOSIZE );
     imshow("face tracker mask", image );
     
-    return;
-    
+    return;    
 
 }
 
@@ -376,4 +375,31 @@ void getBrightness(const cv::Mat& frame, double& brightness)
     
     
     brightness = summ[0]/((::pow(2,8)-1)*frame.rows * frame.cols) * 2; //-- percentage conversion factor
+}
+
+void * camera( void *_this){
+    cv::VideoCapture cam;
+    
+    cam.open(0);
+    sleep(2);
+    if(!cam.isOpened()){
+        cout << "Failed opening video file." << endl;
+    }
+    
+    std::cout << "Camera opened successfully" << std::endl;
+    
+    while(cam.get(CV_CAP_PROP_POS_AVI_RATIO) < 0.999999){
+        Mat im; cam >> im;
+        Globals::mutex.acquire();
+        Globals::camQ.push(im);
+        Globals::mutex.release();
+        ftDetect(im);
+        imshow("face tracker",im);
+        waitKey(10);
+    }
+}
+
+void gf_init_cam_thread(){
+    XThread *t = new XThread();
+    t->start(camera);
 }
