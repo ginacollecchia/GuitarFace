@@ -21,6 +21,8 @@
 #include <stdio.h>
 
 #include "Tracker.h"
+#include "gf-globals.h"
+#include "gf-entities.h"
 
 using namespace std;
 using namespace cv;
@@ -48,7 +50,7 @@ void detectBlackPixels( Mat& img );
 void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                    CascadeClassifier& nestedCascade,
                    double scale, bool tryflip );
-void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi);
-void ftDetect(Mat& img);
+void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &visi);
+void ftDetect(cv::Mat& img);
 
 #endif /* defined(__GuitarFace__gf_face__) */

@@ -15,6 +15,7 @@
 #define DEFAULT_BLENDSCREEN   FALSE
 #define DEFAULT_FOG           FALSE
 #define DEFAULT_VERSION       "1.0.0"
+#define MY_PIE                3.14159265359
 
 GFSim * Globals::sim = NULL;
 GFNoteStore * Globals::data = NULL;
@@ -89,3 +90,4 @@ GLfloat Globals::lowerLipY;
 GLfloat Globals::mouthHeight;
 GLfloat Globals::openMouthThresh = 0.1f;
 GLboolean Globals::isMouthOpen;
+GLboolean Globals::guitarFace;

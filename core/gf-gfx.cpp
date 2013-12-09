@@ -249,6 +249,7 @@ void initialize_simulation()
     Globals::sim->root().addChild( tunnel );
     Globals::sim->root().addChild( camwall );
     // draw mask
+    // Globals::sim->root().addChild( face );
     // Globals::sim->root().addChild( bimage );
     
 }

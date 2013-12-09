@@ -14,6 +14,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "gf-face.h"
+#include "gf-globals.h"
 
 //-----------------------------------------------------------------------------
 // name: class GFTeapot
@@ -87,7 +88,6 @@ class GFTunnel : public YEntity
 public:
     static YTimeInterval deltatime;
     void update(YTimeInterval dt);
-    
     void render();
 };
 
@@ -95,7 +95,6 @@ class GFTunnelLayer : public YEntity
 {
 public:
     void update(YTimeInterval dt);
-    
     void render();
 };
 
@@ -104,7 +103,6 @@ class GFNoteObject : public YEntity
 public:
     int pitch;
     void update(YTimeInterval dt);
-    
     void render();
 };
 
@@ -117,16 +115,14 @@ private:
     GLuint texture;
 public:
     void initCamera();
-    
     void update(YTimeInterval dt);
-    
     void render();
 };
 
 class GFVideoPlayer : public YEntity{
 private:
     string file;
-    VideoCapture cam;
+    cv::VideoCapture cam;
     GLuint texture;
 public:
     GFVideoPlayer(string _file);
@@ -145,6 +141,19 @@ public:
     GFBackgroundImage(string filename);
     void render();
     
+};
+
+class GFGuitarFace : public YEntity {
+private:
+    cv::Mat image;
+    GLuint texture;
+    
+public:
+    // constructor
+    GFGuitarFace(cv::Mat _image);
+    ~GFGuitarFace();
+    void update(YTimeInterval dt);
+    void render();
 };
 
 #endif /* defined(__GuitarFace__gf_entities__) */

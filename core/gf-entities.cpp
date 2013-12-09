@@ -100,7 +100,7 @@ void GFInfoBar::update( YTimeInterval dt )
         // do nothing for now
 }
 
-void GFTunnelLayer::update(YTimeInterval dt){
+void GFTunnelLayer::update( YTimeInterval dt ){
     
 }
 
@@ -380,4 +380,60 @@ void GFBackgroundImage::render(){
     glDisable(GL_TEXTURE_2D);
 }
 
+GFGuitarFace::GFGuitarFace(Mat _image):image(_image){
 
+}
+
+GFGuitarFace::~GFGuitarFace(){
+    
+}
+
+// render guitar face mask (Mat image) onto sphere
+
+void GFGuitarFace::render(){
+    
+    loadTexture_Mat(&image, &texture);
+    
+    glEnable( GL_TEXTURE_2D );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glBindTexture( GL_TEXTURE_2D, texture );
+    glBegin( GL_TRIANGLES );
+    
+    long PI = 3.14159265359;
+    // first vertex
+    float tx1, ty1;
+    // a is the X, Y, and Z coordinates of the normal
+    GLdouble a[] = {1, 0, 0};
+    tx1 = atan2(a[0], a[2]) / (2. * PI) + 0.5;
+    ty1 = asin(a[1]) / PI + .5;
+    
+    glTexCoord2f(tx1, ty1);
+    
+    // second vertex
+    float tx2, ty2;
+    GLdouble b[] = {0, 0, -1};
+    tx2 = atan2(b[0], b[2]) / (2. * PI) + 0.5;
+    ty2 = asin(b[1]) / PI + .5;
+    if(tx2 < 0.75 && tx1 > 0.75)
+        tx2 += 1.0;
+    else if(tx2 > 0.75 && tx1 < 0.75)
+        tx2 -= 1.0;
+    
+    glTexCoord2f(tx2, ty2);
+    
+    // third vertex
+    float tx3, ty3;
+    GLdouble c[] = {-1, 0, 0};
+    tx3 = atan2(c[0], c[2]) / (2. * PI) + 0.5;
+    ty3 = asin(c[1]) / PI + .5;
+    
+    glTexCoord2f(tx3, ty3);
+    
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    
+}
+
+void GFGuitarFace::update(YTimeInterval dt){
+    
+}
