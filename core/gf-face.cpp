@@ -142,7 +142,6 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                       cvPoint(cvRound((r->x + r->width-1)*scale), cvRound((r->y + r->height-1)*scale)),
                       color, 3, 8, 0);
         
-        // cout << myROI.width << endl;
         cv::Mat croppedImage = img(myROI);
 
         //detectBlackPixels( croppedImage );
@@ -187,7 +186,6 @@ void detectBlackPixels( Mat& img ) {
     if( !img.data )
      return;
     
-    cout<<"test";
     /// Separate the image in 3 places ( B, G and R )
     vector<Mat> bgr_planes;
     split( img, bgr_planes );
@@ -404,7 +402,8 @@ void * camera( void *_this)
         Globals::camQ.push(im);
         Globals::mutex.release();
         ftDetect(im);
-        // imshow("face tracker",im);
+        //imshow("face tracker",im);
+
         waitKey(10);
     }
 }
