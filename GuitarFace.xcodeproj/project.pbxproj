@@ -51,7 +51,6 @@
 		07DD0E20184E96DD006B8AB2 /* Tracker.cc in Sources */ = {isa = PBXBuildFile; fileRef = 07DD0E17184E96DD006B8AB2 /* Tracker.cc */; };
 		07E94C07183D7BED00DD36C9 /* gf-utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E94C05183D7BED00DD36C9 /* gf-utils.cpp */; };
 		07E94C0A1844134E00DD36C9 /* gf-face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E94C081844134E00DD36C9 /* gf-face.cpp */; };
-		07E94C0C1844139A00DD36C9 /* OpenCVtoOpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07E94C0B1844139A00DD36C9 /* OpenCVtoOpenGL.cpp */; };
 		07E94C1E18447B4C00DD36C9 /* libopencv_calib3d.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E94C0D18447B4A00DD36C9 /* libopencv_calib3d.2.4.6.dylib */; };
 		07E94C1F18447B4C00DD36C9 /* libopencv_contrib.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E94C0E18447B4B00DD36C9 /* libopencv_contrib.2.4.6.dylib */; };
 		07E94C2018447B4C00DD36C9 /* libopencv_features2d.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E94C0F18447B4B00DD36C9 /* libopencv_features2d.2.4.6.dylib */; };
@@ -174,7 +173,6 @@
 		07E94C06183D7BED00DD36C9 /* gf-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-utils.h"; sourceTree = "<group>"; };
 		07E94C081844134E00DD36C9 /* gf-face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gf-face.cpp"; sourceTree = "<group>"; };
 		07E94C091844134E00DD36C9 /* gf-face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gf-face.h"; sourceTree = "<group>"; };
-		07E94C0B1844139A00DD36C9 /* OpenCVtoOpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenCVtoOpenGL.cpp; sourceTree = "<group>"; };
 		07E94C0D18447B4A00DD36C9 /* libopencv_calib3d.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_calib3d.2.4.6.dylib; sourceTree = "<group>"; };
 		07E94C0E18447B4B00DD36C9 /* libopencv_contrib.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_contrib.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_contrib.2.4.6.dylib; sourceTree = "<group>"; };
 		07E94C0F18447B4B00DD36C9 /* libopencv_features2d.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_features2d.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_features2d.2.4.6.dylib; sourceTree = "<group>"; };
@@ -377,7 +375,6 @@
 				07C52A9A1835F4AF00918F40 /* gf-midi.cpp */,
 				07C52A9B1835F4AF00918F40 /* gf-midi.h */,
 				07C52AB8183A3CE100918F40 /* gf-misc.cpp */,
-				07E94C0B1844139A00DD36C9 /* OpenCVtoOpenGL.cpp */,
 				07C52AB9183A3CE200918F40 /* gf-misc.h */,
 				07C52A9C1835F4AF00918F40 /* gf-sim.cpp */,
 				07C52A9D1835F4AF00918F40 /* gf-sim.h */,
@@ -511,7 +508,6 @@
 				07C52ABA183A3CE200918F40 /* gf-misc.cpp in Sources */,
 				07E94C07183D7BED00DD36C9 /* gf-utils.cpp in Sources */,
 				07E94C0A1844134E00DD36C9 /* gf-face.cpp in Sources */,
-				07E94C0C1844139A00DD36C9 /* OpenCVtoOpenGL.cpp in Sources */,
 				07DD0E19184E96DD006B8AB2 /* CLM.cc in Sources */,
 				07DD0E1A184E96DD006B8AB2 /* FCheck.cc in Sources */,
 				07DD0E1B184E96DD006B8AB2 /* FDet.cc in Sources */,
