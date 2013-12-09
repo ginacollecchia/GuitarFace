@@ -22,7 +22,7 @@
     STK WWW site: http://ccrma.stanford.edu/software/stk/
 
     The Synthesis ToolKit in C++ (STK)
-    Copyright (c) 1995-2010 Perry R. Cook and Gary P. Scavone
+    Copyright (c) 1995-2012 Perry R. Cook and Gary P. Scavone
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation files
@@ -51,6 +51,7 @@
 /***************************************************/
 
 #include "Stk.h"
+#include <stdlib.h>
 
 namespace stk {
 
@@ -65,6 +66,7 @@ const Stk::StkFormat Stk :: STK_FLOAT64 = 0x20;
 bool Stk :: showWarnings_ = true;
 bool Stk :: printErrors_ = true;
 std::vector<Stk *> Stk :: alertList_;
+std::ostringstream Stk :: oStream_;
 
 Stk :: Stk( void )
   : ignoreSampleRateChange_(false)
@@ -186,14 +188,14 @@ void Stk :: sleep(unsigned long milliseconds)
 #if defined(__OS_WINDOWS__)
   Sleep((DWORD) milliseconds);
 #elif (defined(__OS_IRIX__) || defined(__OS_LINUX__) || defined(__OS_MACOSX__))
-  usleep( (unsigned int) (milliseconds * 1000.0) );
+  usleep( (unsigned long) (milliseconds * 1000.0) );
 #endif
 }
 
 void Stk :: handleError( StkError::Type type )
 {
-  handleError( errorString_.str(), type );
-  errorString_.str( std::string() ); // reset the ostringstream buffer
+  handleError( oStream_.str(), type );
+  oStream_.str( std::string() ); // reset the ostringstream buffer
 }
 
 void Stk :: handleError( const char *message, StkError::Type type )
@@ -208,7 +210,7 @@ void Stk :: handleError( std::string message, StkError::Type type )
     if ( !showWarnings_ ) return;
     std::cerr << '\n' << message << '\n' << std::endl;
   }
-  else if (type == StkError::DEBUG_WARNING) {
+  else if (type == StkError::DEBUG_PRINT) {
 #if defined(_STK_DEBUG_)
     std::cerr << '\n' << message << '\n' << std::endl;
 #endif
@@ -227,7 +229,7 @@ void Stk :: handleError( std::string message, StkError::Type type )
 //
 
 StkFrames :: StkFrames( unsigned int nFrames, unsigned int nChannels )
-  : nFrames_( nFrames ), nChannels_( nChannels )
+  : data_( 0 ), nFrames_( nFrames ), nChannels_( nChannels )
 {
   size_ = nFrames_ * nChannels_;
   bufferSize_ = size_;
@@ -241,13 +243,12 @@ StkFrames :: StkFrames( unsigned int nFrames, unsigned int nChannels )
     }
 #endif
   }
-  else data_ = 0;
 
   dataRate_ = Stk::sampleRate();
 }
 
 StkFrames :: StkFrames( const StkFloat& value, unsigned int nFrames, unsigned int nChannels )
-  : nFrames_( nFrames ), nChannels_( nChannels )
+  : data_( 0 ), nFrames_( nFrames ), nChannels_( nChannels )
 {
   size_ = nFrames_ * nChannels_;
   bufferSize_ = size_;
@@ -261,7 +262,6 @@ StkFrames :: StkFrames( const StkFloat& value, unsigned int nFrames, unsigned in
 #endif
     for ( long i=0; i<(long)size_; i++ ) data_[i] = value;
   }
-  else data_ = 0;
 
   dataRate_ = Stk::sampleRate();
 }
@@ -272,7 +272,7 @@ StkFrames :: ~StkFrames()
 }
 
 StkFrames :: StkFrames( const StkFrames& f )
-  : size_(0), bufferSize_(0)
+  : data_(0), size_(0), bufferSize_(0)
 {
   resize( f.frames(), f.channels() );
   dataRate_ = Stk::sampleRate();
@@ -281,6 +281,7 @@ StkFrames :: StkFrames( const StkFrames& f )
 
 StkFrames& StkFrames :: operator= ( const StkFrames& f )
 {
+  data_ = 0;
   size_ = 0;
   bufferSize_ = 0;
   resize( f.frames(), f.channels() );
