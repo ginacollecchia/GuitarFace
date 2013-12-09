@@ -55,4 +55,6 @@ void ftDetect(cv::Mat& img);
 
 void getBrightness(const cv::Mat& frame, double& brightness);
 
+void gf_init_cam_thread();
+
 #endif /* defined(__GuitarFace__gf_face__) */

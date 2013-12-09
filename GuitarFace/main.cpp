@@ -36,7 +36,7 @@ int main( int argc, const char ** argv )
         //return -1;
     }
     
-    //gf_init_cam_thread();
+    gf_init_cam_thread();
     
     cerr<<"done";
     // graphics loop
