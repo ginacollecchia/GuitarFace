@@ -14,7 +14,10 @@
 #include "x-gfx.h"
 #include "x-vector3d.h"
 #include "gf-midi.h"
-
+#include "opencv2/objdetect/objdetect.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "x-thread.h"
 // c++
 #include <string>
 #include <map>
@@ -138,6 +141,10 @@ public:
     static string key_quality;
     static int note_goal;
     static queue<GFMIDIEvent> note_queue;
+    static queue<cv::Mat> camQ;
+    static XMutex mutex;
+    static double game_start_time;
+    static double game_time;
     
     // face detection vars
     static GLfloat upperLipY;

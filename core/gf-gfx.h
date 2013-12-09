@@ -21,6 +21,10 @@ void gf_about();
 void gf_endline();
 void gf_line();
 bool gf_initTexture( const std::string & filename, XTexture * tex );
+void init_intro();
+void init_game();
+void init_report();
+
 XTexture * gf_loadTexture( const std::string & filename );
 
 #endif /* defined(__GuitarFace__gf_gfx__) */
