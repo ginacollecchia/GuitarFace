@@ -47,16 +47,6 @@ enum GuitarFaceTextureNames
     TUNNEL_BOKEH_3
 };
 
-enum BokehTextureNames
-{
-    RAKA_TEX_NONE = 0,
-    RAKA_TEX_FLARE_TNG_1,
-    RAKA_TEX_FLARE_TNG_2,
-    RAKA_TEX_FLARE_TNG_3,
-    RAKA_TEX_FLARE_TNG_4,
-    RAKA_TEX_FLARE_TNG_5,
-    RAKA_TEX_JELLY_BODY
-};
 
 
 
