@@ -18,8 +18,7 @@
 #include "gf-sim.h"
 #include "gf-misc.h"
 #include "x-thread.h"
-
-
+#include "x-fun.h"
 
 //-----------------------------------------------------------------------------
 // name: class GFTeapot

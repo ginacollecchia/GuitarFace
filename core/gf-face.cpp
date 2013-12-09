@@ -320,8 +320,8 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
     }
 
     /// Display
-    namedWindow("face tracker mask", WINDOW_AUTOSIZE );
-    imshow("face tracker mask", image );
+    // namedWindow("face tracker mask", WINDOW_AUTOSIZE );
+    // imshow("face tracker mask", image );
     
     return;    
 
@@ -406,7 +406,7 @@ void * camera( void *_this){
         Globals::mutex.release();
         ftDetect(im);
         // imshow("face tracker",im);
-        // waitKey(10);
+        waitKey(10);
     }
 }
 

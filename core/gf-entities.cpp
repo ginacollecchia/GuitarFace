@@ -58,7 +58,7 @@ void GFInfoBar::render(){
     // set color
     
     ostringstream s1;
-    s1<<"Notes Goal: "<<Globals::data->getNoteCount()<< "/"<<Globals::note_goal;
+    s1<<"Notes Goal: "<<Globals::data->getNoteCount(); // << "/"<<Globals::note_goal;
     a->set(s1.str());
     a->loc.x = -3.4;
     a->loc.y = -1.8;
@@ -114,23 +114,23 @@ void GFTunnelLayer::render(){
     // void YBokeh::setBokehParams( GLfloat time, GLfloat freq, GLfloat time_step,
     //                              const Vector3D & xyz, const Vector3D & rgb )
     
-    YBokeh *tunnel_ring = new YBokeh();
-    tunnel_ring->set( 5.0f, 1.0f, 1.0f, 1.0f, TUNNEL_BOKEH_1 );
-    tunnel_ring->setBokehParams( 1.0f, 1, 1.0f, Vector3D(0, 0, 0), Vector3D(0, 1, 0 ) );
+    /* YBokeh *tunnel_ring = new YBokeh();
+    tunnel_ring->set( 5.0f, alpha, 1.0f, 1.0f, TUNNEL_BOKEH_3 );
+    tunnel_ring->sca.set(1.0f, 1.0f, 1.0f);
+    // color is dependent on how many guitar faces have happened
+    tunnel_ring->setBokehParams(1.0f, XFun::rand2f(0.1, 0.2), 1.0f, Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 1.0f, 0.0f));
     tunnel_ring->setAlpha(alpha);
-    cout << "I get here!" << endl;
-    Globals::sim->root().addChild( tunnel_ring );
-    cout << "I get here too!" << endl;
-    g_tunnels.push_back( tunnel_ring );
+    this->addChild( tunnel_ring );
+    g_tunnels.push_back( tunnel_ring ); */
 
     
+    // glLineWidth( 15.0f );
+    // glLineWidth( 1.0f );
+    circle(0, 0, 2, 12);
     if(this->loc.z < -10){
         this->active = false;
     }
     
-    // glLineWidth( 15.0f );
-    // circle(0, 0, 2, 12);
-    // glLineWidth( 1.0f );
     
     /* // radius
     double r = 5;
@@ -174,12 +174,33 @@ void GFTunnelLayer::render(){
 
 
 void GFNoteObject::render(){
+    // enable lighting
+    glEnable(GL_LIGHTING);
+    
+    // pick one
+    // glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, Globals::light1_diffuse);
+    // glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    
+    // position the lighting
+    glLightfv(GL_LIGHT1, GL_POSITION, Globals::light0_pos);
+    
+    // attenuate the lighting
+    // glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 2.0);
+    // glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 1.0);
+    glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0.5);
+
+    glEnable(GL_LIGHT1);
+    glEnable(GL_DEPTH_TEST);
+    
     this->loc.z -= 0.01;
     float deg = 2*M_PI*(float)pitch/(float)12;
     glTranslatef(2 * sin(deg), 2*cos(deg),1);
     glColor3f(1,0,0);
     this->alpha -= 0.002;
     glutSolidCube(0.2);
+    glDisable(GL_LIGHTING);
 }
 
 void GFNoteObject::update(YTimeInterval dt){

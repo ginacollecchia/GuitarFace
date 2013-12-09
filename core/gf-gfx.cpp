@@ -631,7 +631,7 @@ void loadTextures()
     maxFilter = GL_LINEAR;
     
     // load tng flares
-    for( i = TUNNEL_BOKEH_1; i <= TUNNEL_BOKEH_2; i++ )
+    for( i = TUNNEL_BOKEH_1; i <= TUNNEL_BOKEH_3; i++ )
     {
         glGenTextures( 1, &(Globals::textures[i]) );
         sprintf( filename, "%stunnel-%d.bw", Globals::datapath.c_str(), i - TUNNEL_BOKEH_1 + 1 );
