@@ -23,6 +23,7 @@ void GLDrawEllipse (int segments, float width, float height, float x, float y , 
         vertices[count++] = (cos(degreesToRadian(i))*width);
         // std::cout<<"y:"<<vertices[count]<<" ";
         vertices[count++] = (sin(degreesToRadian(i))*height);
+        // std::cout<<std::endl;
     }
     glVertexPointer (2, GL_FLOAT , 0, vertices);
     glDrawArrays ((filled) ? GL_TRIANGLE_FAN : GL_LINE_LOOP, 0, segments);

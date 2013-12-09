@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
 // name: gf-globals.h
-// desc: global stuff for guitar face
+// desc: global stuff for bokeh visualization
 //
-// author: Gina Collecchia & Roshan Vid
+// author: Ge Wang (ge@ccrma.stanford.edu)
 //   date: 2013
 //-----------------------------------------------------------------------------
 #ifndef __GF_GLOBALS_H__
@@ -49,8 +49,10 @@ enum GuitarFaceTextureNames
 
 
 
+
 // forward reference
 class GFSim;
+
 
 
 
@@ -158,11 +160,6 @@ public:
     static GLfloat openMouthThresh;
     static GLboolean isMouthOpen;
     static GLboolean guitarFace;
-    
-    
-    // audio buffer
-    static int numFrames;
-    static SAMPLE * soundfile_buffer;
     
     
 };

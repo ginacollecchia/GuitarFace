@@ -338,7 +338,7 @@ void GFVideoPlayer::render(){
     glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,0.0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
-    cv::Mat im;
+    Mat im;
     cam >> im;
     
     loadTexture_Mat(&im, &texture);

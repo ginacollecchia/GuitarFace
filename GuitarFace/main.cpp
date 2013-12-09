@@ -12,10 +12,7 @@
 #include "gf-midi.h"
 #include "gf-face.h"
 #include "x-thread.h"
-#include "gf-globals.h"\
-// all hell will break loose with
-// #include "gf-utils.h"
-
+#include "gf-globals.h"
 
 using namespace std;
 
@@ -38,12 +35,6 @@ int main( int argc, const char ** argv )
         cerr << "Cannot initialize MIDI system..." << endl;
         //return -1;
     }
-    
-    /* if( !gf_audio_init() )
-    {
-        // error message
-        cerr << "Cannot initialize MIDI system..." << endl;
-    } */
     
     gf_init_cam_thread();
     

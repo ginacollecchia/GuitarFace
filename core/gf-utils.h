@@ -10,29 +10,24 @@
 #define __GuitarFace__gf_utils__
 
 #include <iostream>
-#include "RtAudio.h"
-// #include "WvIn.h"
+using namespace std;
 
-
-// static void audio_callback( SAMPLE * buffer, unsigned int numFrames, void * userData );
-
-bool gf_audio_init();
+#endif /* defined(__GuitarFace__gf_utils__) */
 
 class GFTrackPlayer {
 public:
     void play();
     void pause();
-    void loadFile(std::string filename);
-    
+    void loadFile(string filename);
 private:
-};
 
-#endif /* defined(__GuitarFace__gf_utils__) */
+    
+};
 
 class VideoPlayer {
 public:
     void play();
     void pause();
-    // void loadFile(string filename);
+    void loadFile(string filename);
 };
 

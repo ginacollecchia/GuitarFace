@@ -489,7 +489,7 @@ void displayFunc( )
     // update time
     
     Globals::mutex.acquire();
-    // cout<<Globals::sim->m_simTime - Globals::t_last_guitarface<<endl;
+    cout<<Globals::sim->m_simTime - Globals::t_last_guitarface<<endl;
     if(Globals::guitarFace && (Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length)){
         GFCameraWiggle *wiggle = new GFCameraWiggle();
         Globals::sim->root().addChild(wiggle);
