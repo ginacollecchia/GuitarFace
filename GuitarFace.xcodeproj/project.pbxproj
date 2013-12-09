@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		077F412018334BD300CCAE1D /* RtAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40EE18334BD300CCAE1D /* RtAudio.cpp */; };
-		077F412118334BD300CCAE1D /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F218334BD300CCAE1D /* Delay.cpp */; };
-		077F412218334BD300CCAE1D /* DelayL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F418334BD300CCAE1D /* DelayL.cpp */; };
-		077F412318334BD300CCAE1D /* MidiFileIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F718334BD300CCAE1D /* MidiFileIn.cpp */; };
-		077F412418334BD300CCAE1D /* Stk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40F918334BD300CCAE1D /* Stk.cpp */; };
 		077F412518334BD300CCAE1D /* x-audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40FC18334BD300CCAE1D /* x-audio.cpp */; };
 		077F412618334BD300CCAE1D /* x-buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F40FE18334BD300CCAE1D /* x-buffer.cpp */; };
 		077F412718334BD300CCAE1D /* x-fun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 077F410118334BD300CCAE1D /* x-fun.cpp */; };
@@ -68,6 +64,12 @@
 		07E94C2C18447B4C00DD36C9 /* libopencv_ts.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E94C1B18447B4B00DD36C9 /* libopencv_ts.2.4.6.dylib */; };
 		07E94C2D18447B4C00DD36C9 /* libopencv_video.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E94C1C18447B4B00DD36C9 /* libopencv_video.2.4.6.dylib */; };
 		07E94C2E18447B4C00DD36C9 /* libopencv_videostab.2.4.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E94C1D18447B4C00DD36C9 /* libopencv_videostab.2.4.6.dylib */; };
+		33EB94BF1855C48D0000C6C8 /* FileWvIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EB94B81855C48D0000C6C8 /* FileWvIn.cpp */; };
+		33EB94C01855C48D0000C6C8 /* MidiFileIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EB94BA1855C48D0000C6C8 /* MidiFileIn.cpp */; };
+		33EB94C11855C48D0000C6C8 /* Stk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EB94BC1855C48D0000C6C8 /* Stk.cpp */; };
+		33EB94C71855C4A40000C6C8 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EB94C21855C4A40000C6C8 /* Delay.cpp */; };
+		33EB94C81855C4A40000C6C8 /* DelayL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EB94C41855C4A40000C6C8 /* DelayL.cpp */; };
+		33EB94CA1855C6950000C6C8 /* FileRead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33EB94C91855C6950000C6C8 /* FileRead.cpp */; };
 		33ECEFA218338C4C0054E06B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33ECEFA118338C4C0054E06B /* RtMidi.cpp */; };
 		33ECEFA4183448CF0054E06B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA3183448CF0054E06B /* CoreAudio.framework */; };
 		33ECEFA6183448D40054E06B /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ECEFA5183448D40054E06B /* CoreMIDI.framework */; };
@@ -90,15 +92,6 @@
 		077F40EE18334BD300CCAE1D /* RtAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtAudio.cpp; sourceTree = "<group>"; };
 		077F40EF18334BD300CCAE1D /* RtAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtAudio.h; sourceTree = "<group>"; };
 		077F40F018334BD300CCAE1D /* RtError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtError.h; sourceTree = "<group>"; };
-		077F40F218334BD300CCAE1D /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
-		077F40F318334BD300CCAE1D /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
-		077F40F418334BD300CCAE1D /* DelayL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelayL.cpp; sourceTree = "<group>"; };
-		077F40F518334BD300CCAE1D /* DelayL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayL.h; sourceTree = "<group>"; };
-		077F40F618334BD300CCAE1D /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
-		077F40F718334BD300CCAE1D /* MidiFileIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MidiFileIn.cpp; sourceTree = "<group>"; };
-		077F40F818334BD300CCAE1D /* MidiFileIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiFileIn.h; sourceTree = "<group>"; };
-		077F40F918334BD300CCAE1D /* Stk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stk.cpp; sourceTree = "<group>"; };
-		077F40FA18334BD300CCAE1D /* Stk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stk.h; sourceTree = "<group>"; };
 		077F40FC18334BD300CCAE1D /* x-audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "x-audio.cpp"; sourceTree = "<group>"; };
 		077F40FD18334BD300CCAE1D /* x-audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "x-audio.h"; sourceTree = "<group>"; };
 		077F40FE18334BD300CCAE1D /* x-buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "x-buffer.cpp"; sourceTree = "<group>"; };
@@ -190,6 +183,20 @@
 		07E94C1B18447B4B00DD36C9 /* libopencv_ts.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_ts.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_ts.2.4.6.dylib; sourceTree = "<group>"; };
 		07E94C1C18447B4B00DD36C9 /* libopencv_video.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_video.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_video.2.4.6.dylib; sourceTree = "<group>"; };
 		07E94C1D18447B4C00DD36C9 /* libopencv_videostab.2.4.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_videostab.2.4.6.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.6.1/lib/libopencv_videostab.2.4.6.dylib; sourceTree = "<group>"; };
+		33EB94B71855C48D0000C6C8 /* FileRead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileRead.h; sourceTree = "<group>"; };
+		33EB94B81855C48D0000C6C8 /* FileWvIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileWvIn.cpp; sourceTree = "<group>"; };
+		33EB94B91855C48D0000C6C8 /* FileWvIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWvIn.h; sourceTree = "<group>"; };
+		33EB94BA1855C48D0000C6C8 /* MidiFileIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MidiFileIn.cpp; sourceTree = "<group>"; };
+		33EB94BB1855C48D0000C6C8 /* MidiFileIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiFileIn.h; sourceTree = "<group>"; };
+		33EB94BC1855C48D0000C6C8 /* Stk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stk.cpp; sourceTree = "<group>"; };
+		33EB94BD1855C48D0000C6C8 /* Stk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stk.h; sourceTree = "<group>"; };
+		33EB94BE1855C48D0000C6C8 /* WvIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WvIn.h; sourceTree = "<group>"; };
+		33EB94C21855C4A40000C6C8 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
+		33EB94C31855C4A40000C6C8 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
+		33EB94C41855C4A40000C6C8 /* DelayL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelayL.cpp; sourceTree = "<group>"; };
+		33EB94C51855C4A40000C6C8 /* DelayL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayL.h; sourceTree = "<group>"; };
+		33EB94C61855C4A40000C6C8 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
+		33EB94C91855C6950000C6C8 /* FileRead.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileRead.cpp; sourceTree = "<group>"; };
 		33ECEF9B18338AF70054E06B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtMidi.h; sourceTree = "<group>"; };
 		33ECEFA118338C4C0054E06B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtMidi.cpp; sourceTree = "<group>"; };
 		33ECEFA3183448CF0054E06B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -303,15 +310,20 @@
 		077F40F118334BD300CCAE1D /* stk */ = {
 			isa = PBXGroup;
 			children = (
-				077F40F218334BD300CCAE1D /* Delay.cpp */,
-				077F40F318334BD300CCAE1D /* Delay.h */,
-				077F40F418334BD300CCAE1D /* DelayL.cpp */,
-				077F40F518334BD300CCAE1D /* DelayL.h */,
-				077F40F618334BD300CCAE1D /* Filter.h */,
-				077F40F718334BD300CCAE1D /* MidiFileIn.cpp */,
-				077F40F818334BD300CCAE1D /* MidiFileIn.h */,
-				077F40F918334BD300CCAE1D /* Stk.cpp */,
-				077F40FA18334BD300CCAE1D /* Stk.h */,
+				33EB94C91855C6950000C6C8 /* FileRead.cpp */,
+				33EB94C21855C4A40000C6C8 /* Delay.cpp */,
+				33EB94C31855C4A40000C6C8 /* Delay.h */,
+				33EB94C41855C4A40000C6C8 /* DelayL.cpp */,
+				33EB94C51855C4A40000C6C8 /* DelayL.h */,
+				33EB94C61855C4A40000C6C8 /* Filter.h */,
+				33EB94B71855C48D0000C6C8 /* FileRead.h */,
+				33EB94B81855C48D0000C6C8 /* FileWvIn.cpp */,
+				33EB94B91855C48D0000C6C8 /* FileWvIn.h */,
+				33EB94BA1855C48D0000C6C8 /* MidiFileIn.cpp */,
+				33EB94BB1855C48D0000C6C8 /* MidiFileIn.h */,
+				33EB94BC1855C48D0000C6C8 /* Stk.cpp */,
+				33EB94BD1855C48D0000C6C8 /* Stk.h */,
+				33EB94BE1855C48D0000C6C8 /* WvIn.h */,
 			);
 			path = stk;
 			sourceTree = "<group>";
@@ -478,16 +490,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				077F412018334BD300CCAE1D /* RtAudio.cpp in Sources */,
-				077F412118334BD300CCAE1D /* Delay.cpp in Sources */,
-				077F412218334BD300CCAE1D /* DelayL.cpp in Sources */,
-				077F412318334BD300CCAE1D /* MidiFileIn.cpp in Sources */,
-				077F412418334BD300CCAE1D /* Stk.cpp in Sources */,
 				077F412518334BD300CCAE1D /* x-audio.cpp in Sources */,
 				077F412618334BD300CCAE1D /* x-buffer.cpp in Sources */,
 				077F412718334BD300CCAE1D /* x-fun.cpp in Sources */,
 				077F412818334BD300CCAE1D /* x-gfx.mm in Sources */,
 				077F412918334BD300CCAE1D /* x-loadlum.cpp in Sources */,
+				33EB94C81855C4A40000C6C8 /* DelayL.cpp in Sources */,
+				33EB94C01855C48D0000C6C8 /* MidiFileIn.cpp in Sources */,
 				077F412A18334BD300CCAE1D /* x-loadrgb.cpp in Sources */,
+				33EB94C71855C4A40000C6C8 /* Delay.cpp in Sources */,
 				077F412B18334BD300CCAE1D /* x-network.mm in Sources */,
 				077F412C18334BD300CCAE1D /* x-thread.cpp in Sources */,
 				077F412D18334BD300CCAE1D /* x-vector3d.cpp in Sources */,
@@ -501,6 +512,7 @@
 				077F413518334BD300CCAE1D /* y-waveform.cpp in Sources */,
 				07C52A9E1835F4AF00918F40 /* gf-entities.cpp in Sources */,
 				07C52A9F1835F4AF00918F40 /* gf-gfx.cpp in Sources */,
+				33EB94CA1855C6950000C6C8 /* FileRead.cpp in Sources */,
 				07C52AA01835F4AF00918F40 /* gf-globals.cpp in Sources */,
 				07C52AA11835F4AF00918F40 /* gf-midi.cpp in Sources */,
 				07C52AA21835F4AF00918F40 /* gf-sim.cpp in Sources */,
@@ -510,10 +522,12 @@
 				07E94C0A1844134E00DD36C9 /* gf-face.cpp in Sources */,
 				07DD0E19184E96DD006B8AB2 /* CLM.cc in Sources */,
 				07DD0E1A184E96DD006B8AB2 /* FCheck.cc in Sources */,
+				33EB94C11855C48D0000C6C8 /* Stk.cpp in Sources */,
 				07DD0E1B184E96DD006B8AB2 /* FDet.cc in Sources */,
 				07DD0E1C184E96DD006B8AB2 /* IO.cc in Sources */,
 				07DD0E1D184E96DD006B8AB2 /* Patch.cc in Sources */,
 				07DD0E1E184E96DD006B8AB2 /* PAW.cc in Sources */,
+				33EB94BF1855C48D0000C6C8 /* FileWvIn.cpp in Sources */,
 				07DD0E1F184E96DD006B8AB2 /* PDM.cc in Sources */,
 				07DD0E20184E96DD006B8AB2 /* Tracker.cc in Sources */,
 			);

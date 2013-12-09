@@ -40,10 +40,10 @@ class MidiFileIn : public Stk
   ~MidiFileIn();
 
   //! Return the MIDI file format (0, 1, or 2).
-  int getFileFormat() const;
+  int getFileFormat() const { return format_; };
 
   //! Return the number of tracks in the MIDI file.
-  unsigned int getNumberOfTracks() const;
+  unsigned int getNumberOfTracks() const { return nTracks_; };
 
   //! Return the MIDI file division value from the file header.
   /*!
@@ -51,7 +51,7 @@ class MidiFileIn : public Stk
       MIDI File Specification.  In particular, if the MSB is set, the
       file uses time-code representations for delta-time values.
   */
-  int getDivision() const;
+  int getDivision() const { return division_; };
 
   //! Move the specified track event reader to the beginning of its track.
   /*!
@@ -69,13 +69,6 @@ class MidiFileIn : public Stk
       thrown.
   */   
   double getTickSeconds( unsigned int track = 0 );
-    
-  //! ge: get the current BPM (I think)
-  /*!
-      This value can change as events are read... hmm pretty much
-      what it says above for getTickSeconds()
-  */
-  double getBPM();
 
   //! Fill the user-provided vector with the next event in the specified track and return the event delta-time in ticks.
   /*!
@@ -124,8 +117,6 @@ class MidiFileIn : public Stk
   std::vector<long> trackOffsets_;
   std::vector<long> trackLengths_;
   std::vector<char> trackStatus_;
-  // ge:
-  double bpm_;
 
   // This structure and the following variables are used to save and
   // keep track of a format 1 tempo map (and the initial tickSeconds
