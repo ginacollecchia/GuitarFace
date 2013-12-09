@@ -154,6 +154,8 @@ public:
     ~GFGuitarFace();
     void update(YTimeInterval dt);
     void render();
+    void Sphere(double p_radius);
+    void SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdouble *b, GLdouble *c);
 };
 
 #endif /* defined(__GuitarFace__gf_entities__) */

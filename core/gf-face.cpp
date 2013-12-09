@@ -303,6 +303,7 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
         // do something in graphics, disable mouth detection for 4 seconds
         Globals::guitarFace = true;
         GFGuitarFace *face = new GFGuitarFace(image);
+        face->Sphere( 1.0f );
         // wait?
     }
 
