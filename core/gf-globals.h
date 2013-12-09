@@ -143,10 +143,11 @@ public:
     static queue<GFMIDIEvent> note_queue;
     static queue<cv::Mat> camQ;
     static XMutex mutex;
-    static double game_start_time;
-    static double game_time;
-    static double delta_guitar_face;
-    static double guitar_face_time;
+    static double t_game_start;
+    static double t_last_guitarface;
+    static double d_guitarface_length;
+    static double d_total_game_time;
+
     
     // face detection vars
     static GLfloat upperLipY;

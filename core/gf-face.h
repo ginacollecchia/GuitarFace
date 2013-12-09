@@ -20,9 +20,11 @@
 #include <iterator>
 #include <stdio.h>
 
+
 #include "Tracker.h"
 #include "gf-globals.h"
 #include "gf-entities.h"
+#include "gf-sim.h"
 
 using namespace std;
 using namespace cv;
