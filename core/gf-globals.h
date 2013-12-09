@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 enum GuitarFaceTextureNames
 {
+    TUNNEL_BOKEH_NONE = 0,
+    TUNNEL_BOKEH_1,
+    TUNNEL_BOKEH_2
 };
 
 

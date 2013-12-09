@@ -89,8 +89,8 @@ XMutex Globals::mutex;
 // time is in milliseconds we think
 double Globals::game_start_time = 0;
 double Globals::game_time = 60;
-double Globals::delta_guitar_face = 4000;
-double Globals::guitar_face_time = 4001;
+double Globals::delta_guitar_face = 10000;
+double Globals::guitar_face_time = 10001;
 
 GLfloat Globals::upperLipY;
 GLfloat Globals::lowerLipY;

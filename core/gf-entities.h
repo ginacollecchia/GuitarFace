@@ -15,6 +15,11 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "gf-face.h"
 #include "gf-globals.h"
+#include "gf-sim.h"
+#include "gf-misc.h"
+#include "x-thread.h"
+
+
 
 //-----------------------------------------------------------------------------
 // name: class GFTeapot

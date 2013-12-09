@@ -109,8 +109,6 @@ bool gf_gfx_init( int argc, const char ** argv )
     }
     // simulation
     initialize_simulation();
-
-    
     
     return true;
 }
@@ -415,6 +413,9 @@ void keyboardFunc( unsigned char key, int x, int y )
             GFGuitarFace *face = new GFGuitarFace(img);
             Globals::sim->root().addChild(face);
         }
+        case 'n':
+        {
+        }
 
     }
     // do a reshape since viewEyeY might have changed
@@ -607,12 +608,12 @@ void renderBackground()
 //-------------------------------------------------------------------------------
 void loadTextures()
 {
-    // char filename[256];
+    char filename[256];
     GLenum minFilter, maxFilter;
-    // int i;
+    int i;
     
     // log
-    fprintf( stderr, "[bokeh]: loading textures...\n" );
+    fprintf( stderr, "[tunnels]: loading textures...\n" );
     
     // set store alignment
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
@@ -621,13 +622,13 @@ void loadTextures()
     minFilter = GL_LINEAR;
     maxFilter = GL_LINEAR;
     
-//    // load tng flares
-//    for( i = RAKA_TEX_FLARE_TNG_1; i <= RAKA_TEX_FLARE_TNG_2; i++ )
-//    {
-//        glGenTextures( 1, &(Globals::textures[i]) );
-//        sprintf( filename, "%smsg-%d.bmp", Globals::datapath.c_str(), i - RAKA_TEX_FLARE_TNG_1 + 1 );
-//        setupTexture( filename, Globals::textures[i], minFilter, maxFilter );
-//    }
+    // load tng flares
+    for( i = TUNNEL_BOKEH_1; i <= TUNNEL_BOKEH_2; i++ )
+    {
+        glGenTextures( 1, &(Globals::textures[i]) );
+        sprintf( filename, "%stunnel-%d.bw", Globals::datapath.c_str(), i - TUNNEL_BOKEH_1 + 1 );
+        setupTexture( filename, Globals::textures[i], minFilter, maxFilter );
+    }
 }
 
 

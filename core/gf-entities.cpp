@@ -7,9 +7,10 @@
 //
 #include <iostream>
 #include "gf-entities.h"
-#include "gf-globals.h"
-#include "gf-misc.h"
-#include "x-thread.h"
+
+// bokehs
+vector<YBokeh *> g_tunnels;
+
 
 //-------------------------------------------------------------------------------
 // name: update()
@@ -107,10 +108,66 @@ void GFTunnelLayer::update( YTimeInterval dt ){
 void GFTunnelLayer::render(){
     this->loc.z -= 0.01;
     this->alpha -= 0.002;
-    circle(0, 0, 2, 12);
+    
+    // void set( GLfloat _scale, GLfloat _alpha, GLfloat _scale_factor,
+    //           GLfloat _alpha_factor, GLuint _texture );
+    // void YBokeh::setBokehParams( GLfloat time, GLfloat freq, GLfloat time_step,
+    //                              const Vector3D & xyz, const Vector3D & rgb )
+    
+    YBokeh *tunnel_ring = new YBokeh();
+    tunnel_ring->set( 5.0f, 1.0f, 1.0f, 1.0f, TUNNEL_BOKEH_1 );
+    tunnel_ring->setBokehParams( 1.0f, 1, 1.0f, Vector3D(0, 0, 0), Vector3D(0, 1, 0 ) );
+    tunnel_ring->setAlpha(alpha);
+    cout << "I get here!" << endl;
+    Globals::sim->root().addChild( tunnel_ring );
+    cout << "I get here too!" << endl;
+    g_tunnels.push_back( tunnel_ring );
+
+    
     if(this->loc.z < -10){
         this->active = false;
     }
+    
+    // glLineWidth( 15.0f );
+    // circle(0, 0, 2, 12);
+    // glLineWidth( 1.0f );
+    
+    /* // radius
+    double r = 5;
+    // number of rings
+    int lats = 40;
+    // number of vertices (pitch classes)
+    int longs = 12;
+    int i, j;
+    // if(!Globals::note_queue.empty()){
+    //     glutSolidCube(0.2);
+    // }
+    for(i = 0; i <= lats; i++) {
+        double lat0 = M_PI * (-1 + (double) (i-1) / lats);
+        // double z0  = sin(lat0);
+        double zr0 =  cos(lat0);
+        
+        double lat1 = M_PI * (-1 + (double) i / lats);
+        // double z1 = sin(lat1);
+        double zr1 = cos(lat1);
+        
+        glBegin(GL_QUAD_STRIP);
+        for(j = 0; j <= longs; j++) {
+            double lng = 2 * M_PI * (double) (j - 1) / longs;
+            double x = cos(lng);
+            double y = sin(lng);
+            
+            glColor4f(0.0, 1.0, 0.0, this->alpha);
+            
+            // camerawall is at -10
+            glVertex3f( r * x * zr0,  r * y * zr0, -1);
+            
+            glColor4f(0.0, 0.0, 0.0, this->alpha);
+            glVertex3f(r * x * zr1, r * y * zr1, -1);
+        }
+        glEnd();
+    } */
+
     
 }
 
@@ -154,39 +211,7 @@ void GFTunnel::render(){
         this->addChild(o);
     }
     
-    /*
-    double r = 3;
-    int lats = 20;
-    int longs = 12;
-    int i, j;
-    if(!Globals::note_queue.empty()){
-        glutSolidCube(0.2);
-    }
-    for(i = 0; i <= lats; i++) {
-        double lat0 = M_PI * (-0.5 + (double) (i - 1) / lats);
-        double z0  = sin(lat0);
-        double zr0 =  cos(lat0);
-        
-        double lat1 = M_PI * (-0.5 + (double) i / lats);
-        double z1 = sin(lat1);
-        double zr1 = cos(lat1);
-        
-        glBegin(GL_QUAD_STRIP);
-        for(j = 0; j <= longs; j++) {
-            double lng = 2 * M_PI * (double) (j - 1) / longs;
-            double x = cos(lng);
-            double y = sin(lng);
-            
-                glColor4f(1.0, 0.0, 0.0, 1.0);
-
-            glVertex3f( r * x * zr0,  r * y * zr0, 3);
-            
-            glColor4f(0.0, 0.0, 0.0, 1.0);
-            glVertex3f(r * x * zr1, r * y * zr1, 3);
-        }
-        glEnd();
-    }
- */
+    
 }
 
 void GFCameraWall::initCamera(){
@@ -242,6 +267,7 @@ void GFCameraWall::render(){
     
     double ratio = 640.0/480.0;
     double scale = 3.0;
+    // camera wall is the farthest back thing, at -10.0
     glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-10.0); //with our vertices we have to assign a texcoord
     glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-10.0); //so that our texture has some points to draw to
     glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-10.0);

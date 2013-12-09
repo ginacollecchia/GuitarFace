@@ -406,8 +406,8 @@ void * camera( void *_this){
         Globals::camQ.push(im);
         Globals::mutex.release();
         ftDetect(im);
-        imshow("face tracker",im);
-        waitKey(10);
+        // imshow("face tracker",im);
+        // waitKey(10);
     }
 }
 
