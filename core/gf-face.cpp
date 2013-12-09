@@ -127,7 +127,6 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 
         // crop image to the coordinates given by vector<Rect>faces, but just the bottom one third and the middle one third
         cv::Rect myROI( r->x+3+(r->width-6)/3.0, r->y+3+(r->height-6)*2.0/3.0, (r->width-6)/3.0, (r->height-6)/3.0 );
-        //cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
         
         // double aspect_ratio = (double)r->width/(double)r->height;
         // aspect_ratio = 0.6;
@@ -144,7 +143,6 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                       cvPoint(cvRound((r->x + r->width-1)*scale), cvRound((r->y + r->height-1)*scale)),
                       color, 3, 8, 0);
         
-        // cout << myROI.width << endl;
         cv::Mat croppedImage = img(myROI);
 
         //detectBlackPixels( croppedImage );
@@ -189,7 +187,6 @@ void detectBlackPixels( Mat& img ) {
     if( !img.data )
      return;
     
-    cout<<"test";
     /// Separate the image in 3 places ( B, G and R )
     vector<Mat> bgr_planes;
     split( img, bgr_planes );
@@ -405,7 +402,8 @@ void * camera( void *_this){
         Globals::camQ.push(im);
         Globals::mutex.release();
         ftDetect(im);
-        // imshow("face tracker",im);
+        //imshow("face tracker",im);
+
         waitKey(10);
     }
 }

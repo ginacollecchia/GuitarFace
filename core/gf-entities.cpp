@@ -11,7 +11,6 @@
 // bokehs
 vector<YBokeh *> g_tunnels;
 
-
 //-------------------------------------------------------------------------------
 // name: update()
 // desc: ...
@@ -101,74 +100,46 @@ void GFInfoBar::update( YTimeInterval dt )
         // do nothing for now
 }
 
+GFTunnelLayer::GFTunnelLayer(GLfloat _size, Vector3D _color, GLfloat _deltaz):size(_size), color(_color), deltaz(_deltaz){
+    
+}
+GFTunnelLayer::~GFTunnelLayer(){
+    
+}
+
 void GFTunnelLayer::update( YTimeInterval dt ){
     
 }
 
 void GFTunnelLayer::render(){
-    this->loc.z -= 0.01;
-    this->alpha -= 0.002;
     
-    // void set( GLfloat _scale, GLfloat _alpha, GLfloat _scale_factor,
-    //           GLfloat _alpha_factor, GLuint _texture );
-    // void YBokeh::setBokehParams( GLfloat time, GLfloat freq, GLfloat time_step,
-    //                              const Vector3D & xyz, const Vector3D & rgb )
+    bokeh = new YBokeh();
+    // set attributes
+    bokeh->set( size, 1.0f, 1.0f, 1.0f, RAKA_TEX_FLARE_TNG_3 );
+    bokeh->sca.set( 1, 1, 1 );
+    // set bokeh
+    bokeh->setBokehParams( // initial time
+                          2,
+                          // freq
+                          0,
+                          // time step
+                          50,
+                          // location
+                          Vector3D( 0, 0, 0 ), // Vector3D(XFun::rand2f(-1,1),XFun::rand2f(-1,1), XFun::rand2f(-1,1)),
+                          // color
+                          color );
+    // alpha
+    bokeh->setAlpha( 1 );
+    // add to simulation        
     
-    /* YBokeh *tunnel_ring = new YBokeh();
-    tunnel_ring->set( 5.0f, alpha, 1.0f, 1.0f, TUNNEL_BOKEH_3 );
-    tunnel_ring->sca.set(1.0f, 1.0f, 1.0f);
-    // color is dependent on how many guitar faces have happened
-    tunnel_ring->setBokehParams(1.0f, XFun::rand2f(0.1, 0.2), 1.0f, Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 1.0f, 0.0f));
-    tunnel_ring->setAlpha(alpha);
-    this->addChild( tunnel_ring );
-    g_tunnels.push_back( tunnel_ring ); */
-
-    
-    // glLineWidth( 15.0f );
-    // glLineWidth( 1.0f );
-    circle(0, 0, 2, 12);
+    this->loc.z -= deltaz;
+//    circle(0, 0, 2, 12);
     if(this->loc.z < -10){
         this->active = false;
     }
-    
-    
-    /* // radius
-    double r = 5;
-    // number of rings
-    int lats = 40;
-    // number of vertices (pitch classes)
-    int longs = 12;
-    int i, j;
-    // if(!Globals::note_queue.empty()){
-    //     glutSolidCube(0.2);
-    // }
-    for(i = 0; i <= lats; i++) {
-        double lat0 = M_PI * (-1 + (double) (i-1) / lats);
-        // double z0  = sin(lat0);
-        double zr0 =  cos(lat0);
-        
-        double lat1 = M_PI * (-1 + (double) i / lats);
-        // double z1 = sin(lat1);
-        double zr1 = cos(lat1);
-        
-        glBegin(GL_QUAD_STRIP);
-        for(j = 0; j <= longs; j++) {
-            double lng = 2 * M_PI * (double) (j - 1) / longs;
-            double x = cos(lng);
-            double y = sin(lng);
-            
-            glColor4f(0.0, 1.0, 0.0, this->alpha);
-            
-            // camerawall is at -10
-            glVertex3f( r * x * zr0,  r * y * zr0, -1);
-            
-            glColor4f(0.0, 0.0, 0.0, this->alpha);
-            glVertex3f(r * x * zr1, r * y * zr1, -1);
-        }
-        glEnd();
-    } */
 
-    
+    this->addChild( bokeh );
+
 }
 
 
@@ -198,7 +169,7 @@ void GFNoteObject::render(){
     float deg = 2*M_PI*(float)pitch/(float)12;
     glTranslatef(2 * sin(deg), 2*cos(deg),1);
     glColor3f(1,0,0);
-    this->alpha -= 0.002;
+    //this->alpha -= 0.002;
     glutSolidCube(0.2);
     glDisable(GL_LIGHTING);
 }
@@ -212,10 +183,13 @@ YTimeInterval GFTunnel::deltatime = 0;
 void GFTunnel::update(YTimeInterval dt){
 
     deltatime += dt;
-    if (deltatime>0.5){
-        GFTunnelLayer *g = new GFTunnelLayer();
+    if (deltatime>1.0){
+        GFTunnelLayer *g = new GFTunnelLayer(5.0,Vector3D(0,0.5,0),0.15);
+//        GFTunnelLayer *g2 = new GFTunnelLayer(8.0, Vector3D(0,0,0.5),0.10);
         g->loc.z = 2;
+//        g2->loc.z = 2;
         this->addChild( g );
+//        this->addChild( g2 );
         deltatime = 0;
     }
 }
@@ -224,7 +198,6 @@ void GFTunnel::render(){
         
     
     while(!Globals::note_queue.empty()){
-        cout<<"event!"<<endl;
         GFMIDIEvent e = Globals::note_queue.front();
         Globals::note_queue.pop();
         GFNoteObject *o = new GFNoteObject();
