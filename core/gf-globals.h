@@ -145,6 +145,9 @@ public:
     static GLfloat mouthHeight;
     static GLfloat openMouthThresh;
     static GLboolean isMouthOpen;
+    static GLboolean guitarFace;
+    
+    
 };
 
 

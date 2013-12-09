@@ -132,7 +132,7 @@ CLM& CLM::operator= (CLM const& rhs)
 void CLM::Init(PDM &s,cv::Mat &r, vector<cv::Mat> &c,
 	       vector<cv::Mat> &v,vector<vector<MPatch> > &p)
 {
-  int n = p.size(); assert(((int)c.size() == n) && ((int)v.size() == n));
+  int n = (int)p.size(); assert(((int)c.size() == n) && ((int)v.size() == n));
   assert((r.type() == CV_64F) && (r.rows == 2*s.nPoints()) && (r.cols == 1));
   for(int i = 0; i < n; i++){
     assert((int)p[i].size() == s.nPoints());
