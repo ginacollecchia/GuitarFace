@@ -12,6 +12,206 @@
 string cascadeName = "../../data/haarcascade_frontalface_alt.xml";
 string nestedCascadeName = "../../data/haarcascade_eye_tree_eyeglasses.xml";
 
+
+//-------------------------------------------------------------------
+//   name: Draw
+//   desc: draws the triangles, lines, and points on the face. we want to either
+//         grab or save these points during a guitarface.
+// author: modified from FaceTracker
+//-------------------------------------------------------------------
+
+void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &visi)
+{
+    int i,n = shape.rows/2; cv::Point p1,p2; cv::Scalar c;
+    
+    // draw triangulation
+    /* c = CV_RGB(0,0,0);
+     
+     for(i = 0; i < tri.rows; i++){
+     if(visi.at<int>(tri.at<int>(i,0),0) == 0 ||
+     visi.at<int>(tri.at<int>(i,1),0) == 0 ||
+     visi.at<int>(tri.at<int>(i,2),0) == 0)continue;
+     p1 = cv::Point(shape.at<double>(tri.at<int>(i,0),0),
+     shape.at<double>(tri.at<int>(i,0)+n,0));
+     p2 = cv::Point(shape.at<double>(tri.at<int>(i,1),0),
+     shape.at<double>(tri.at<int>(i,1)+n,0));
+     cv::line(image,p1,p2,c);
+     p1 = cv::Point(shape.at<double>(tri.at<int>(i,0),0),
+     shape.at<double>(tri.at<int>(i,0)+n,0));
+     p2 = cv::Point(shape.at<double>(tri.at<int>(i,2),0),
+     shape.at<double>(tri.at<int>(i,2)+n,0));
+     cv::line(image,p1,p2,c);
+     p1 = cv::Point(shape.at<double>(tri.at<int>(i,2),0),
+     shape.at<double>(tri.at<int>(i,2)+n,0));
+     p2 = cv::Point(shape.at<double>(tri.at<int>(i,1),0),
+     shape.at<double>(tri.at<int>(i,1)+n,0));
+     cv::line(image,p1,p2,c);
+     }
+     // draw connections
+     c = CV_RGB(0,0,255);
+     for(i = 0; i < con.cols; i++){
+     if(visi.at<int>(con.at<int>(0,i),0) == 0 ||
+     visi.at<int>(con.at<int>(1,i),0) == 0)continue;
+     p1 = cv::Point(shape.at<double>(con.at<int>(0,i),0),
+     shape.at<double>(con.at<int>(0,i)+n,0));
+     p2 = cv::Point(shape.at<double>(con.at<int>(1,i),0),
+     shape.at<double>(con.at<int>(1,i)+n,0));
+     cv::line(image,p1,p2,c,1);
+     }
+     // draw points
+     // lips ~= 49 - 66
+     for(i = 0; i < n; i++){
+     if(visi.at<int>(i,0) == 0)continue;
+     p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
+     c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
+     } */
+    
+    double upperLipY, lowerLipY, mouthHeight, openMouthThresh;
+    
+    // compute mouth height
+    upperLipY = shape.at<double>(51+n,0); // i=51 is the middle of the exterior upper lip
+    lowerLipY = shape.at<double>(57+n,0); // i=57 is the middle of the exterior lower lip
+    mouthHeight = abs(upperLipY - lowerLipY);
+    openMouthThresh = (float)image.rows / 14.5f; // 70.0 seems to be a good number, maybe on the high end, but won't detect mouth open if the subject is far away. could take running average and compare, but what's to say the average case isn't a bit of mouth open? it is relative to window height because face will be smaller with small window size.
+    
+    if (mouthHeight > openMouthThresh )
+    {
+        std::cout << "Mouth is open! Lip height: " << mouthHeight << endl;
+        // do something in graphics, disable mouth detection for 4 seconds
+        
+        // wait?
+        Globals::mutex.acquire();
+        Globals::guitarFace = true;
+        Globals::mutex.release();
+        // only make a new guitar face if one is not currently visible
+        if( Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length )
+        {
+            // GFCameraWiggle *wiggle = new GFCameraWiggle();
+            
+            // GFGuitarFace *face = new GFGuitarFace(image);
+            // face->Sphere( 1.0f );
+        }
+    }
+    
+    /// Display
+    // namedWindow("face tracker mask", WINDOW_AUTOSIZE );
+    // imshow("face tracker mask", image );
+    
+    return;
+    
+}
+
+void ftDetect(Mat& im){
+    
+    bool fcheck = false;
+    // double scale = 1;
+    int fpd = -1;
+    bool show = true;
+    
+    char ftFile[256] = "./data/face2.tracker";
+    char triFile[256] = "./data/face.tri";
+    char conFile[256] = "./data/face.con";
+    
+    // set other tracking parameters
+    std::vector<int> wSize1(1); wSize1[0] = 7;
+    std::vector<int> wSize2(3); wSize2[0] = 11; wSize2[1] = 9; wSize2[2] = 7;
+    int nIter = 5; double clamp=3,fTol=0.01;
+    FACETRACKER::Tracker model(ftFile);
+    cv::Mat tri=FACETRACKER::IO::LoadTri(triFile);
+    cv::Mat con=FACETRACKER::IO::LoadCon(conFile);
+    
+    cv::Mat gray;
+    // double fps=0;
+    // char sss[256];
+    std::string text;
+    
+    bool failed = true;
+    
+    cv::flip(im,im,1); cv::cvtColor(im,gray,CV_BGR2GRAY);
+    
+    // track this image
+    std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1;
+    if(model.Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
+        int idx = model._clm.GetViewIdx(); failed = false;
+        Draw(im,model._shape,con,tri,model._clm._visi[idx]);
+    }else{
+        if(show){cv::Mat R(im,cvRect(0,0,150,50)); R = cv::Scalar(0,0,255);}
+        model.FrameReset(); failed = true;
+    }
+    
+}
+
+//-------------------------------------------------------------------
+// name: getBrightness
+// desc: computes brightness of mouth area; not what we want
+//-------------------------------------------------------------------
+
+void getBrightness(const cv::Mat& frame, double& brightness)
+{
+    cv::Mat temp, color[3], lum;
+    temp = frame;
+    
+    split(temp, color);
+    
+    color[0] = color[0] * 0.299;
+    color[1] = color[1] * 0.587;
+    color[2] = color[2] * 0.114;
+    
+    
+    lum = color[0] + color [1] + color[2];
+    
+    cv::Scalar summ = sum(lum);
+    
+    
+    brightness = summ[0]/((::pow(2,8)-1)*frame.rows * frame.cols) * 2; //-- percentage conversion factor
+}
+
+//-------------------------------------------------------------------
+// can we load the camera?
+//-------------------------------------------------------------------
+
+void * camera( void *_this){
+    
+    cv::VideoCapture cam;
+    
+    cam.open(0);
+    sleep(2);
+    if(!cam.isOpened()){
+        cout << "Failed opening video file." << endl;
+    }
+    
+    std::cout << "Camera opened successfully" << std::endl;
+    
+    while(cam.get(CV_CAP_PROP_POS_AVI_RATIO) < 0.999999){
+        Mat im; cam >> im;
+        Globals::mutex.acquire();
+        Globals::camQ.push(im);
+        Globals::mutex.release();
+        ftDetect(im);
+        //imshow("face tracker",im);
+        
+        waitKey(10);
+    }
+}
+
+//-------------------------------------------------------------------
+// name: gf_init_cam_thread
+// desc: start a new thread for the video camera.
+//-------------------------------------------------------------------
+
+void gf_init_cam_thread(){
+    XThread *t = new XThread();
+    t->start(camera);
+}
+
+/*
+ 
+//-------------------------------------------------------------------
+// name: gf_init_face_rec()
+// desc: initializes IplImage for the rectangle around face, calls
+//       detectAndDraw()
+//-------------------------------------------------------------------
+
 int gf_init_face_rec()
 {
     CvCapture* capture = 0;
@@ -71,13 +271,19 @@ int gf_init_face_rec()
     return 0;
 }
 
+//-------------------------------------------------------------------
+// name: detectAndDraw
+// desc: draws a rectangle around a face
+//       old code on our way to face recogition
+//-------------------------------------------------------------------
+
 void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                    CascadeClassifier& nestedCascade,
                    double scale, bool tryflip )
 {
     int i = 0;
     double t = 0;
-    vector<Rect> faces, faces2;
+    vector<cv::Rect> faces, faces2;
     const static Scalar colors[] =  { CV_RGB(0,0,255),
         CV_RGB(0,128,255),
         CV_RGB(0,255,255),
@@ -131,14 +337,14 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         // double aspect_ratio = (double)r->width/(double)r->height;
         // aspect_ratio = 0.6;
         // cout << "Width: " << r->width << " Height: " << r->height << endl;
-        /* if( 1.1 < aspect_ratio && aspect_ratio < 1.25 )
+        if( 1.1 < aspect_ratio && aspect_ratio < 1.25 )
         {
             center.x = cvRound((r->x + r->width*0.5)*scale);
             center.y = cvRound((r->y + r->height*0.5)*scale);
             radius = cvRound((r->width + r->height)*0.25*scale);
             circle( img, center, radius, color, 3, 8, 0 );
         }
-        else */
+        else 
             rectangle( img, cvPoint(cvRound(r->x*scale), cvRound(r->y*scale)),
                       cvPoint(cvRound((r->x + r->width-1)*scale), cvRound((r->y + r->height-1)*scale)),
                       color, 3, 8, 0);
@@ -149,7 +355,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         double brightness = 0;
         getBrightness(croppedImage, brightness);
         
-        cout<<brightness<<endl;
+        cout<<"Brightness: " << brightness<<endl;
         if( nestedCascade.empty() )
             continue;
         smallImgROI = smallImg(*r);
@@ -178,7 +384,12 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
     
 }
 
+//-------------------------------------------------------------------
+// name: detectBlackPixels
+// deprecated--see "getBrightness()"
 // maybe a better name would be detectBrownPixels, as the red does not shift as much as blue and green
+//-------------------------------------------------------------------
+
 void detectBlackPixels( Mat& img ) {
     
     /// Load image
@@ -240,175 +451,6 @@ void detectBlackPixels( Mat& img ) {
     imshow("calcHist Demo", histImage );
     
     // waitKey(0);
-}
+} */
 
-// this is from FaceTracker; put this in a new thread (currently in graphics thread)
-void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &visi)
-{
-    int i,n = shape.rows/2; cv::Point p1,p2; cv::Scalar c;
-    
-    // draw triangulation
-    c = CV_RGB(0,0,0);
-    
-    for(i = 0; i < tri.rows; i++){
-        if(visi.at<int>(tri.at<int>(i,0),0) == 0 ||
-           visi.at<int>(tri.at<int>(i,1),0) == 0 ||
-           visi.at<int>(tri.at<int>(i,2),0) == 0)continue;
-        p1 = cv::Point(shape.at<double>(tri.at<int>(i,0),0),
-                       shape.at<double>(tri.at<int>(i,0)+n,0));
-        p2 = cv::Point(shape.at<double>(tri.at<int>(i,1),0),
-                       shape.at<double>(tri.at<int>(i,1)+n,0));
-        cv::line(image,p1,p2,c);
-        p1 = cv::Point(shape.at<double>(tri.at<int>(i,0),0),
-                       shape.at<double>(tri.at<int>(i,0)+n,0));
-        p2 = cv::Point(shape.at<double>(tri.at<int>(i,2),0),
-                       shape.at<double>(tri.at<int>(i,2)+n,0));
-        cv::line(image,p1,p2,c);
-        p1 = cv::Point(shape.at<double>(tri.at<int>(i,2),0),
-                       shape.at<double>(tri.at<int>(i,2)+n,0));
-        p2 = cv::Point(shape.at<double>(tri.at<int>(i,1),0),
-                       shape.at<double>(tri.at<int>(i,1)+n,0));
-        cv::line(image,p1,p2,c);
-    }
-    // draw connections
-    c = CV_RGB(0,0,255);
-    for(i = 0; i < con.cols; i++){
-        if(visi.at<int>(con.at<int>(0,i),0) == 0 ||
-           visi.at<int>(con.at<int>(1,i),0) == 0)continue;
-        p1 = cv::Point(shape.at<double>(con.at<int>(0,i),0),
-                       shape.at<double>(con.at<int>(0,i)+n,0));
-        p2 = cv::Point(shape.at<double>(con.at<int>(1,i),0),
-                       shape.at<double>(con.at<int>(1,i)+n,0));
-        cv::line(image,p1,p2,c,1);
-    }
-    // draw points
-    // lips ~= 49 - 66
-    for(i = 0; i < n; i++){
-        if(visi.at<int>(i,0) == 0)continue;
-        p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
-        c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
-    }
 
-    double upperLipY, lowerLipY, mouthHeight, openMouthThresh;
-    
-    // compute mouth height
-    upperLipY = shape.at<double>(51+n,0); // i=51 is the middle of the exterior upper lip
-    lowerLipY = shape.at<double>(57+n,0); // i=57 is the middle of the exterior lower lip
-    mouthHeight = abs(upperLipY - lowerLipY);
-    openMouthThresh = (float)image.rows / 14.5f; // 70.0 seems to be a good number, maybe on the high end, but won't detect mouth open if the subject is far away. could take running average and compare, but what's to say the average case isn't a bit of mouth open? it is relative to window height because face will be smaller with small window size.
-    std::cout << "lip height: " << mouthHeight << endl;
-    if (mouthHeight > openMouthThresh )
-    {
-        std::cout << "Mouth is open!" << endl;
-        // do something in graphics, disable mouth detection for 4 seconds
-        
-        // wait?
-        Globals::mutex.acquire();
-            Globals::guitarFace = true;
-        Globals::mutex.release();
-        // only make a new guitar face if one is not currently visible
-        if( Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length )
-        {
-            //GFCameraWiggle *wiggle = new GFCameraWiggle();
-
-            // GFGuitarFace *face = new GFGuitarFace(image);
-            // face->Sphere( 1.0f );
-        }
-    }
-
-    /// Display
-    // namedWindow("face tracker mask", WINDOW_AUTOSIZE );
-    // imshow("face tracker mask", image );
-    
-    return;    
-
-}
-
-void ftDetect(Mat& im){
-
-    bool fcheck = false;
-    // double scale = 1;
-    int fpd = -1;
-    bool show = true;
-
-    char ftFile[256] = "./data/face2.tracker";
-    char triFile[256] = "./data/face.tri";
-    char conFile[256] = "./data/face.con";
-    
-    // set other tracking parameters
-    std::vector<int> wSize1(1); wSize1[0] = 7;
-    std::vector<int> wSize2(3); wSize2[0] = 11; wSize2[1] = 9; wSize2[2] = 7;
-    int nIter = 5; double clamp=3,fTol=0.01;
-    FACETRACKER::Tracker model(ftFile);
-    cv::Mat tri=FACETRACKER::IO::LoadTri(triFile);
-    cv::Mat con=FACETRACKER::IO::LoadCon(conFile);
-
-    cv::Mat gray;
-    // double fps=0;
-    // char sss[256];
-    std::string text;
-
-        bool failed = true;
-    
-    cv::flip(im,im,1); cv::cvtColor(im,gray,CV_BGR2GRAY);
-    
-    // track this image
-    std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1;
-    if(model.Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
-        int idx = model._clm.GetViewIdx(); failed = false;
-        Draw(im,model._shape,con,tri,model._clm._visi[idx]);
-    }else{
-        if(show){cv::Mat R(im,cvRect(0,0,150,50)); R = cv::Scalar(0,0,255);}
-        model.FrameReset(); failed = true;
-    }
-    
-}
-
-void getBrightness(const cv::Mat& frame, double& brightness)
-{
-    cv::Mat temp, color[3], lum;
-    temp = frame;
-    
-    split(temp, color);
-    
-    color[0] = color[0] * 0.299;
-    color[1] = color[1] * 0.587;
-    color[2] = color[2] * 0.114;
-    
-    
-    lum = color[0] + color [1] + color[2];
-    
-    cv::Scalar summ = sum(lum);
-    
-    
-    brightness = summ[0]/((::pow(2,8)-1)*frame.rows * frame.cols) * 2; //-- percentage conversion factor
-}
-
-void * camera( void *_this){
-    
-    cv::VideoCapture cam;
-    
-    cam.open(0);
-    sleep(2);
-    if(!cam.isOpened()){
-        cout << "Failed opening video file." << endl;
-    }
-    
-    std::cout << "Camera opened successfully" << std::endl;
-    
-    while(cam.get(CV_CAP_PROP_POS_AVI_RATIO) < 0.999999){
-        Mat im; cam >> im;
-        Globals::mutex.acquire();
-        Globals::camQ.push(im);
-        Globals::mutex.release();
-        ftDetect(im);
-        //imshow("face tracker",im);
-
-        waitKey(10);
-    }
-}
-
-void gf_init_cam_thread(){
-    XThread *t = new XThread();
-    t->start(camera);
-}

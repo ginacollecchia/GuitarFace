@@ -152,7 +152,7 @@ public:
     // P1, m2, etc.
     static char * interval_names[13];
     static int root_number;
-    static string key_quality;
+    static std::string key_quality;
     static int note_goal;
     static queue<GFMIDIEvent> note_queue;
     static queue<cv::Mat> camQ;

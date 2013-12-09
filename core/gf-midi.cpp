@@ -72,9 +72,9 @@ int idx = 0;
 //-----------------------------------------------------------------------------
 // name: midiCallback
 // desc: reads all the midi stuff
+// RtMidiCallback data-type: void (*RtMidiCallback)( double timeStamp, std::vector<unsigned char> *message, void *userData);
 //-----------------------------------------------------------------------------
-// RtMidiCallback data-type:
-// typedef void (*RtMidiCallback)( double timeStamp, std::vector<unsigned char> *message, void *userData);
+
 void midiCallback( double delta_time, std::vector<unsigned char> *message, void *user_data )
 {
     unsigned int nBytes = (int)message->size();
@@ -105,7 +105,7 @@ void midiCallback( double delta_time, std::vector<unsigned char> *message, void 
 
 //-----------------------------------------------------------------------------
 // name: setKey
-//
+// desc: set the key from input
 //-----------------------------------------------------------------------------
 void setKey( int root_pcp, char * key_quality )
 {
@@ -124,8 +124,8 @@ void setKey( int root_pcp, char * key_quality )
 }
 
 //-----------------------------------------------------------------------------
-// name: main()
-//
+// name: gf_midi_init()
+// desc: initialize MIDI stuff
 //-----------------------------------------------------------------------------
 int gf_midi_init()
 {
@@ -201,7 +201,11 @@ cleanup:
 	
 }
 
-// Calculate pitch & velocity functions
+//-------------------------------------------------------------------------------
+// name: GFMidiEvent (constructor)
+// desc: Calculate functions of pitch & velocity, i.e., do all MIDI work.
+//-------------------------------------------------------------------------------
+
 GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on(note_on), m_midinote(pitch), m_velocity(vel), m_delta_time(t)
 {
     m_note_on = note_on;
@@ -345,6 +349,11 @@ GFMIDIEvent::~GFMIDIEvent(){
 
 }
 
+//-------------------------------------------------------------------------------
+// name: setSimultaneous
+// desc: updates the simultaneous flag
+//-------------------------------------------------------------------------------
+
 void GFMIDIEvent::setSimultaneous(bool simultaneous) {
     m_simultaneous = simultaneous;
 }
@@ -358,9 +367,19 @@ GFNoteStore::~GFNoteStore(){
     
 }
 
+//-------------------------------------------------------------------------------
+// name: appendNote
+// desc: add note to the queue
+//-------------------------------------------------------------------------------
+
 void GFNoteStore::appendNote(GFMIDIEvent e){
     notes.push_back(e);
 }
+
+//-------------------------------------------------------------------------------
+// name: appendTime
+// desc: record time stamp
+//-------------------------------------------------------------------------------
 
 void GFNoteStore::appendTime(double time) {
     times.push_back(time);

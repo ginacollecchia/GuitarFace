@@ -8,6 +8,7 @@
 
 #include "gf-misc.h"
 
+
 float degreesToRadian(float i){
     return 2 * M_PI * i;
 }
