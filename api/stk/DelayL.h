@@ -1,7 +1,7 @@
 #ifndef STK_DELAYL_H
 #define STK_DELAYL_H
 
-#include "Filter.h"
+#include "Delay.h"
 
 namespace stk {
 
@@ -20,7 +20,7 @@ namespace stk {
     delay setting.  The use of higher order Lagrange interpolators can
     typically improve (minimize) this attenuation characteristic.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995 - 2010.
 */
 /***************************************************/
 
@@ -39,16 +39,13 @@ public:
   //! Class destructor.
   ~DelayL();
 
-  //! Get the maximum delay-line length.
-  unsigned long getMaximumDelay( void ) { return inputs_.size() - 1; };
-
   //! Set the maximum delay-line length.
   /*!
     This method should generally only be used during initial setup
     of the delay line.  If it is used between calls to the tick()
     function, without a call to clear(), a signal discontinuity will
     likely occur.  If the current maximum length is greater than the
-    new length, no memory allocation change is made.
+    new length, no change will be made.
   */
   void setMaximumDelay( unsigned long delay );
 
@@ -67,10 +64,7 @@ public:
     relative to the last input value (i.e., a tapDelay of zero returns
     the last input value).
   */
-  StkFloat tapOut( unsigned long tapDelay );
-
-  //! Set the \e value at \e tapDelay samples from the delay-line input.
-  void tapIn( StkFloat value, unsigned long tapDelay );
+  StkFloat contentsAt( unsigned long tapDelay );
 
   //! Return the last computed output value.
   StkFloat lastOut( void ) const { return lastFrame_[0]; };
@@ -155,7 +149,7 @@ inline StkFrames& DelayL :: tick( StkFrames& frames, unsigned int channel )
 {
 #if defined(_STK_DEBUG_)
   if ( channel >= frames.channels() ) {
-    oStream_ << "DelayL::tick(): channel and StkFrames arguments are incompatible!";
+    errorString_ << "DelayL::tick(): channel and StkFrames arguments are incompatible!";
     handleError( StkError::FUNCTION_ARGUMENT );
   }
 #endif
@@ -178,7 +172,7 @@ inline StkFrames& DelayL :: tick( StkFrames& iFrames, StkFrames& oFrames, unsign
 {
 #if defined(_STK_DEBUG_)
   if ( iChannel >= iFrames.channels() || oChannel >= oFrames.channels() ) {
-    oStream_ << "DelayL::tick(): channel and StkFrames arguments are incompatible!";
+    errorString_ << "DelayL::tick(): channel and StkFrames arguments are incompatible!";
     handleError( StkError::FUNCTION_ARGUMENT );
   }
 #endif

@@ -23,10 +23,13 @@ namespace stk {
 
 MidiFileIn :: MidiFileIn( std::string fileName )
 {
+  // ge: initialize
+  bpm_ = 0;
+
   // Attempt to open the file.
   file_.open( fileName.c_str(), std::ios::in | std::ios::binary );
   if ( !file_ ) {
-    oStream_ << "MidiFileIn: error opening or finding file (" <<  fileName << ").";
+    errorString_ << "MidiFileIn: error opening or finding file (" <<  fileName << ").";
     handleError( StkError::FILE_NOT_FOUND );
   }
 
@@ -41,7 +44,7 @@ MidiFileIn :: MidiFileIn( std::string fileName )
 #endif
   length = (SINT32 *) &buffer;
   if ( strncmp( chunkType, "MThd", 4 ) || ( *length != 6 ) ) {
-    oStream_ << "MidiFileIn: file (" <<  fileName << ") does not appear to be a MIDI file!";
+    errorString_ << "MidiFileIn: file (" <<  fileName << ") does not appear to be a MIDI file!";
     handleError( StkError::FILE_UNKNOWN_FORMAT );
   }
 
@@ -53,7 +56,7 @@ MidiFileIn :: MidiFileIn( std::string fileName )
 #endif
   data = (SINT16 *) &buffer;
   if ( *data < 0 || *data > 2 ) {
-    oStream_ << "MidiFileIn: the file (" <<  fileName << ") format is invalid!";
+    errorString_ << "MidiFileIn: the file (" <<  fileName << ") format is invalid!";
     handleError( StkError::FILE_ERROR );
   }
   format_ = *data;
@@ -64,7 +67,7 @@ MidiFileIn :: MidiFileIn( std::string fileName )
   swap16((unsigned char *)&buffer);
 #endif
   if ( format_ == 0 && *data != 1 ) {
-    oStream_ << "MidiFileIn: invalid number of tracks (>1) for a file format = 0!";
+    errorString_ << "MidiFileIn: invalid number of tracks (>1) for a file format = 0!";
     handleError( StkError::FILE_ERROR );
   }
   nTracks_ = *data;
@@ -134,6 +137,10 @@ MidiFileIn :: MidiFileIn( std::string fileName )
         tempoEvent.count = count;
         value = ( event[3] << 16 ) + ( event[4] << 8 ) + event[5];
         tempoEvent.tickSeconds = (double) (0.000001 * value / tickrate);
+//      // ge: check
+//      std::cerr << "tick: " << 60000000 / value << std::endl;
+        // ge: set BPM
+        bpm_ = 60000000.0 / value;
         if ( count > tempoEvents_.back().count )
           tempoEvents_.push_back( tempoEvent );
         else
@@ -153,7 +160,7 @@ MidiFileIn :: MidiFileIn( std::string fileName )
   return;
 
  error:
-  oStream_ << "MidiFileIn: error reading from file (" <<  fileName << ").";
+  errorString_ << "MidiFileIn: error reading from file (" <<  fileName << ").";
   handleError( StkError::FILE_ERROR );
 }
 
@@ -164,11 +171,26 @@ MidiFileIn :: ~MidiFileIn()
   file_.close(); 
 }
 
+int MidiFileIn :: getFileFormat() const
+{
+  return format_;
+}
+
+unsigned int MidiFileIn :: getNumberOfTracks() const
+{
+  return nTracks_;
+}
+
+int MidiFileIn :: getDivision() const
+{
+  return division_;
+}
+
 void MidiFileIn :: rewindTrack( unsigned int track )
 {
   if ( track >= nTracks_ ) {
-    oStream_ << "MidiFileIn::getNextEvent: invalid track argument (" <<  track << ").";
-    handleError( StkError::WARNING ); return;
+    errorString_ << "MidiFileIn::getNextEvent: invalid track argument (" <<  track << ").";
+    handleError( StkError::FUNCTION_ARGUMENT );
   }
 
   trackPointers_[track] = trackOffsets_[track];
@@ -180,11 +202,17 @@ double MidiFileIn :: getTickSeconds( unsigned int track )
 {
   // Return the current tick value in seconds for the given track.
   if ( track >= nTracks_ ) {
-    oStream_ << "MidiFileIn::getTickSeconds: invalid track argument (" <<  track << ").";
-    handleError( StkError::WARNING ); return 0.0;
+    errorString_ << "MidiFileIn::getTickSeconds: invalid track argument (" <<  track << ").";
+    handleError( StkError::FUNCTION_ARGUMENT );
   }
 
   return tickSeconds_[track];
+}
+
+// ge: implemented
+double MidiFileIn :: getBPM()
+{
+    return bpm_;
 }
 
 unsigned long MidiFileIn :: getNextEvent( std::vector<unsigned char> *event, unsigned int track )
@@ -203,12 +231,12 @@ unsigned long MidiFileIn :: getNextEvent( std::vector<unsigned char> *event, uns
   // running sum of ticks for each track and update the tickSeconds_
   // parameter as needed based on the stored tempo map.
 
-  event->clear();
   if ( track >= nTracks_ ) {
-    oStream_ << "MidiFileIn::getNextEvent: invalid track argument (" <<  track << ").";
-    handleError( StkError::WARNING ); return 0;
+    errorString_ << "MidiFileIn::getNextEvent: invalid track argument (" <<  track << ").";
+    handleError( StkError::FUNCTION_ARGUMENT );
   }
 
+  event->clear();
   // Check for the end of the track.
   if ( (trackPointers_[track] - trackOffsets_[track]) >= trackLengths_[track] )
     return 0;
@@ -280,6 +308,9 @@ unsigned long MidiFileIn :: getNextEvent( std::vector<unsigned char> *event, uns
       double tickrate = (double) (division_ & 0x7FFF);
       unsigned long value = ( event->at(3) << 16 ) + ( event->at(4) << 8 ) + event->at(5);
       tickSeconds_[track] = (double) (0.000001 * value / tickrate);
+        
+      // ge: set BPM
+      bpm_ = 60000000.0 / value;
     }
 
     if ( format_ == 1 ) {
@@ -299,7 +330,7 @@ unsigned long MidiFileIn :: getNextEvent( std::vector<unsigned char> *event, uns
   return ticks;
 
  error:
-  oStream_ << "MidiFileIn::getNextEvent: file read error!";
+  errorString_ << "MidiFileIn::getNextEvent: file read error!";
   handleError( StkError::FILE_ERROR );
   return 0;
 }
@@ -310,8 +341,8 @@ unsigned long MidiFileIn :: getNextMidiEvent( std::vector<unsigned char> *midiEv
   // specified track (default = 0) and return the event delta time in
   // ticks.  Meta-Events preceeding this event are skipped and ignored.
   if ( track >= nTracks_ ) {
-    oStream_ << "MidiFileIn::getNextMidiEvent: invalid track argument (" <<  track << ").";
-    handleError( StkError::WARNING ); return 0;
+    errorString_ << "MidiFileIn::getNextMidiEvent: invalid track argument (" <<  track << ").";
+    handleError( StkError::FUNCTION_ARGUMENT );
   }
 
   unsigned long ticks = getNextEvent( midiEvent, track );

@@ -17,7 +17,7 @@ namespace stk {
     A non-interpolating delay line is typically used in fixed
     delay-length applications, such as for reverberation.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995 - 2010.
 */
 /***************************************************/
 
@@ -36,16 +36,13 @@ public:
   //! Class destructor.
   ~Delay();
 
-  //! Get the maximum delay-line length.
-  unsigned long getMaximumDelay( void ) { return inputs_.size() - 1; };
-
   //! Set the maximum delay-line length.
   /*!
     This method should generally only be used during initial setup
     of the delay line.  If it is used between calls to the tick()
     function, without a call to clear(), a signal discontinuity will
     likely occur.  If the current maximum length is greater than the
-    new length, no memory allocation change is made.
+    new length, no change will be made.
   */
   void setMaximumDelay( unsigned long delay );
 
@@ -64,18 +61,15 @@ public:
     relative to the last input value (i.e., a tapDelay of zero returns
     the last input value).
   */
-  StkFloat tapOut( unsigned long tapDelay );
+  StkFloat contentsAt( unsigned long tapDelay );
 
-  //! Set the \e value at \e tapDelay samples from the delay-line input.
-  void tapIn( StkFloat value, unsigned long tapDelay );
-
-  //! Sum the provided \e value into the delay line at \e tapDelay samples from the input.
+  //! Sum the provided value into the delay line at \e tapDelay samples from the input.
   /*!
     The new value is returned.  The tap point is determined modulo
     the delay-line length and is relative to the last input value
     (i.e., a tapDelay of zero sums into the last input value).
   */
-  StkFloat addTo( StkFloat value, unsigned long tapDelay );
+  StkFloat addTo( unsigned long tapDelay, StkFloat value );
 
   //! Return the last computed output value.
   StkFloat lastOut( void ) const { return lastFrame_[0]; };
@@ -142,7 +136,7 @@ inline StkFrames& Delay :: tick( StkFrames& frames, unsigned int channel )
 {
 #if defined(_STK_DEBUG_)
   if ( channel >= frames.channels() ) {
-    oStream_ << "Delay::tick(): channel and StkFrames arguments are incompatible!";
+    errorString_ << "Delay::tick(): channel and StkFrames arguments are incompatible!";
     handleError( StkError::FUNCTION_ARGUMENT );
   }
 #endif
@@ -164,7 +158,7 @@ inline StkFrames& Delay :: tick( StkFrames& iFrames, StkFrames& oFrames, unsigne
 {
 #if defined(_STK_DEBUG_)
   if ( iChannel >= iFrames.channels() || oChannel >= oFrames.channels() ) {
-    oStream_ << "Delay::tick(): channel and StkFrames arguments are incompatible!";
+    errorString_ << "Delay::tick(): channel and StkFrames arguments are incompatible!";
     handleError( StkError::FUNCTION_ARGUMENT );
   }
 #endif
