@@ -235,8 +235,22 @@ void initialize_graphics()
 //-----------------------------------------------------------------------------
 void initialize_simulation()
 {
+    init_intro();
     
+}
+
+void init_intro(){
     Globals::sim = new GFSim();
+    YText *t = new YText(1.0);
+    t->set("Press 's' to start!");
+    Globals::sim->root().addChild( t );
+}
+
+void init_game(){
+    Globals::sim = new GFSim();
+    Globals::game_start_time = Globals::sim->m_simTime;
+    cout<<"game start:"<<Globals::game_start_time;
+    cout<<"simtime:"<<Globals::sim->m_simTime;
     GFCameraWall *camwall = new GFCameraWall();
     camwall->initCamera();
     
@@ -244,14 +258,30 @@ void initialize_simulation()
     
     GFInfoBar *pbar = new GFInfoBar();
     GFTunnel *tunnel = new GFTunnel();
-        
+    
     Globals::sim->root().addChild( pbar );
     Globals::sim->root().addChild( tunnel );
     Globals::sim->root().addChild( camwall );
-    // draw mask
-    // Globals::sim->root().addChild( face );
-    // Globals::sim->root().addChild( bimage );
-    
+
+    //Globals::sim->root().addChild( bimage );
+
+}
+
+void init_report(){
+    Globals::sim = new GFSim();
+    YText *t1 = new YText(1.0);
+    t1->set("Notes:");
+    Globals::sim->root().addChild( t1 );
+    YText *t2 = new YText(1.0);
+    t2->set("Power Chords:");
+    Globals::sim->root().addChild( t2 );
+    YText *t3 = new YText(1.0);
+    t3->set("Bends:");
+    Globals::sim->root().addChild( t3 );
+    YText *t4 = new YText(1.0);
+    t4->set("Other Stuff:");
+    Globals::sim->root().addChild( t4 );
+
 }
 
 
@@ -345,6 +375,12 @@ void keyboardFunc( unsigned char key, int x, int y )
             exit( 0 );
             break;
         }
+        case 's':
+        {
+            init_game();
+            break;
+        }
+
         case 'd':
         {
             GFOverlayMessage *msg = new GFOverlayMessage("fuck_yeah.png");
@@ -372,6 +408,12 @@ void keyboardFunc( unsigned char key, int x, int y )
             Globals::sim->root().addChild( msg);
             msg->loc.z = -4;
             break;
+        }
+        case 'm':
+        {
+            Mat img;
+            GFGuitarFace *face = new GFGuitarFace(img);
+            Globals::sim->root().addChild(face);
         }
 
     }
@@ -444,6 +486,9 @@ void idleFunc( )
 //-----------------------------------------------------------------------------
 void displayFunc( )
 {
+//    if(Globals::sim->m_simTime - Globals::game_start_time > 60){
+   //     init_report();
+ //   }
     // update time
     XGfx::getCurrentTime( TRUE );
     

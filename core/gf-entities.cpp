@@ -214,7 +214,8 @@ void GFCameraWall::initCamera(){
     
 }
 
-// renders at 30fps; face detect runs at 15fps or so
+// Simple camera feed. No detection happens here. Look at gf_init_cam_thread in gf-face.h for face rec.
+
 void GFCameraWall::render(){
     frameCount++;
     if(this->loc.z > 15)
@@ -255,15 +256,7 @@ void GFCameraWall::render(){
             cv::flip( frame, frameCopy, 0 );
         }
         
-        // detect face and compute mouth height
-        ftDetect( frameCopy );
-        
-//        XThread *thread = new XThread();
-//        thread->start(detect);
-                
         loadTexture_Mat(&frameCopy, &texture);
-        
-        // std::cout << cameraFrame->width << " " << cameraFrame->height << endl;
         
     }
 }

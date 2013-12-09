@@ -116,7 +116,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         }
     }
     t = (double)cvGetTickCount() - t;
-    printf( "detection time = %g ms\n", t/((double)cvGetTickFrequency()*1000.) );
+    //printf( "detection time = %g ms\n", t/((double)cvGetTickFrequency()*1000.) );
     for( vector<Rect>::const_iterator r = faces.begin(); r != faces.end(); r++, i++ )
     {
         Mat smallImgROI;
@@ -127,7 +127,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 
         // crop image to the coordinates given by vector<Rect>faces, but just the bottom one third and the middle one third
         cv::Rect myROI( r->x+3+(r->width-6)/3.0, r->y+3+(r->height-6)*2.0/3.0, (r->width-6)/3.0, (r->height-6)/3.0 );
-        cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
+        //cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
         
         // double aspect_ratio = (double)r->width/(double)r->height;
         // aspect_ratio = 0.6;
@@ -146,9 +146,12 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         
         // cout << myROI.width << endl;
         cv::Mat croppedImage = img(myROI);
-        detectBlackPixels( croppedImage );
 
+        //detectBlackPixels( croppedImage );
+        double brightness = 0;
+        getBrightness(croppedImage, brightness);
         
+        cout<<brightness<<endl;
         if( nestedCascade.empty() )
             continue;
         smallImgROI = smallImg(*r);
@@ -311,8 +314,7 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
     namedWindow("face tracker mask", WINDOW_AUTOSIZE );
     imshow("face tracker mask", image );
     
-    return;
-    
+    return;    
 
 }
 
@@ -354,4 +356,51 @@ void ftDetect(Mat& im){
         model.FrameReset(); failed = true;
     }
     
+}
+
+void getBrightness(const cv::Mat& frame, double& brightness)
+{
+    cv::Mat temp, color[3], lum;
+    temp = frame;
+    
+    split(temp, color);
+    
+    color[0] = color[0] * 0.299;
+    color[1] = color[1] * 0.587;
+    color[2] = color[2] * 0.114;
+    
+    
+    lum = color[0] + color [1] + color[2];
+    
+    cv::Scalar summ = sum(lum);
+    
+    
+    brightness = summ[0]/((::pow(2,8)-1)*frame.rows * frame.cols) * 2; //-- percentage conversion factor
+}
+
+void * camera( void *_this){
+    cv::VideoCapture cam;
+    
+    cam.open(0);
+    sleep(2);
+    if(!cam.isOpened()){
+        cout << "Failed opening video file." << endl;
+    }
+    
+    std::cout << "Camera opened successfully" << std::endl;
+    
+    while(cam.get(CV_CAP_PROP_POS_AVI_RATIO) < 0.999999){
+        Mat im; cam >> im;
+        Globals::mutex.acquire();
+        Globals::camQ.push(im);
+        Globals::mutex.release();
+        ftDetect(im);
+        imshow("face tracker",im);
+        waitKey(10);
+    }
+}
+
+void gf_init_cam_thread(){
+    XThread *t = new XThread();
+    t->start(camera);
 }
