@@ -77,7 +77,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 {
     int i = 0;
     double t = 0;
-    vector<Rect> faces, faces2;
+    vector<cv::Rect> faces, faces2;
     const static Scalar colors[] =  { CV_RGB(0,0,255),
         CV_RGB(0,128,255),
         CV_RGB(0,255,255),
@@ -86,7 +86,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         CV_RGB(255,255,0),
         CV_RGB(255,0,0),
         CV_RGB(255,0,255)} ;
-    Mat gray, smallImg( cvRound (img.rows/scale), cvRound(img.cols/scale), CV_8UC1 );
+    cv::Mat gray, smallImg( cvRound (img.rows/scale), cvRound(img.cols/scale), CV_8UC1 );
     
     cvtColor( img, gray, CV_BGR2GRAY );
     resize( gray, smallImg, smallImg.size(), 0, 0, INTER_LINEAR );
@@ -110,28 +110,26 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                                  |CV_HAAR_SCALE_IMAGE
                                  ,
                                  Size(30, 30) );
-        for( vector<Rect>::const_iterator r = faces2.begin(); r != faces2.end(); r++ )
+        for( vector<cv::Rect>::const_iterator r = faces2.begin(); r != faces2.end(); r++ )
         {
-            faces.push_back(Rect(smallImg.cols - r->x - r->width, r->y, r->width, r->height));
+            faces.push_back(cv::Rect(smallImg.cols - r->x - r->width, r->y, r->width, r->height));
         }
     }
     t = (double)cvGetTickCount() - t;
     //printf( "detection time = %g ms\n", t/((double)cvGetTickFrequency()*1000.) );
-    for( vector<Rect>::const_iterator r = faces.begin(); r != faces.end(); r++, i++ )
+    for( vector<cv::Rect>::const_iterator r = faces.begin(); r != faces.end(); r++, i++ )
     {
-        Mat smallImgROI;
-        vector<Rect> nestedObjects;
-        Point center;
-        Scalar color = colors[i%8];
+        cv::Mat smallImgROI;
+        vector<cv::Rect> nestedObjects;
+        cv::Point center;
+        cv::Scalar color = colors[i%8];
         int radius;
 
         // crop image to the coordinates given by vector<Rect>faces, but just the bottom one third and the middle one third
         cv::Rect myROI( r->x+3+(r->width-6)/3.0, r->y+3+(r->height-6)*2.0/3.0, (r->width-6)/3.0, (r->height-6)/3.0 );
-        //cout << "x: " << r->x << " y: " << r->y << " width: " << r->width << " height: " << r->height << endl;
-        
+
         // double aspect_ratio = (double)r->width/(double)r->height;
         // aspect_ratio = 0.6;
-        // cout << "Width: " << r->width << " Height: " << r->height << endl;
         /* if( 1.1 < aspect_ratio && aspect_ratio < 1.25 )
         {
             center.x = cvRound((r->x + r->width*0.5)*scale);
@@ -151,7 +149,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
         double brightness = 0;
         getBrightness(croppedImage, brightness);
         
-        cout<<brightness<<endl;
+        // cout<<brightness<<endl;
         if( nestedCascade.empty() )
             continue;
         smallImgROI = smallImg(*r);
@@ -163,7 +161,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
                                        |CV_HAAR_SCALE_IMAGE
                                        ,
                                        Size(30, 30) );
-        for( vector<Rect>::const_iterator nr = nestedObjects.begin(); nr != nestedObjects.end(); nr++ )
+        for( vector<cv::Rect>::const_iterator nr = nestedObjects.begin(); nr != nestedObjects.end(); nr++ )
         {
             center.x = cvRound((r->x + nr->x + nr->width*0.5)*scale);
             center.y = cvRound((r->y + nr->y + nr->height*0.5)*scale);
@@ -203,7 +201,7 @@ void detectBlackPixels( Mat& img ) {
     
     bool uniform = true; bool accumulate = false;
     
-    Mat b_hist, g_hist, r_hist;
+    cv::Mat b_hist, g_hist, r_hist;
     
     /// Compute the histograms:
     calcHist( &bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate );
@@ -214,7 +212,7 @@ void detectBlackPixels( Mat& img ) {
     int hist_w = 512; int hist_h = 400;
     int bin_w = cvRound( (double) hist_w/histSize );
     
-    Mat histImage( hist_h, hist_w, CV_8UC3, Scalar( 0,0,0) );
+    cv::Mat histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0,0,0) );
     
     /// Normalize the result to [ 0, histImage.rows ]
     normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat() );
@@ -224,17 +222,17 @@ void detectBlackPixels( Mat& img ) {
     /// Draw for each channel
     for( int i = 1; i < histSize; i++ )
     {
-        line( histImage, Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ) ,
-             Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
-             Scalar( 255, 0, 0), 2, 8, 0  );
+        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ) ,
+             cv::Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
+             cv::Scalar( 255, 0, 0), 2, 8, 0  );
         cout << "Blue: " << cvRound(b_hist.at<float>(i));
         line( histImage, Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ) ,
-             Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
-             Scalar( 0, 255, 0), 2, 8, 0  );
+             cv::Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
+             cv::Scalar( 0, 255, 0), 2, 8, 0  );
         cout << " Green: " << cvRound(g_hist.at<float>(i));
         line( histImage, Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ) ,
-             Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
-             Scalar( 0, 0, 255), 2, 8, 0  );
+             cv::Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
+             cv::Scalar( 0, 0, 255), 2, 8, 0  );
         cout << " Red: " << cvRound(r_hist.at<float>(i)) << endl;
     }
     
@@ -387,7 +385,8 @@ void getBrightness(const cv::Mat& frame, double& brightness)
     brightness = summ[0]/((::pow(2,8)-1)*frame.rows * frame.cols) * 2; //-- percentage conversion factor
 }
 
-void * camera( void *_this){
+void * camera( void *_this)
+{
     
     cv::VideoCapture cam;
     

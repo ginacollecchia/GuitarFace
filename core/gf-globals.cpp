@@ -98,3 +98,6 @@ GLfloat Globals::mouthHeight;
 GLfloat Globals::openMouthThresh = 0.1f;
 GLboolean Globals::isMouthOpen;
 GLboolean Globals::guitarFace;
+
+SAMPLE * Globals::soundfile_buffer;
+int Globals::numFrames;
