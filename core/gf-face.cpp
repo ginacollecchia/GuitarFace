@@ -246,7 +246,7 @@ void detectBlackPixels( Mat& img ) {
 }
 
 // this is from FaceTracker; put this in a new thread (currently in graphics thread)
-void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
+void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &visi)
 {
     int i,n = shape.rows/2; cv::Point p1,p2; cv::Scalar c;
     
@@ -304,10 +304,21 @@ void Draw(cv::Mat &image,cv::Mat &shape,cv::Mat &con,cv::Mat &tri,cv::Mat &visi)
     {
         std::cout << "Mouth is open!" << endl;
         // do something in graphics, disable mouth detection for 4 seconds
-        Globals::guitarFace = true;
-        GFGuitarFace *face = new GFGuitarFace(image);
-        face->Sphere( 1.0f );
+        
         // wait?
+        
+        
+        // only make a new guitar face if one is not currently visible
+        if( !Globals::guitarFace )
+        {
+            Globals::guitarFace = true;
+            Globals::guitar_face_time = 0;
+            // GFGuitarFace *face = new GFGuitarFace(image);
+            // face->Sphere( 1.0f );
+        }
+
+    } else {
+        Globals::guitarFace = false;
     }
 
     /// Display

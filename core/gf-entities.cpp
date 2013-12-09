@@ -214,22 +214,28 @@ void GFCameraWall::initCamera(){
     
 }
 
+
 // Simple camera feed. No detection happens here. Look at gf_init_cam_thread in gf-face.h for face rec.
 
 void GFCameraWall::render(){
     frameCount++;
-    if(this->loc.z > 15)
-        this->loc.z = -10;
-    this->loc.z += 0.05;
-    angle += diff;
-    if(angle > 30){
-        diff = -5;
-    }
-    if(angle < -30){
-        diff = +5;
+    
+    // activate the wiggle if there's a guitar face
+    if (Globals::guitarFace) {
+        if(this->loc.z > 15)
+            this->loc.z = -10;
+        this->loc.z += 0.05;
+        angle += diff;
+        if(angle > 30){
+            diff = -5;
+        }
+        if(angle < -30){
+            diff = +5;
+        }
+        
+        glRotated(angle, 0, 0, 1);
     }
     
-    glRotated(angle, 0, 0, 1);
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
@@ -272,8 +278,8 @@ GFVideoPlayer::GFVideoPlayer(string _file){
     glGenTextures(1, &texture);
     
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture to it's array
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // if it's small
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // if it's big
     
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -355,6 +361,7 @@ GFBackgroundImage::GFBackgroundImage(string _filename):filename(_filename){
 }
 
 void GFBackgroundImage::update(YTimeInterval dt){
+    
 }
 
 void GFBackgroundImage::render(){
@@ -374,7 +381,6 @@ void GFBackgroundImage::render(){
 }
 
 GFGuitarFace::GFGuitarFace(Mat _image):image(_image){
-
 }
 
 GFGuitarFace::~GFGuitarFace(){
@@ -400,7 +406,7 @@ void GFGuitarFace::render(){
     tx1 = atan2(a[0], a[2]) / (2. * PI) + 0.5;
     ty1 = asin(a[1]) / PI + .5;
     
-    glTexCoord2f(tx1, ty1);
+    glTexCoord2f(tx1, ty1); glVertex2d(tx1, ty1);
     
     // second vertex
     float tx2, ty2;
@@ -412,7 +418,7 @@ void GFGuitarFace::render(){
     else if(tx2 > 0.75 && tx1 < 0.75)
         tx2 -= 1.0;
     
-    glTexCoord2f(tx2, ty2);
+    glTexCoord2f(tx2, ty2); glVertex2d(tx2, ty2);
     
     // third vertex
     float tx3, ty3;
@@ -420,7 +426,7 @@ void GFGuitarFace::render(){
     tx3 = atan2(c[0], c[2]) / (2. * PI) + 0.5;
     ty3 = asin(c[1]) / PI + .5;
     
-    glTexCoord2f(tx3, ty3);
+    glTexCoord2f(tx3, ty3); glVertex2d(tx3, ty3);
     
     glEnd();
     glDisable(GL_TEXTURE_2D);
@@ -483,7 +489,7 @@ void GFGuitarFace::SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdou
         SphereFace(p_recurse-1, p_radius, f, d, e);
     }
     
-    glBegin(GL_TRIANGLES);
+    /* glBegin(GL_TRIANGLES);
     glNormal3dv(a);
     glVertex3d(a[0] * p_radius, a[1] * p_radius, a[2] * p_radius);
     
@@ -492,10 +498,10 @@ void GFGuitarFace::SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdou
     
     glNormal3dv(c);
     glVertex3d(c[0] * p_radius, c[1] * p_radius, c[2] * p_radius);
-    glEnd();
+    glEnd(); */
 }
 
 
 void GFGuitarFace::update(YTimeInterval dt){
-    
+    Globals::guitar_face_time += dt;
 }

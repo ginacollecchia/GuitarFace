@@ -145,6 +145,8 @@ public:
     static XMutex mutex;
     static double game_start_time;
     static double game_time;
+    static double delta_guitar_face;
+    static double guitar_face_time;
     
     // face detection vars
     static GLfloat upperLipY;
