@@ -306,19 +306,17 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
         // do something in graphics, disable mouth detection for 4 seconds
         
         // wait?
-        
-        
-        // only make a new guitar face if one is not currently visible
-        if( !Globals::guitarFace )
-        {
+        Globals::mutex.acquire();
             Globals::guitarFace = true;
-            Globals::guitar_face_time = 0;
+        Globals::mutex.release();
+        // only make a new guitar face if one is not currently visible
+        if( Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length )
+        {
+            //GFCameraWiggle *wiggle = new GFCameraWiggle();
+
             // GFGuitarFace *face = new GFGuitarFace(image);
             // face->Sphere( 1.0f );
         }
-
-    } else {
-        Globals::guitarFace = false;
     }
 
     /// Display
@@ -390,6 +388,7 @@ void getBrightness(const cv::Mat& frame, double& brightness)
 }
 
 void * camera( void *_this){
+    
     cv::VideoCapture cam;
     
     cam.open(0);

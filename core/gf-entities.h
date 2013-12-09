@@ -113,13 +113,11 @@ public:
 
 class GFCameraWall : public YEntity {
 private:
-    int angle = 0;
-    int diff = 5;
-    int frameCount = 0;
     CvCapture *camCapture;
     GLuint texture;
 public:
-    void initCamera();
+    GFCameraWall();
+    ~GFCameraWall();
     void update(YTimeInterval dt);
     void render();
 };
@@ -161,6 +159,17 @@ public:
     void render();
     void Sphere(double p_radius);
     void SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdouble *b, GLdouble *c);
+};
+
+class GFCameraWiggle: public GFCameraWall{
+private:
+    int angle = 0;
+    int diff = 5;
+    int frameCount = 0;
+public:
+    void update(YTimeInterval dt);
+    void render();
+
 };
 
 #endif /* defined(__GuitarFace__gf_entities__) */

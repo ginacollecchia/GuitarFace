@@ -219,7 +219,6 @@ void initialize_graphics()
         // disable
         glDisable(GL_FOG);
     }
-    
     // clear the color buffer once
     glClear( GL_COLOR_BUFFER_BIT );
 }
@@ -246,11 +245,8 @@ void init_intro(){
 
 void init_game(){
     Globals::sim = new GFSim();
-    Globals::game_start_time = Globals::sim->m_simTime;
-    cout<<"game start:"<<Globals::game_start_time;
     cout<<"simtime:"<<Globals::sim->m_simTime;
     GFCameraWall *camwall = new GFCameraWall();
-    camwall->initCamera();
     
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
     
@@ -409,9 +405,9 @@ void keyboardFunc( unsigned char key, int x, int y )
         }
         case 'm':
         {
-            Mat img;
-            GFGuitarFace *face = new GFGuitarFace(img);
-            Globals::sim->root().addChild(face);
+
+            GFCameraWiggle *wiggle = new GFCameraWiggle();
+            Globals::sim->root().addChild(wiggle);
         }
         case 'n':
         {
@@ -491,6 +487,18 @@ void displayFunc( )
    //     init_report();
  //   }
     // update time
+    
+    Globals::mutex.acquire();
+    cout<<Globals::sim->m_simTime - Globals::t_last_guitarface<<endl;
+    if(Globals::guitarFace && (Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length)){
+        GFCameraWiggle *wiggle = new GFCameraWiggle();
+        Globals::sim->root().addChild(wiggle);
+        Globals::guitarFace = false;
+        Globals::t_last_guitarface = Globals::sim->m_simTime;
+    }
+    
+    Globals::mutex.release();
+    
     XGfx::getCurrentTime( TRUE );
     
     // update

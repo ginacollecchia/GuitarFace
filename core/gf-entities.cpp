@@ -214,14 +214,10 @@ void GFTunnel::render(){
     
 }
 
-void GFCameraWall::initCamera(){
-    
-    int ret = 0;
-    
+GFCameraWall::GFCameraWall(){
+
     if (!(camCapture = cvCaptureFromCAM(CV_CAP_ANY))) {
         std::cout << "Failed to capture from camera" << std::endl;
-        
-        ret = 1;
     }
     
     glGenTextures(1, &texture);
@@ -230,12 +226,14 @@ void GFCameraWall::initCamera(){
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     
-    
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 480,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
     
-
     std::cout << "Camera opened successfully" << std::endl;
+    
+}
+
+GFCameraWall::~GFCameraWall(){
     
 }
 
@@ -243,23 +241,6 @@ void GFCameraWall::initCamera(){
 // Simple camera feed. No detection happens here. Look at gf_init_cam_thread in gf-face.h for face rec.
 
 void GFCameraWall::render(){
-    frameCount++;
-    
-    // activate the wiggle if there's a guitar face
-    if (Globals::guitarFace) {
-        if(this->loc.z > 15)
-            this->loc.z = -10;
-        this->loc.z += 0.05;
-        angle += diff;
-        if(angle > 30){
-            diff = -5;
-        }
-        if(angle < -30){
-            diff = +5;
-        }
-        
-        glRotated(angle, 0, 0, 1);
-    }
     
     glEnable( GL_TEXTURE_2D ); //enable 2D texturing
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
@@ -282,7 +263,7 @@ void GFCameraWall::render(){
         frame = cameraFrame;
     
         if( cameraFrame->origin == IPL_ORIGIN_TL ){ //Dont know why this is here.
-            cv::flip( frame, frameCopy, 1 ); //This is what we need
+            cv::flip( frame, frameCopy, -1 ); //This is what we need
         }
         else{
             cv::flip( frame, frameCopy, 0 );
@@ -291,6 +272,10 @@ void GFCameraWall::render(){
         loadTexture_Mat(&frameCopy, &texture);
         
     }
+}
+
+void GFCameraWall::update(YTimeInterval dt){
+    
 }
 
 GFVideoPlayer::GFVideoPlayer(string _file){
@@ -317,10 +302,6 @@ GFVideoPlayer::GFVideoPlayer(string _file){
 
 GFVideoPlayer::~GFVideoPlayer(){
     
-}
-
-void GFCameraWall::update(YTimeInterval dt){
-
 }
 
 void GFVideoPlayer::render(){
@@ -528,6 +509,31 @@ void GFGuitarFace::SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdou
 }
 
 
-void GFGuitarFace::update(YTimeInterval dt){
-    Globals::guitar_face_time += dt;
+void GFGuitarFace::update(YTimeInterval dt){    
 }
+
+// Simple camera feed. No detection happens here. Look at gf_init_cam_thread in gf-face.h for face rec.
+
+void GFCameraWiggle::render(){
+    frameCount++;
+    
+        if(this->loc.z > 15)
+            this->active = false;
+        this->loc.z += 0.1;
+        angle += diff;
+        if(angle > 30){
+            diff = -5;
+        }
+        if(angle < -30){
+            diff = +5;
+        }
+        
+        glRotated(angle, 0, 0, 1);
+    
+    GFCameraWall::render();
+}
+
+void GFCameraWiggle::update(YTimeInterval dt){
+    GFCameraWall::update(dt);
+}
+
