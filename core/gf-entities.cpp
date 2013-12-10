@@ -534,6 +534,10 @@ void GFGuitarFace::update(YTimeInterval dt){
 }
 
 // Simple camera feed. No detection happens here. Look at gf_init_cam_thread in gf-face.h for face rec.
+GFCameraWiggle::GFCameraWiggle(){
+    GFTrackPlayer *player = new GFTrackPlayer("./widdly.mp3");
+    player->play();
+}
 
 void GFCameraWiggle::render(){
     frameCount++;

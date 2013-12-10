@@ -166,6 +166,7 @@ private:
     int diff = 5;
     int frameCount = 0;
 public:
+    GFCameraWiggle();
     void update(YTimeInterval dt);
     void render();
 

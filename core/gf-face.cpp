@@ -83,14 +83,8 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
         Globals::mutex.acquire();
         Globals::guitarFace = true;
         Globals::mutex.release();
+        
         // only make a new guitar face if one is not currently visible
-        if( Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length )
-        {
-            // GFCameraWiggle *wiggle = new GFCameraWiggle();
-            
-            // GFGuitarFace *face = new GFGuitarFace(image);
-            // face->Sphere( 1.0f );
-        }
     }
     
     /// Display
