@@ -247,7 +247,10 @@ void init_game(){
     Globals::sim = new GFSim();
     cout<<"simtime:"<<Globals::sim->m_simTime;
     GFCameraWall *camwall = new GFCameraWall();
-    
+
+    Globals::bt_player = new GFTrackPlayer("./jam.mp3");
+    Globals::bt_player->play();
+
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
     
     GFInfoBar *pbar = new GFInfoBar();
@@ -408,11 +411,8 @@ void keyboardFunc( unsigned char key, int x, int y )
 
             GFCameraWiggle *wiggle = new GFCameraWiggle();
             Globals::sim->root().addChild(wiggle);
+            break;
         }
-        case 'n':
-        {
-        }
-
     }
     // do a reshape since viewEyeY might have changed
     reshapeFunc( Globals::windowWidth, Globals::windowHeight );

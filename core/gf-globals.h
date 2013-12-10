@@ -18,6 +18,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "x-thread.h"
+#include "gf-utils.h"
 // c++
 #include <string>
 #include <map>
@@ -151,7 +152,7 @@ public:
     static double t_last_guitarface;
     static double d_guitarface_length;
     static double d_total_game_time;
-
+    static GFTrackPlayer *bt_player;
     
     // face detection vars
     static GLfloat upperLipY;

@@ -11,6 +11,7 @@
 
 #include "x-def.h"
 #include "x-gfx.h"
+#include "gf-utils.h"
 #include <string>
 
 

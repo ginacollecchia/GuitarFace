@@ -91,6 +91,7 @@ double Globals::t_game_start = 0;
 double Globals::t_last_guitarface = 0;
 double Globals::d_guitarface_length = 10;
 double Globals::d_total_game_time = 60;
+GFTrackPlayer* Globals::bt_player = NULL;
 
 GLfloat Globals::upperLipY;
 GLfloat Globals::lowerLipY;
