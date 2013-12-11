@@ -155,13 +155,9 @@ public:
     static GFTrackPlayer *bt_player;
     
     // face detection vars
-    static GLfloat upperLipY;
-    static GLfloat lowerLipY;
-    static GLfloat mouthHeight;
-    static GLfloat openMouthThresh;
-    static GLboolean isMouthOpen;
-    static GLboolean guitarFace;
     
+    static GLboolean guitarFace;
+    static GLboolean guitarFace2;
     
 };
 

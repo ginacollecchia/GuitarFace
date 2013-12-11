@@ -93,9 +93,5 @@ double Globals::d_guitarface_length = 10;
 double Globals::d_total_game_time = 60;
 GFTrackPlayer* Globals::bt_player = NULL;
 
-GLfloat Globals::upperLipY;
-GLfloat Globals::lowerLipY;
-GLfloat Globals::mouthHeight;
-GLfloat Globals::openMouthThresh = 0.1f;
-GLboolean Globals::isMouthOpen;
 GLboolean Globals::guitarFace;
+GLboolean Globals::guitarFace2;

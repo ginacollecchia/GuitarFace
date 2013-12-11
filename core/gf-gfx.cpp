@@ -248,7 +248,7 @@ void init_game(){
     cout<<"simtime:"<<Globals::sim->m_simTime;
     GFCameraWall *camwall = new GFCameraWall();
 
-    Globals::bt_player = new GFTrackPlayer("./jam.mp3");
+    Globals::bt_player = new GFTrackPlayer("./data/jam.mp3");
     Globals::bt_player->play();
 
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");

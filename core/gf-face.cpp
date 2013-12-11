@@ -57,26 +57,36 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
      p2 = cv::Point(shape.at<double>(con.at<int>(1,i),0),
      shape.at<double>(con.at<int>(1,i)+n,0));
      cv::line(image,p1,p2,c,1);
-     }
-     // draw points
-     // lips ~= 49 - 66
-     for(i = 0; i < n; i++){
-     if(visi.at<int>(i,0) == 0)continue;
-     p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
-     c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
      } */
     
-    double upperLipY, lowerLipY, mouthHeight, openMouthThresh;
+     // draw points
+     // lips ~= 49 - 66
+     /* for(i = 0; i < n; i++){
+         if(visi.at<int>(i,0) == 0)continue;
+         p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
+         c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
+     } */
+
+    //----------------------FACE DETECTION MATH: eyelid and mouth height-------------------//
+    double upperLipY, lowerLipY, mouthHeight, openMouthThresh, leftEyebrowY, rightEyebrowY, chinY, faceHeight, mouthRatio;
+    
+    // compute face height
+    leftEyebrowY = shape.at<double>(19+n, 0); // top of left eyebrow: i = 19
+    rightEyebrowY = shape.at<double>(24+n, 0); // top of right eyebrow: i = 24
+    chinY = shape.at<double>(8+n, 0); // bottom of chin: i = 8
+    faceHeight = abs((leftEyebrowY+rightEyebrowY)/2.0f - chinY);
     
     // compute mouth height
-    upperLipY = shape.at<double>(51+n,0); // i=51 is the middle of the exterior upper lip
-    lowerLipY = shape.at<double>(57+n,0); // i=57 is the middle of the exterior lower lip
+    upperLipY = shape.at<double>(51+n, 0); // i=51 is the middle of the exterior upper lip
+    lowerLipY = shape.at<double>(57+n, 0); // i=57 is the middle of the exterior lower lip
     mouthHeight = abs(upperLipY - lowerLipY);
-    openMouthThresh = (float)image.rows / 14.5f; // 70.0 seems to be a good number, maybe on the high end, but won't detect mouth open if the subject is far away. could take running average and compare, but what's to say the average case isn't a bit of mouth open? it is relative to window height because face will be smaller with small window size.
+    openMouthThresh = 0.18f; // .10-.16 is a closed mouth.
     
-    if (mouthHeight > openMouthThresh )
+    mouthRatio = mouthHeight / faceHeight;
+    
+    if ( mouthRatio > openMouthThresh )
     {
-        std::cout << "Mouth is open! Lip height: " << mouthHeight << endl;
+        std::cout << "Mouth is open! Lip height / face height = " << mouthRatio << endl;
         // do something in graphics, disable mouth detection for 4 seconds
         
         // wait?
@@ -87,9 +97,39 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
         // only make a new guitar face if one is not currently visible
     }
     
+    // left eye upper: i = 37
+    // left eye lower: i = 41
+    // right eye upper: i = 44
+    // right eye lower: i = 46
+    double leftUpperEyelidY, leftLowerEyelidY, rightUpperEyelidY, rightLowerEyelidY, leftEyeHeight, rightEyeHeight, leftEyelidRatio, rightEyelidRatio, closedEyesThresh;
+    
+    // compute whether or not eyelids are closed
+    leftUpperEyelidY = shape.at<double>(37+n, 0);
+    leftLowerEyelidY = shape.at<double>(41+n, 0);
+    rightUpperEyelidY = shape.at<double>(44+n, 0);
+    rightLowerEyelidY = shape.at<double>(46+n, 0);
+    
+    leftEyeHeight = abs(leftUpperEyelidY - leftLowerEyelidY);
+    rightEyeHeight = abs(rightUpperEyelidY - rightLowerEyelidY);
+    leftEyelidRatio = leftEyeHeight / faceHeight;
+    rightEyelidRatio = rightEyeHeight / faceHeight;
+    // cout << "left eye ratio: " << leftEyelidRatio << ", right eye ratio: " << rightEyelidRatio << endl;
+    
+    closedEyesThresh = 0.03f; // open eye: 0.04-0.07; closed eyes: 0.025-0.035
+    
+    if ( leftEyelidRatio < closedEyesThresh || rightEyelidRatio < closedEyesThresh )
+     {
+         cout << "Closed eyes detected!" << endl;
+        Globals::mutex.acquire();
+        Globals::guitarFace2 = true;
+        Globals::mutex.release();
+     }
+     
+    
+    
     /// Display
-    // namedWindow("face tracker mask", WINDOW_AUTOSIZE );
-    // imshow("face tracker mask", image );
+    namedWindow("face tracker mask", WINDOW_AUTOSIZE );
+    imshow("face tracker mask", image );
     
     return;
     
