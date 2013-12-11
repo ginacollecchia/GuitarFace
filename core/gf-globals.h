@@ -134,6 +134,10 @@ public:
     static std::string datapath;
     // version
     static std::string version;
+    // for moving the message
+    static GLboolean messageMove;
+    // show "press s to start!"
+    static GLboolean showIntroText;
     
     // midi stuff
     static int minor_key[7];
@@ -158,6 +162,10 @@ public:
     
     static GLboolean guitarFace;
     static GLboolean guitarFace2;
+    
+    // progress bar
+    
+    static double trackDuration;
     
 };
 

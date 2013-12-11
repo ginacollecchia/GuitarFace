@@ -172,4 +172,18 @@ public:
 
 };
 
+class GFBackingTrackProgressBar: public YEntity {
+private:
+    int minutes;
+    int seconds;
+    float elapsedTime = 0.0f;
+    double currentProgress = 0.0f;
+public:
+    GFBackingTrackProgressBar();
+    ~GFBackingTrackProgressBar();
+    YText *timestamp;
+    void update(YTimeInterval dt);
+    void render();
+};
+
 #endif /* defined(__GuitarFace__gf_entities__) */

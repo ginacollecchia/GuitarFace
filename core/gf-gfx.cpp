@@ -236,33 +236,84 @@ void initialize_simulation()
     
 }
 
+//------------------------------------------------------------------
+// name: init_intro()
+// desc: show the guitar face logo and play the clip, tell the user
+//       how to start the game (press 's')
+//------------------------------------------------------------------
+
 void init_intro(){
+    
+    // start from black. increase opacity of logo and start track.
+    // Globals::sim = new GFSim();
+    // GFTrackPlayer *introPlayer = new GFTrackPlayer("./data/intro-sabra.mp3");
+    // Globals::sim->root().addChild( introPlayer );
+   
     Globals::sim = new GFSim();
+    GFOverlayMessage *logo = new GFOverlayMessage("guitar-face-red-black-bg.png");
+    logo->loc.z = -4;
+    Globals::sim->root().addChild( logo );
+
+    GFTrackPlayer *introPlayer = new GFTrackPlayer("./data/intro-sabra.mp3");
+    introPlayer->play();
+
+    // increase alpha, pause, then decrease
+    /* double x = 0.0f;
+     logo->alpha = x;
+     for( int i = 0; i < 100; i++ )
+     {
+     if( x<0.98f )
+     {
+     x += 0.02f;
+     } else {
+     x -= 0.02f;
+     }
+     } */
+    
+    
+    // sleep(7);
+    
+    // if (Globals::showIntroText) {
     YText *t = new YText(1.0);
     t->set("Press 's' to start!");
     Globals::sim->root().addChild( t );
+    // }
+    
+    
 }
+
+//------------------------------------------------------------------
+// name: init_game()
+// desc: initialize the guitar face game, after the user has pressed 's'
+//------------------------------------------------------------------
 
 void init_game(){
     Globals::sim = new GFSim();
     cout<<"simtime:"<<Globals::sim->m_simTime;
     GFCameraWall *camwall = new GFCameraWall();
+    GFBackingTrackProgressBar *progressBar = new GFBackingTrackProgressBar();
 
     Globals::bt_player = new GFTrackPlayer("./data/jam.mp3");
     Globals::bt_player->play();
 
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
     
-    GFInfoBar *pbar = new GFInfoBar();
+    GFInfoBar *ibar = new GFInfoBar();
     GFTunnel *tunnel = new GFTunnel();
     
-    Globals::sim->root().addChild( pbar );
+    Globals::sim->root().addChild( ibar );
     Globals::sim->root().addChild( tunnel );
     Globals::sim->root().addChild( camwall );
+    Globals::sim->root().addChild( progressBar );
 
     //Globals::sim->root().addChild( bimage );
 
 }
+
+//------------------------------------------------------------------
+// name: init_report()
+// desc: print a final report once the session is complete
+//------------------------------------------------------------------
 
 void init_report(){
     Globals::sim = new GFSim();
@@ -413,6 +464,16 @@ void keyboardFunc( unsigned char key, int x, int y )
             Globals::sim->root().addChild(wiggle);
             break;
         }
+            
+        /* case 'n':
+        {
+            Globals::sim = new GFSim();
+            GFOverlayMessage *logo = new GFOverlayMessage("guitar-face-red-black-bg.png");
+            logo->loc.z = -4;
+            Globals::sim->root().addChild( logo );
+            break;
+        } */
+        
     }
     // do a reshape since viewEyeY might have changed
     reshapeFunc( Globals::windowWidth, Globals::windowHeight );

@@ -7,6 +7,8 @@
 //
 #include <iostream>
 #include "gf-entities.h"
+#define SSTR( x ) dynamic_cast< std::ostringstream & >( \
+( std::ostringstream() << std::dec << x ) ).str()
 
 // bokehs
 vector<YBokeh *> g_tunnels;
@@ -58,7 +60,7 @@ void GFInfoBar::render(){
     // set color
     
     ostringstream s1;
-    s1<<"Notes Goal: "<<Globals::data->getNoteCount(); // << "/"<<Globals::note_goal;
+    s1<<"Notes: "<<Globals::data->getNoteCount(); // << "/"<<Globals::note_goal;
     a->set(s1.str());
     a->loc.x = -3.4;
     a->loc.y = -1.8;
@@ -170,7 +172,6 @@ void GFTunnelLayer::render(){
 
     
 }
-
 
 
 void GFNoteObject::render(){
@@ -349,7 +350,7 @@ void GFVideoPlayer::update(YTimeInterval dt){
 }
 
 GFOverlayMessage::GFOverlayMessage(string _filename):filename(_filename){
-    string path = "/Users/roshanvid/Code/GuitarFace/build/Debug/data/texture/";    
+    string path = "./data/texture/";
     texture = gf_loadTexture(path + filename);
 }
 
@@ -376,9 +377,40 @@ void GFOverlayMessage::render(){
     
     glEnd();
     glDisable(GL_TEXTURE_2D);
+    
+    /* attempts to start black, pause, then fade to black
+     this->alpha = 0.0f;
+    applyTransforms();
 
-    this->loc.z += 0.08;
-    if(this->loc.z > 1){
+    if ( Globals::messageMove && this->alpha < 0.96 )
+    {
+        this->loc.z += 0.01;
+        this->alpha += 0.05;
+        applyTransforms();
+    }
+    
+    if (this->alpha >= 0.96 )
+    {
+        sleep(1);
+        this->alpha -= 0.1;
+        applyTransforms();
+    }
+    
+    if(this->loc.z > 0){
+        // sleep(2);
+        this->active = false;
+    } */
+    
+    if ( Globals::messageMove )
+    {
+        this->loc.z += 0.01;
+    }
+    
+    if ( this->loc.z > 0 ) {
+        // hold it here for 3 seconds, then remove; show the intro text towards the end of that
+        sleep(3);
+        // Globals::showIntroText = true;
+        // sleep(1.5);
         this->active = false;
     }
 }
@@ -492,11 +524,11 @@ inline void Normalize(GLdouble *v)
     v[2] /= len;
 }
 
-//
+//----------------------------------------------------------------------
 // Name :         CChildView::SphereFace()
 // Description :  Draw a single facet of the sphere.  If p_recurse > 1,
 //                triangulate that facet and recurse.
-//
+//----------------------------------------------------------------------
 
 void GFGuitarFace::SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdouble *b, GLdouble *c)
 {
@@ -533,7 +565,12 @@ void GFGuitarFace::SphereFace(int p_recurse, double p_radius, GLdouble *a, GLdou
 void GFGuitarFace::update(YTimeInterval dt){    
 }
 
-// Simple camera feed. No detection happens here. Look at gf_init_cam_thread in gf-face.h for face rec.
+
+//------------------------------------------------------------------------
+// name: GFCameraWiggle constructor
+// desc: Simple camera feed. No detection happens here (see gf-face.cpp).
+//------------------------------------------------------------------------
+
 GFCameraWiggle::GFCameraWiggle(){
     GFTrackPlayer *player = new GFTrackPlayer("./data/widdly.mp3");
     player->play();
@@ -560,5 +597,59 @@ void GFCameraWiggle::render(){
 
 void GFCameraWiggle::update(YTimeInterval dt){
     GFCameraWall::update(dt);
+}
+
+GFBackingTrackProgressBar::GFBackingTrackProgressBar(){
+    YText *timestamp = new YText(1.0);
+    timestamp->set("0:00");
+    Globals::sim->root().addChild(timestamp);
+    // need to position it to the right of the progress bar (at (3.6, -2.2) ish)
+}
+
+void GFBackingTrackProgressBar::update(YTimeInterval dt) {
+    // GFBackingTrackProgressBar::update(dt);
+    string t;
+    elapsedTime += dt; // this is in seconds
+    seconds = (int)(fmod(elapsedTime, 60.0f));
+    minutes = (int)(elapsedTime / 60.0f);
+    // convert time to string
+    if (seconds < 10) {
+        t = SSTR(minutes << ":0" << seconds);
+    } else {
+        t = SSTR(minutes << ":" << seconds);
+    }
+    // t is the correct time but this line doesn't work
+    // timestamp->set(t);
+}
+
+void GFBackingTrackProgressBar::render() {
+
+    // show progress bar below info bar
+    
+    currentProgress = 7.0f*(elapsedTime / Globals::trackDuration)-3.5f;
+    
+    glEnable( GL_LIGHTING );
+
+    glColor4f( 1.0f, 0.0f, 0.0f, 0.8f );
+
+    glBegin( GL_QUADS );
+    glVertex2f(-3.5f, -2.2f );
+    glVertex2f(-3.5f, -2.3f );
+    glVertex2f( currentProgress, -2.3f );
+    glVertex2f( currentProgress, -2.2f );
+    glEnd();
+    
+    glColor4f( 0.2f, 0.2f, 0.2f, alpha );
+    
+    glBegin( GL_QUADS );
+    glVertex2f( currentProgress, -2.2f );
+    glVertex2f( currentProgress, -2.3f );
+    glVertex2f(3.5f , -2.3f );
+    glVertex2f(3.5f , -2.2f );
+    glEnd();
+    
+    // and text for timestamp (YText)
+    
+    glDisable( GL_LIGHTING );
 }
 

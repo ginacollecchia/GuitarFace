@@ -70,6 +70,8 @@ std::string Globals::path = "";
 std::string Globals::relpath = "data/texture/";
 std::string Globals::datapath = "";
 std::string Globals::version = DEFAULT_VERSION;
+GLboolean Globals::messageMove = true;
+GLboolean Globals::showIntroText = false;
 
 // midi keys
 // add these to the root value, mod 12
@@ -95,3 +97,5 @@ GFTrackPlayer* Globals::bt_player = NULL;
 
 GLboolean Globals::guitarFace;
 GLboolean Globals::guitarFace2;
+
+double Globals::trackDuration = 243.827;
