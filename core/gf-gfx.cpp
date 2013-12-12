@@ -215,6 +215,8 @@ void initialize_graphics()
     // enable
     if( Globals::fog_filter ) glEnable( GL_FOG );
     
+    glutFullScreen();
+    
     // check global flag
     if( Globals::fog )
     {
@@ -286,6 +288,8 @@ void init_intro(){
     
     // if (Globals::showIntroText) {
     YText *t = new YText(1.0);
+    t->loc.x = -0.5;
+    t->loc.y = -2;
     t->set("Press 's' to start!");
     Globals::sim->root().addChild( t );
     
@@ -448,9 +452,10 @@ void keyboardFunc( unsigned char key, int x, int y )
         }
         case 'f':
         {
-            GFOverlayMessage *msg = new GFOverlayMessage("widdly_wahh.png");
-            Globals::sim->root().addChild( msg);
-            msg->loc.z = -4;
+            glutFullScreen();
+//            GFOverlayMessage *msg = new GFOverlayMessage("widdly_wahh.png");
+//            Globals::sim->root().addChild( msg);
+//            msg->loc.z = -4;
             break;
         }
         case 'g':
