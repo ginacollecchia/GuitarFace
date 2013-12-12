@@ -86,6 +86,7 @@ int Globals::root_number = 0;
 string Globals::key_quality = "minor";
 int Globals::note_goal = 500;
 queue<GFMIDIEvent> Globals::note_queue;
+
 queue<cv::Mat> Globals:: camQ;
 XMutex Globals::mutex;
 // time is in milliseconds we think

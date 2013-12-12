@@ -3,71 +3,9 @@
 // desc: reads in midi data, computes things, sets the data structure "data'
 //-----------------------------------------------------------------------------
 
-#include <iostream>
-#include <cstdlib>
-#include <math.h>
-#include "RtMidi.h"
-#include "RtAudio.h"
-#include "gf-gfx.h"
-#include "gf-globals.h"
 #include "gf-midi.h"
 
 using namespace std;
-
-//-----------------------------------------------------------------------------
-// GOALS, CONSTANTS, RANGES, COUNTS
-//-----------------------------------------------------------------------------
-int m_note_goal = 500;
-int m_dynamic_range_goal;
-int m_jump_goal;
-int m_power_chord_goal;
-int * m_intervals;
-// intonation
-int m_in_key_count = 0;
-int m_key_size = 7;
-int * m_key;
-
-float m_time_thresh = 0.05f; // might need a second time thresh, if midi code is buggy
-float m_velocity_thresh; // if midi code is buggy
-double m_global_time = 0.0;
-
-//-----------------------------------------------------------------------------
-// RECORDS: arrays, counts, variables
-//-----------------------------------------------------------------------------
-// pitch data
-int * m_notes;
-int * m_pitch_classes;
-int m_num_simul_notes = 0;
-int m_pitch_class;
-int m_dynamic_range;
-int m_note_on;
-int m_old_note_on;
-int m_older_note_on;
-// velocity data
-int * m_velocities;
-int m_min_velocity;
-int m_max_velocity;
-float m_avg_velocity;
-// big skips in pitch
-bool * m_jumps = false;
-// pitch bends, slides
-bool * m_pitch_bends = false;
-// power chords
-int * m_power_chords = false;
-// notes per hour over time
-long double * m_pace;
-// vibrato (oscillating pitch bends)
-bool * m_vibrato = false;
-int m_vibrato_count = 0;
-// timing array (difference in timestamp)
-float * m_time_stamps;
-float * m_beat_stamps;
-const char * m_interval_label[500];
-float m_delta_time_old;
-
-// indices
-int idx = 0;
-
 
 //-----------------------------------------------------------------------------
 // name: midiCallback
@@ -92,8 +30,6 @@ void midiCallback( double delta_time, std::vector<unsigned char> *message, void 
             std::cout << "Byte " << i << " = " << (int)message->at(i) << ", ";
         if ( nBytes > 0 )
             std::cout << "stamp = " << delta_time << std::endl;
-        
-
     }
     
     
@@ -107,7 +43,7 @@ void midiCallback( double delta_time, std::vector<unsigned char> *message, void 
 // name: setKey
 // desc: set the key from input
 //-----------------------------------------------------------------------------
-void setKey( int root_pcp, char * key_quality )
+void GFMIDIEvent::setKey( int root_pcp, char * key_quality )
 {
 	if( strcmp(key_quality, "minor") != 0 )
     {
@@ -142,23 +78,6 @@ int gf_midi_init()
     try
     {
         midiin = new RtMidiIn();
-        m_notes = new int[m_note_goal];
-        m_velocities = new int[m_note_goal];
-        m_key = new int[m_key_size];
-        m_time_stamps = new float[m_note_goal];
-        m_beat_stamps = new float[m_note_goal];
-        
-        // these need to be "note_goal" in size because player should be able to
-        // exceed these goals, even though they have their own goals, displayed
-        // in the denominator. reaching note_goal will terminate the application.
-        m_jumps = new bool[m_note_goal];
-        m_pitch_bends = new bool[m_note_goal];
-        m_vibrato = new bool[m_note_goal];
-        m_power_chords = new int[m_note_goal];
-        m_pace = new long double[m_note_goal];
-        m_intervals = new int[m_note_goal];
-        m_pitch_classes = new int[m_note_goal];
-        // m_on_or_off = new bool[m_note_goal];
         
         
     }
@@ -206,26 +125,64 @@ cleanup:
 // desc: Calculate functions of pitch & velocity, i.e., do all MIDI work.
 //-------------------------------------------------------------------------------
 
-GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on(note_on), m_midinote(pitch), m_velocity(vel), m_delta_time(t)
+GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
 {
-    m_note_on = note_on;
-    // ( m_note_on == 144 ) ? m_on_or_off[idx] = true : m_on_or_off[idx] = false;
-    // cout << on_or_off[idx] << endl;
+    m_notes = new int[m_note_goal];
+    m_velocities = new int[m_note_goal];
+    m_key = new int[m_key_size];
+    m_time_stamps = new float[m_note_goal];
+    m_beat_stamps = new float[m_note_goal]; 
+     
+     // these need to be "note_goal" in size because player should be able to
+     // exceed these goals, even though they have their own goals, displayed
+     // in the denominator. reaching note_goal will terminate the application.
+     m_jumps = new bool[m_note_goal];
+     m_pitch_bends = new bool[m_note_goal];
+     m_vibrato = new bool[m_note_goal];
+     m_power_chords = new int[m_note_goal];
+     m_pace = new long double[m_note_goal];
+     m_intervals = new int[m_note_goal];
+     m_pitch_classes = new int[m_note_goal];
+     // m_on_or_off = new bool[m_note_goal];
     
-    // do the things associated with a note-on
+    
+    
+    m_note_on = note_on;
+    m_pitch = pitch;
+    m_velocity = vel;
+    m_delta_time = t;
+    
+    // now, do the things associated with a note-on
     if( m_note_on == 144 )
     {
         // first things first: advance note_count
         Globals::data->m_note_count++;
-        // reward!
-        if( Globals::data->m_note_count % 50 == 0 )
-            cout << "whoooa! " << Globals::data->m_note_count << " notes played!!!" << endl;
+        // reward every 50 notes!
+        /*
+        if (Globals::data->m_note_count == 100)
+        {
+            GFOverlayMessage *reward = new GFOverlayMessage("100_notes.png");
+            reward->loc.z = -4;
+            Globals::sim->root().addChild( reward );
+
+        } else if (Globals::data->m_note_count == 200)
+        {
+            GFOverlayMessage *reward = new GFOverlayMessage("200_notes.png");
+            reward->loc.z = -4;
+            Globals::sim->root().addChild( reward );
+        } else if (Globals::data->m_note_count == 300)
+        {
+            GFOverlayMessage *reward = new GFOverlayMessage("300_notes.png");
+            reward->loc.z = -4;
+            Globals::sim->root().addChild( reward );
+        } */
         
-        // store pitch in notes array
-        m_notes[idx] = pitch;
-        m_velocities[idx] = vel;
+        // store pitch in notes array, for a score
+        m_notes[idx] = m_pitch;
+        m_velocities[idx] = m_velocity;
         // compute pitch class
         m_pitch_class = pitch % 12;
+        // count how many pitch classes we've done
         m_pitch_classes[m_pitch_class]++;
         // update pitch class histogram here?
         
@@ -249,14 +206,12 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         
         // have to calculate time between note on/off
         
-        // compute notes per hour
-        if( m_velocities[idx] != 0 && m_delta_time != 0 )
-        {
-            // compute notes per hour
-            if (m_delta_time > 1.0f) Globals::data->m_notes_per_hour = 0.0f;
-            Globals::data->m_notes_per_hour = (3600.0f/m_delta_time + Globals::data->m_notes_per_hour)/2.0f;
-            cout << "Notes per hour: " << Globals::data->m_notes_per_hour << endl;
-        }
+        // if not the first note, compute notes per hour
+        // if( m_velocities[idx] != 0 && m_delta_time != 0.0f )
+        // {
+            // if (m_delta_time > 1.0f) Globals::data->m_notes_per_hour = 0.0f;
+            Globals::data->m_notes_per_hour = (3600.0f/m_delta_time); // + Globals::data->m_notes_per_hour)/2.0f;
+        // }
         
         
         // power chords
@@ -313,26 +268,11 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t ): m_note_on
         
         m_dynamic_range = m_max_velocity - m_min_velocity;
         
-        
+        idx++;
         
         
         // beat_stamps[idx] = delta_time;
         
-        
-        cerr << idx << ", ";
-        // displayNotesPlayed(idx);
-        
-        
-        // time to end the session?
-        idx++;
-        
-        if ( idx == m_note_goal )
-        {
-            cout << "Note goal reached!" << endl;
-            exit(-1);
-        }
-        
-
     }
     
     // add the note to the data set
@@ -385,5 +325,6 @@ void GFNoteStore::appendTime(double time) {
     times.push_back(time);
 }
 
-
-
+double GFNoteStore::getNotesPerHour() {
+    return Globals::data->m_notes_per_hour;
+}

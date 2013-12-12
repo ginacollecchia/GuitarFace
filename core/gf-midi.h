@@ -9,32 +9,93 @@
 #ifndef __GuitarFace__gf_midi__
 #define __GuitarFace__gf_midi__
 
-#include<vector>
+#include <vector>
+#include <iostream>
+#include <cstdlib>
+#include <math.h>
+#include "RtMidi.h"
+#include "RtAudio.h"
+#include "gf-gfx.h"
+#include "gf-globals.h"
+#include "gf-entities.h"
 using namespace std;
 
 int gf_midi_init();
 
-class GFMIDIEvent{
-    
+class GFMIDIEvent {
 public:
     GFMIDIEvent(int note_on, int pitch, int velocity, double delta_time);
     ~GFMIDIEvent();
     int getPitchClass(){ return m_pitch_class; }
-    int getVelocity(){ return m_velocity; }
+    // int getVelocity(){ return m_velocity; }
     bool isSimultaneous(){ return m_simultaneous; }
-    void setSimultaneous(bool simultaneous);
-    
-    
+    void setSimultaneous( bool simultaneous );
+    void setKey( int root_pcp, char * key_quality );
+
 private:
+    // the basic midi things
     int m_note_on;
-    int m_midinote;
+    float m_delta_time;
     int m_velocity;
-    double m_delta_time;
+    int m_pitch;
+    //-----------------------------------------------------------------------------
+    // GOALS, CONSTANTS, RANGES, COUNTS
+    //-----------------------------------------------------------------------------
+    int m_note_goal = 500;
+    int m_dynamic_range_goal;
+    int m_jump_goal;
+    int m_power_chord_goal;
+    int * m_intervals;
+    // intonation
+    int m_in_key_count = 0;
+    int m_key_size = 7;
+    int * m_key;
+    
+    float m_time_thresh = 0.05f; // might need a second time thresh, if midi code is buggy
+    float m_velocity_thresh; // if midi code is buggy
+    double m_global_time = 0.0;
+    
+    //-----------------------------------------------------------------------------
+    // RECORDS: arrays, counts, variables
+    //-----------------------------------------------------------------------------
+    // raw pitch data (12-big)
+    int * m_notes;
+    // store pitch class info in an array (also 12-big)
+    int * m_pitch_classes;
     int m_pitch_class;
+    int m_dynamic_range;
+    // simultaneity stuff
+    int m_old_note_on;
+    int m_older_note_on;
+    int m_num_simul_notes = 0;
     bool m_simultaneous;
+    // velocity data
+    int * m_velocities;
+    int m_min_velocity;
+    int m_max_velocity;
+    float m_avg_velocity;
+    // big skips in pitch
+    bool * m_jumps = false;
+    // pitch bends, slides
+    bool * m_pitch_bends = false;
+    // power chords
+    int * m_power_chords = false;
+    // current notes per whatever, though it should lag graphically
+    long double * m_pace;
+    // vibrato (oscillating pitch bends); can't do this with a midi guitar, but could take pitch wheel info
+    bool * m_vibrato = false;
+    int m_vibrato_count = 0;
+    // timing array (difference in timestamp)
+    float * m_time_stamps;
+    float * m_beat_stamps;
+    const char * m_interval_label[500];
+    float m_delta_time_old;
+    
+    // indices
+    int idx = 0;
 };
 
-class GFNoteStore{
+class GFNoteStore {
     
 public:
     GFNoteStore();
@@ -49,9 +110,9 @@ public:
     int * getIntervals(){ return m_intervals; }
     int getJumpCount(){ return m_jump_count; }
     int getIntonationCount(){ return m_in_key_count; }
-    long double getNotesPerHour(){ return m_notes_per_hour; }
+    double getNotesPerHour();
     int * getPitchClasses(){ return m_pitch_classes; }
-    long double m_notes_per_hour = 0.0f;
+    double m_notes_per_hour = 0.0f;
     int m_jump_count = 0;
     int m_power_chord_count = 0;
     int m_note_count = 0;
@@ -86,6 +147,8 @@ private:
     float velocity_thresh; // to avoid possible MIDI data glitchiness
     
 };
+
+// class GFPitchHistogram : public
 
 
 
