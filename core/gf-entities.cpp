@@ -283,15 +283,17 @@ void GFNoteObject::render(){
     glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
     
-    if (Globals::data->m_power_chord)
-    {
-        GFTexture *power = new GFTexture("lightning.png");
-        this->addChild( power );
-    }
-    
     this->loc.z -= 0.01;
     float deg = 2*M_PI*(float)pitch/12.0f;
     glTranslatef(2 * sin(deg), 2*cos(deg),1);
+
+    if (Globals::data->m_power_chord)
+    {
+        GFTexture *power = new GFTexture("lightning.bw");
+        this->addChild( power );
+        Globals::data->m_power_chord = false;
+    }
+    
     
     glColor3f(1,0,0);
     this->alpha -= 0.002;
