@@ -13,6 +13,8 @@
 // bokehs
 vector<YBokeh *> g_tunnels;
 
+// max notes per hour (pace meter just displays as full)
+double maxNPH = 10000.0f;
 
 //-------------------------------------------------------------------------------
 // name: update()
@@ -44,7 +46,6 @@ void GFTeapot::render()
 
 GFInfoBar::GFInfoBar(){
     a = new YText(1.0);
-//    a->set("Notes Goal: " + to_string(Globals::data->getNoteCount())+ "/" + itoa(Globals::note_goal));
     this->addChild(a);
     b = new YText(1.0);
     this->addChild(b);
@@ -52,7 +53,10 @@ GFInfoBar::GFInfoBar(){
     this->addChild(c);
     d = new YText(1.0);
     this->addChild(d);
+    e = new YText(1.0);
+    this->addChild(e);
 }
+
 void GFInfoBar::render(){
     // enable lighting
     
@@ -68,23 +72,39 @@ void GFInfoBar::render(){
     ostringstream s2;
     s2<<"NPH: " << Globals::data->getNotesPerHour();
     b->set(s2.str());
-    b->loc.x = -1.7;
+    b->loc.x = -2.55;
     b->loc.y = -1.8;
 
     ostringstream s3;
     s3<<"Power Chords: "<<Globals::data->getPowerChordCount();
     c->set(s3.str());
-    c->loc.x = 0.0;
+    c->loc.x = -1.7;
     c->loc.y = -1.8;
 
     ostringstream s4;
     s4<<"Jumps: " << Globals::data->getJumpCount();
     d->set(s4.str());
-    d->loc.x = 1.7;
+    d->loc.x = -0.85;
     d->loc.y = -1.8;
+    
+    ostringstream s5;
+    s5<<"Pace: ";
+    e->set(s5.str());
+    e->loc.x = 0.0;
+    e->loc.y = -1.8;
+    
+    // s6<<"Pitch Classes: ";
+    // f->set(s6.str());
+    // f->loc.x = 0.85;
+    // f->loc.y = -1.8;
+    
+    // s7<<"Div. of Beat: ";
+    // g->set(s7.str());
+    // g->loc.x = 1.7;
+    // g->loc.y = -1.8;
 
     
-    
+    // border around info bar
     glColor4f( col.x, col.y, col.z, alpha );
     // render stuff
     glBegin(GL_LINE_LOOP);
@@ -93,9 +113,40 @@ void GFInfoBar::render(){
     glVertex2f(3.5, -1.5);
     glVertex2f(3.5, -2);
     glEnd();
+    
+    paceX = sqrt(((Globals::data->m_notes_per_hour) / 3600.0f ) / 400.0f) + 0.4f; // these numbers still need tweaking
+    if ( paceX > 0.9f )
+        paceX = 0.9f;
+    // cout << "Pace: " << paceX << endl;
+    
+    // pace meter
+    glColor4f(1.0f, 1.0f, 1.0f, 0.9f);
+    glBegin(GL_QUADS);
+    glVertex2f(0.4, -1.7);
+    glVertex2f(0.4, -1.9);
+    glVertex2f(paceX, -1.9);
+    glVertex2f(paceX, -1.7);
+    glEnd();
+    
+    glColor4f(0.0f, 0.0f, 0.0f, 0.9f);
+    glBegin(GL_QUADS);
+    glVertex2f(paceX, -1.7);
+    glVertex2f(paceX, -1.9);
+    glVertex2f(0.9, -1.9);
+    glVertex2f(0.9, -1.7);
+    glEnd();
+    
+    // border of pace meter
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(0.39, -1.69);
+    glVertex2f(0.39, -1.91);
+    glVertex2f(0.91, -1.91);
+    glVertex2f(0.91, -1.69);
+    glEnd();
+    
     // disable lighting
     glDisable( GL_LIGHTING );
-    
 }
 
 void GFInfoBar::update( YTimeInterval dt )
@@ -266,6 +317,8 @@ void GFCameraWall::render(){
         
         loadTexture_Mat(&frameCopy, &texture);
         
+        void ftDetect(Mat& frame);
+        
     }
 }
 
@@ -322,6 +375,12 @@ void GFVideoPlayer::update(YTimeInterval dt){
     
 }
 
+
+//------------------------------------------------------------------------
+// name: GFOverlayMessage(filename) constructor
+// desc: creates an image object. 
+//------------------------------------------------------------------------
+
 GFOverlayMessage::GFOverlayMessage(string _filename):filename(_filename){
     string path = "./data/texture/";
     texture = gf_loadTexture(path + filename);
@@ -351,7 +410,7 @@ void GFOverlayMessage::render(){
     glEnd();
     glDisable(GL_TEXTURE_2D);
     
-    /* attempts to start black, pause, then fade to black
+    /* attempts to start black, pause, then fade to black. doesn't work (image never displays).
      this->alpha = 0.0f;
     applyTransforms();
 
@@ -376,17 +435,23 @@ void GFOverlayMessage::render(){
     
     if ( Globals::messageMove )
     {
-        this->loc.z += 0.01;
+        this->loc.z += 0.05;
     }
     
     if ( this->loc.z > 0 ) {
         // hold it here for 3 seconds, then remove; show the intro text towards the end of that
-        sleep(3);
+        if ( Globals::showIntroText )
+            sleep(3);
         // Globals::showIntroText = true;
         // sleep(1.5);
         this->active = false;
     }
 }
+
+//------------------------------------------------------------------------
+// name: GFBackgroundImage(filename) constructor
+// desc: puts an image texture in the background. unused.
+//------------------------------------------------------------------------
 
 GFBackgroundImage::GFBackgroundImage(string _filename):filename(_filename){
     string path = "./data/texture/";
@@ -554,7 +619,7 @@ void GFCameraWiggle::render(){
     
         if(this->loc.z > 15)
             this->active = false;
-        this->loc.z += 0.1;
+        this->loc.z += 0.5;
         angle += diff;
         if(angle > 30){
             diff = -5;
@@ -572,16 +637,26 @@ void GFCameraWiggle::update(YTimeInterval dt){
     GFCameraWall::update(dt);
 }
 
+//------------------------------------------------------------------------
+// name: GFBackingTrackProgressBar constructor
+// desc: introduces the text object; render() handles the graphical progress bar,
+//       update() computes time
+//------------------------------------------------------------------------
+
 GFBackingTrackProgressBar::GFBackingTrackProgressBar(){
-    YText *timestamp = new YText(1.0);
+    // initialize
+    timestamp = new YText(1.0);
     timestamp->set("0:00");
+    // move it to the right of the progress bar
+    timestamp->loc.x = 3.55f;
+    timestamp->loc.y = -2.3f;
     Globals::sim->root().addChild(timestamp);
-    // need to position it to the right of the progress bar (at (3.6, -2.2) ish)
+
+    currentProgress = 7.0f*(elapsedTime / Globals::trackDuration)-3.5f;
 }
 
 void GFBackingTrackProgressBar::update(YTimeInterval dt) {
-    // GFBackingTrackProgressBar::update(dt);
-    string t;
+    
     elapsedTime += dt; // this is in seconds
     seconds = (int)(fmod(elapsedTime, 60.0f));
     minutes = (int)(elapsedTime / 60.0f);
@@ -591,8 +666,9 @@ void GFBackingTrackProgressBar::update(YTimeInterval dt) {
     } else {
         t = SSTR(minutes << ":" << seconds);
     }
-    // t is the correct time but this line doesn't work
-    // timestamp->set(t);
+    
+    // set the displayed time in minutes and seconds
+    timestamp->set(t);
 }
 
 void GFBackingTrackProgressBar::render() {
@@ -601,11 +677,13 @@ void GFBackingTrackProgressBar::render() {
     
     currentProgress = 7.0f*(elapsedTime / Globals::trackDuration)-3.5f;
     glClearColor(0, 0, 0, 0);
+
     glEnable( GL_LIGHTING );
 
     glColor4f( 1.0f, 0.0f, 0.0f, 0.8f );
 
     glBegin( GL_QUADS );
+    // show progress bar below info bar
     glVertex2f(-3.5f, -2.2f );
     glVertex2f(-3.5f, -2.3f );
     glVertex2f( currentProgress, -2.3f );

@@ -19,6 +19,7 @@
 #include "gf-misc.h"
 #include "x-thread.h"
 #include "x-fun.h"
+#include "y-charting.h"
 
 //-----------------------------------------------------------------------------
 // name: class GFTeapot
@@ -42,19 +43,18 @@ class GFInfoBar : public YEntity
 public:
     GFInfoBar();
     ~GFInfoBar();
-    YText *a;
-        YText *b;
-        YText *c;
-        YText *d;
+    YText *a, *b, *c, *d, *e, *f, *g;
+    YHistogram *pitchClassHist, *rhythmHist;
+    YLineChart *paceGraph;
     void update( YTimeInterval dt);
-    
     void render();
+private:
+    double paceX = 0.0f;
 };
 
 class GFPanel : public YEntity{
 public:
     void update(YTimeInterval dt);
-
     void render();
 };
 
@@ -65,16 +65,12 @@ public:
 class GFOverlayMessage : public YEntity
 {
 public:
-    void update( YTimeInterval dt);
-    
-    void render();
-    
-    void setMessage(string _filename){ filename = _filename; };
-    
-    string getMessage(){ return filename; }
-    
     GFOverlayMessage(string _filename);
     ~GFOverlayMessage();
+    void update( YTimeInterval dt);
+    void render();
+    void setMessage(string _filename){ filename = _filename; };
+    string getMessage(){ return filename; }
 
 private:
     XTexture *texture;
@@ -186,6 +182,7 @@ private:
     int seconds;
     float elapsedTime = 0.0f;
     double currentProgress = 0.0f;
+    string t;
 public:
     GFBackingTrackProgressBar();
     ~GFBackingTrackProgressBar();

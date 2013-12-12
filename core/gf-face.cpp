@@ -25,7 +25,7 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
     int i,n = shape.rows/2; cv::Point p1,p2; cv::Scalar c;
     
     // draw triangulation
-    /* c = CV_RGB(0,0,0);
+     c = CV_RGB(0,0,0);
      
      for(i = 0; i < tri.rows; i++){
      if(visi.at<int>(tri.at<int>(i,0),0) == 0 ||
@@ -57,15 +57,15 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
      p2 = cv::Point(shape.at<double>(con.at<int>(1,i),0),
      shape.at<double>(con.at<int>(1,i)+n,0));
      cv::line(image,p1,p2,c,1);
-     } */
+     }
     
      // draw points
      // lips ~= 49 - 66
-     /* for(i = 0; i < n; i++){
+     for(i = 0; i < n; i++){
          if(visi.at<int>(i,0) == 0)continue;
          p1 = cv::Point(shape.at<double>(i,0),shape.at<double>(i+n,0));
          c = CV_RGB(255,0,0); cv::circle(image,p1,2,c);
-     } */
+     }
 
     //----------------------FACE DETECTION MATH: eyelid and mouth height-------------------//
     double upperLipY, lowerLipY, mouthHeight, openMouthThresh, leftEyebrowY, rightEyebrowY, chinY, faceHeight, mouthRatio;

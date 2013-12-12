@@ -18,7 +18,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "x-thread.h"
-#include "gf-utils.h"
+// #include "gf-utils.h"
 // c++
 #include <string>
 #include <map>
@@ -53,7 +53,8 @@ enum GuitarFaceTextureNames
 
 // forward reference
 class GFSim;
-
+class GFNoteStore;
+class GFMIDIEvent;
 
 
 
@@ -66,7 +67,8 @@ class Globals
 public:
     // top level root simulation
     static GFSim * sim;
-    static GFNoteStore *data;
+    // midi data
+    static GFNoteStore * data;
     
     // last audio buffer
     static SAMPLE * lastAudioBuffer;

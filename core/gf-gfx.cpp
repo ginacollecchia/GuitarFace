@@ -41,7 +41,7 @@ void renderBackground();
 void blendPane();
 void updateNodeEntities();
 void renderNodeEntities();
-
+void myTimerFunc(int i);
 
 //-----------------------------------------------------------------------------
 // name: gf_gfx_init( )
@@ -86,7 +86,7 @@ bool gf_gfx_init( int argc, const char ** argv )
     if( Globals::fullscreen )
         glutFullScreen();
     
-    // set the idle function - called when idle
+    // set the idle function - called when idle. now calling glutTimerFunc instead
     glutIdleFunc( idleFunc );
     // set the display function - called when redrawing
     glutDisplayFunc( displayFunc );
@@ -98,6 +98,8 @@ bool gf_gfx_init( int argc, const char ** argv )
     glutMouseFunc( mouseFunc );
     // for arrow keys, etc
 	glutSpecialFunc (specialFunc );
+    // display things at the right frame rate
+    // glutTimerFunc(1000/15, myTimerFunc, 0);
     
     // do our own initialization
     initialize_graphics();
@@ -113,6 +115,13 @@ bool gf_gfx_init( int argc, const char ** argv )
     return true;
 }
 
+
+void myTimerFunc(int i)
+{
+    glutPostRedisplay();
+    // give it my frame rate...not working perfectly but
+    glutTimerFunc(1000/15, myTimerFunc, 0);
+}
 
 
 
@@ -221,6 +230,7 @@ void initialize_graphics()
     }
     // clear the color buffer once
     glClear( GL_COLOR_BUFFER_BIT );
+    
 }
 
 
@@ -243,6 +253,7 @@ void initialize_simulation()
 //------------------------------------------------------------------
 
 void init_intro(){
+    Globals::showIntroText = true;
     
     // start from black. increase opacity of logo and start track.
     // Globals::sim = new GFSim();
@@ -277,6 +288,7 @@ void init_intro(){
     YText *t = new YText(1.0);
     t->set("Press 's' to start!");
     Globals::sim->root().addChild( t );
+    
     // }
     
     
@@ -295,9 +307,7 @@ void init_game(){
 
     Globals::bt_player = new GFTrackPlayer("./data/jam.mp3");
     Globals::bt_player->play();
-
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
-    
     GFInfoBar *ibar = new GFInfoBar();
     GFTunnel *tunnel = new GFTunnel();
     
@@ -305,8 +315,7 @@ void init_game(){
     Globals::sim->root().addChild( tunnel );
     Globals::sim->root().addChild( camwall );
     Globals::sim->root().addChild( progressBar );
-
-    //Globals::sim->root().addChild( bimage );
+    // Globals::sim->root().addChild( bimage );
 
 }
 
@@ -327,7 +336,7 @@ void init_report(){
     t3->set("Bends:");
     Globals::sim->root().addChild( t3 );
     YText *t4 = new YText(1.0);
-    t4->set("Other Stuff:");
+    t4->set("Average Pace:");
     Globals::sim->root().addChild( t4 );
 
 }
@@ -426,6 +435,7 @@ void keyboardFunc( unsigned char key, int x, int y )
         case 's':
         {
             init_game();
+            Globals::showIntroText = false;
             break;
         }
 
@@ -465,14 +475,6 @@ void keyboardFunc( unsigned char key, int x, int y )
             break;
         }
             
-        /* case 'n':
-        {
-            Globals::sim = new GFSim();
-            GFOverlayMessage *logo = new GFOverlayMessage("guitar-face-red-black-bg.png");
-            logo->loc.z = -4;
-            Globals::sim->root().addChild( logo );
-            break;
-        } */
         
     }
     // do a reshape since viewEyeY might have changed
