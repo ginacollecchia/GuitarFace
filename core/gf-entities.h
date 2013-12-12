@@ -80,6 +80,28 @@ private:
 };
 
 //-----------------------------------------------------------------------------
+// name: class GFTexture
+// desc: static images
+//-----------------------------------------------------------------------------
+class GFTexture : public YEntity
+{
+public:
+    GFTexture(string _filename);
+    ~GFTexture();
+    void update( YTimeInterval dt);
+    void render();
+    void setMessage(string _filename){ filename = _filename; };
+    string getMessage(){ return filename; }
+    
+private:
+    XTexture *texture;
+    static YTimeInterval deltatime;
+    
+    std::string filename;
+};
+
+
+//-----------------------------------------------------------------------------
 // name: class GFTunnel
 // desc: note tunnel
 //-----------------------------------------------------------------------------

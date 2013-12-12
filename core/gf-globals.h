@@ -152,6 +152,8 @@ public:
     static std::string key_quality;
     static int note_goal;
     static queue<GFMIDIEvent> note_queue;
+    static int idx;
+    
     static queue<cv::Mat> camQ;
     static XMutex mutex;
     static double t_game_start;

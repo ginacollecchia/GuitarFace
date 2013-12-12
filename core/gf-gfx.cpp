@@ -310,7 +310,7 @@ void init_game(){
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
     GFInfoBar *ibar = new GFInfoBar();
     GFTunnel *tunnel = new GFTunnel();
-    
+
     Globals::sim->root().addChild( ibar );
     Globals::sim->root().addChild( tunnel );
     Globals::sim->root().addChild( camwall );
@@ -559,6 +559,36 @@ void displayFunc( )
         Globals::guitarFace = false;
         Globals::t_last_guitarface = Globals::sim->m_simTime;
     }
+    
+    // note # messages
+    if (Globals::data->m_note_count == 100)
+    {
+        GFOverlayMessage *reward = new GFOverlayMessage("100_notes.png");
+        Globals::sim->root().addChild( reward );
+        reward->loc.z = -4;
+    } else if (Globals::data->m_note_count == 200)
+    {
+        GFOverlayMessage *reward2 = new GFOverlayMessage("200_notes.png");
+        Globals::sim->root().addChild( reward2 );
+        reward2->loc.z = -4;
+    } else if (Globals::data->m_note_count == 300)
+    {
+        GFOverlayMessage *reward3 = new GFOverlayMessage("300_notes.png");
+        Globals::sim->root().addChild( reward3 );
+        reward3->loc.z = -4;
+    }
+    
+    // if many notes played in quick succession, could just be pace
+    if ( Globals::data->m_flurry )
+    {
+        GFOverlayMessage *reward4 = new GFOverlayMessage("fuck_yeah.png");
+        Globals::sim->root().addChild( reward4 );
+        reward4->loc.z = -4;
+    }
+        
+    
+    
+
     
     Globals::mutex.release();
     

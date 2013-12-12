@@ -32,7 +32,6 @@ public:
     void setSimultaneous( bool simultaneous );
     void setKey( int root_pcp, char * key_quality );
     // indices
-    int idx = 0;
 
 private:
     // the basic midi things
@@ -49,7 +48,7 @@ private:
     int m_key_size = 7;
     int * m_key;
     
-    float m_time_thresh = 0.05f; // might need a second time thresh, if midi code is buggy
+    float m_time_thresh = 0.1f; // might need a second time thresh, if midi code is buggy
     float m_velocity_thresh; // if midi code is buggy
     double m_global_time = 0.0;
     
@@ -58,7 +57,6 @@ private:
     //-----------------------------------------------------------------------------
     // store pitch class info in an array (also 12-big)
     int m_pitch_class;
-    int m_dynamic_range;
     // simultaneity stuff
     int m_old_note_on;
     int m_older_note_on;
@@ -69,12 +67,8 @@ private:
     int m_max_velocity;
     float m_avg_velocity;
     // big skips in pitch
-    // power chords
-    int * m_power_chords = false;
     // current notes per whatever, though it should lag graphically
-    long double * m_pace;
     // timing array (difference in timestamp)
-    float * m_time_stamps;
     float * m_beat_stamps;
     // const char * m_interval_label[500];
     float m_delta_time_old;
@@ -100,8 +94,8 @@ public:
     int * getPitchClasses(){ return m_pitch_classes; }
     
     // numb3rs
-    int m_notes[1000] = { };
-    int m_velocities[1000] = { };
+    int m_notes[10000] = { };
+    int m_velocities[10000] = { };
 
     double m_notes_per_hour = 0.0f;
     int m_jump_count = 0;
@@ -109,9 +103,14 @@ public:
     int m_note_count = 0;
     // int * m_key;
     int m_pitch_classes[12] = { };
-    int m_intervals[1000] = { };
+    int m_intervals[10000] = { };
     int m_in_key_count;
-    bool m_jumps[1000] = { };
+    bool m_jumps[10000] = { };
+    float m_time_stamps[10000];
+    
+    bool m_flurry = false;
+    int m_dynamic_range;
+    bool m_power_chord = false;
     
     
 private:

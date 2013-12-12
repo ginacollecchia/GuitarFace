@@ -138,33 +138,17 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
     m_delta_time = t;
     
     // now, do the things associated with a note-on
-    if( m_note_on == 144 && m_velocity != 0 )
+    if( m_note_on == 144 && m_velocity > 0 )
     {
         // first things first: advance note_count
         Globals::data->m_note_count++;
+        cout << "Note count: " << Globals::data->m_note_count << endl;
         // reward every 50 notes!
-        
-        if (Globals::data->m_note_count == 100)
-        {
-            GFOverlayMessage *reward = new GFOverlayMessage("100_notes.png");
-            reward->loc.z = -4;
-            Globals::sim->root().addChild( reward );
-
-        } else if (Globals::data->m_note_count == 200)
-        {
-            GFOverlayMessage *reward = new GFOverlayMessage("200_notes.png");
-            reward->loc.z = -4;
-            Globals::sim->root().addChild( reward );
-        } else if (Globals::data->m_note_count == 300)
-        {
-            GFOverlayMessage *reward = new GFOverlayMessage("300_notes.png");
-            reward->loc.z = -4;
-            Globals::sim->root().addChild( reward );
-        }
-        
+                
         // store pitch in notes array, for a score
-        // Globals::data->m_notes[idx] = m_pitch;
-        // Globals::data->m_velocities[idx] = m_velocity;
+        Globals::data->m_notes[Globals::idx] = m_pitch;
+        Globals::data->m_velocities[Globals::idx] = m_velocity;
+        Globals::data->m_time_stamps[Globals::idx] = m_delta_time;
         // compute pitch class
         m_pitch_class = m_pitch % 12;
         // count how many pitch classes we've done
@@ -173,11 +157,12 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
         
         int interval;
         // determine intervals (P1, m2, etc.)
-        if( idx != 0 )
+        cout << Globals::idx << endl;
+        if( Globals::idx > 0 )
         {
-            interval = abs(m_notes[idx] - m_notes[idx-1]);
-            Globals::data->m_intervals[idx] = interval;
-            cout << "Interval: " << m_intervals[idx] << endl;
+            interval = abs(Globals::data->m_notes[Globals::idx] - Globals::data->m_notes[Globals::idx-1]);
+            Globals::data->m_intervals[Globals::idx] = interval;
+            cout << "Interval: " << Globals::data->m_intervals[Globals::idx] << endl;
             
         }
         
@@ -187,20 +172,17 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
         Globals::data->m_notes_per_hour = (3600.0f/m_delta_time);
         
         // power chords
-        if( idx > 2 )
+        if( Globals::data->m_velocities[Globals::idx] != 0 && m_delta_time < m_time_thresh ) // would prefer that this be based on note_on, but the midi guitar doesn't send note offs
         {
-            if( m_velocities[idx] != 0 && m_delta_time < m_time_thresh ) // would prefer that this be based on note_on
+            if( Globals::data->m_intervals[Globals::idx] == 7 )
             {
-                if( Globals::data->m_intervals[idx] == 7 && m_delta_time_old >= m_time_thresh )
-                {
-                    Globals::data->m_power_chord_count++;
-                    // trigger a power chord graphical event
-                    // Globals::power_chord = true;
-                
-                // cout << "Simultaneity! Power chord count: " << Globals::data->m_power_chord_count << endl;
-                } // else {
-                // Globals::power_chord = false;
-                // }
+                Globals::data->m_power_chord_count++;
+                // trigger a power chord graphical event
+                Globals::data->m_power_chord = true;
+            
+                cout << "Simultaneity! Power chord count: " << Globals::data->m_power_chord_count << endl;
+            } else {
+                Globals::data->m_power_chord = false;
             }
         }
         
@@ -217,10 +199,10 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
         
         // compute intervals
         // if greater than an octave, call it a "jump"
-        if( Globals::data->m_intervals[idx] > 12 )
+        if( Globals::data->m_intervals[Globals::idx] > 12 )
         {
             Globals::data->m_jump_count++;
-            Globals::data->m_jumps[idx] = true;
+            Globals::data->m_jumps[Globals::idx] = true;
             // cout << "Jump! count: " << Globals::data->m_jump_count << endl;
             // m_interval_label[idx] = Globals::interval_names[interval%12];
         }
@@ -229,13 +211,13 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
         
         int n;
         // dynamic range is calculated from local velocities: need algorithm here (circular buffer)
-        ( idx >= 10 ) ? n = 10 : n = idx;
+        ( Globals::idx >= 10 ) ? n = 10 : n = Globals::idx;
         
         
         m_avg_velocity = 0.0f;
         for( int i = 0; i < n; i++ )
         {
-            m_avg_velocity += Globals::data->m_velocities[idx-i]/(float)n;
+            m_avg_velocity += Globals::data->m_velocities[Globals::idx-i]/(float)n;
         }
         if( m_velocity > m_max_velocity )
         {
@@ -245,21 +227,16 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
             m_min_velocity = m_velocity;
         }
         
-        m_dynamic_range = m_max_velocity - m_min_velocity;
+        Globals::data->m_dynamic_range = m_max_velocity - m_min_velocity;
         
         // increase index number
-        idx++;
+        Globals::idx++;
         
     }
     
     // add the note to the data set
     Globals::data->appendNote(*this);
     
-    // m_older_note_on = m_old_note_on;
-    // m_old_note_on = m_note_on;
-    
-    m_delta_time_old = m_delta_time;
-
 }
 
 GFMIDIEvent::~GFMIDIEvent(){

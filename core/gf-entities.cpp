@@ -64,25 +64,25 @@ void GFInfoBar::render(){
     // set color
     
     ostringstream s1;
-    s1<<"Notes: "<<Globals::data->getNoteCount(); // << "/"<<Globals::note_goal;
+    s1<<"Notes: "<<Globals::data->m_note_count; // << "/"<<Globals::note_goal;
     a->set(s1.str());
     a->loc.x = -3.4;
     a->loc.y = -1.8;
     
-    ostringstream s2;
+    /* ostringstream s2;
     s2<<"NPH: " << Globals::data->getNotesPerHour();
     b->set(s2.str());
     b->loc.x = -2.55;
-    b->loc.y = -1.8;
+    b->loc.y = -1.8; */
 
     ostringstream s3;
-    s3<<"Power Chords: "<<Globals::data->getPowerChordCount();
+    s3<<"Power Chords: "<<Globals::data->m_power_chord_count;
     c->set(s3.str());
-    c->loc.x = -1.7;
+    c->loc.x = -2.4;
     c->loc.y = -1.8;
 
     ostringstream s4;
-    s4<<"Jumps: " << Globals::data->getJumpCount();
+    s4<<"Jumps: " << Globals::data->m_jump_count;
     d->set(s4.str());
     d->loc.x = -0.85;
     d->loc.y = -1.8;
@@ -114,9 +114,18 @@ void GFInfoBar::render(){
     glVertex2f(3.5, -2);
     glEnd();
     
-    paceX = sqrt(((Globals::data->m_notes_per_hour) / 3600.0f ) / 400.0f) + 0.4f; // these numbers still need tweaking
-    if ( paceX > 0.9f )
-        paceX = 0.9f;
+    int n;
+    // dynamic range is calculated from local velocities: need algorithm here (circular buffer)
+    ( Globals::idx >= 10 ) ? n = 10 : n = Globals::idx;
+    
+    // paceX is calculated over the last 10 velocities
+    for(int i = 0; i < n; i++ )
+    {
+        paceX += sqrt(Globals::data->m_time_stamps[Globals::idx - i]) / n;
+    }
+
+    if ( paceX > 0.5f )
+        paceX = 0.5f;
     // cout << "Pace: " << paceX << endl;
     
     // pace meter
@@ -124,14 +133,14 @@ void GFInfoBar::render(){
     glBegin(GL_QUADS);
     glVertex2f(0.4, -1.7);
     glVertex2f(0.4, -1.9);
-    glVertex2f(paceX, -1.9);
-    glVertex2f(paceX, -1.7);
+    glVertex2f(paceX + 0.4, -1.9);
+    glVertex2f(paceX + 0.4, -1.7);
     glEnd();
     
     glColor4f(0.0f, 0.0f, 0.0f, 0.9f);
     glBegin(GL_QUADS);
-    glVertex2f(paceX, -1.7);
-    glVertex2f(paceX, -1.9);
+    glVertex2f(paceX + 0.4, -1.7);
+    glVertex2f(paceX + 0.4, -1.9);
     glVertex2f(0.9, -1.9);
     glVertex2f(0.9, -1.7);
     glEnd();
@@ -224,6 +233,64 @@ void GFTunnelLayer::render(){
     
 }
 
+GFTexture::GFTexture(string _filename):filename(_filename){
+    string path = "./data/texture/";
+    texture = gf_loadTexture(path + filename);
+}
+
+GFTexture::~GFTexture(){
+    
+}
+void GFTexture::update(YTimeInterval dt){
+    
+    
+}
+
+void GFTexture::render(){
+    
+    glEnable( GL_TEXTURE_2D ); //enable 2D texturing
+    glBindTexture( GL_TEXTURE_2D, texture->name); //bind the texture
+    glBegin (GL_QUADS);
+    
+    double ratio = texture->origWidth/texture->origHeight;
+    double scale = 0.5;
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,0.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,0.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,0.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,0.0);
+    
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    
+    /* attempts to start black, pause, then fade to black. doesn't work (image never displays).
+     this->alpha = 0.0f;
+     applyTransforms();
+     
+     if ( Globals::messageMove && this->alpha < 0.96 )
+     {
+     this->loc.z += 0.01;
+     this->alpha += 0.05;
+     applyTransforms();
+     }
+     
+     if (this->alpha >= 0.96 )
+     {
+     sleep(1);
+     this->alpha -= 0.1;
+     applyTransforms();
+     }
+     
+     if(this->loc.z > 0){
+     // sleep(2);
+     this->active = false;
+     } */
+    
+    if ( this->loc.z > 0 ) {
+        this->active = false;
+    }
+}
+
+
 
 void GFNoteObject::render(){
     // enable lighting
@@ -246,12 +313,21 @@ void GFNoteObject::render(){
     glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
     
+    if (Globals::data->m_power_chord)
+    {
+        GFTexture *power = new GFTexture("lightning.png");
+        this->addChild( power );
+    }
+    
     this->loc.z -= 0.01;
-    float deg = 2*M_PI*(float)pitch/(float)12;
+    float deg = 2*M_PI*(float)pitch/12.0f;
     glTranslatef(2 * sin(deg), 2*cos(deg),1);
+    
     glColor3f(1,0,0);
     this->alpha -= 0.002;
-    glutSolidCube(0.2);
+    glutSolidCube(0.1);
+    
+    
     glDisable(GL_LIGHTING);
 }
 

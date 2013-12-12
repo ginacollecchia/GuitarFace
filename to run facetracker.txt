@@ -1,0 +1,17 @@
+----
+osc notes:
+
+class SwirlMessageListener public osc::OscPacketListener
+
+args >> entityId >> f >> Message
+
+
+
+----
+first run annotate
+then train shape model
+then train patch model
+then train face detector
+then train face tracker
+
+./annotate -d ./
