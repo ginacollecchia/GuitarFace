@@ -116,8 +116,16 @@ public:
 class GFTunnelLayer : public YEntity
 {
 public:
+    GFTunnelLayer(GLfloat _size, Vector3D, GLfloat _deltaz);
+    ~GFTunnelLayer();
     void update(YTimeInterval dt);
     void render();
+private:
+    YBokeh *bokeh;
+    GLfloat size;
+    Vector3D color;
+    GLfloat deltaz;
+    
 };
 
 class GFNoteObject : public YEntity
