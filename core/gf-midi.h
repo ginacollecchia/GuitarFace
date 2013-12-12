@@ -31,6 +31,8 @@ public:
     bool isSimultaneous(){ return m_simultaneous; }
     void setSimultaneous( bool simultaneous );
     void setKey( int root_pcp, char * key_quality );
+    // indices
+    int idx = 0;
 
 private:
     // the basic midi things
@@ -41,10 +43,6 @@ private:
     //-----------------------------------------------------------------------------
     // GOALS, CONSTANTS, RANGES, COUNTS
     //-----------------------------------------------------------------------------
-    int m_note_goal = 500;
-    int m_dynamic_range_goal;
-    int m_jump_goal;
-    int m_power_chord_goal;
     int * m_intervals;
     // intonation
     int m_in_key_count = 0;
@@ -58,10 +56,7 @@ private:
     //-----------------------------------------------------------------------------
     // RECORDS: arrays, counts, variables
     //-----------------------------------------------------------------------------
-    // raw pitch data (12-big)
-    int * m_notes;
     // store pitch class info in an array (also 12-big)
-    int * m_pitch_classes;
     int m_pitch_class;
     int m_dynamic_range;
     // simultaneity stuff
@@ -70,29 +65,20 @@ private:
     int m_num_simul_notes = 0;
     bool m_simultaneous;
     // velocity data
-    int * m_velocities;
     int m_min_velocity;
     int m_max_velocity;
     float m_avg_velocity;
     // big skips in pitch
-    bool * m_jumps = false;
-    // pitch bends, slides
-    bool * m_pitch_bends = false;
     // power chords
     int * m_power_chords = false;
     // current notes per whatever, though it should lag graphically
     long double * m_pace;
-    // vibrato (oscillating pitch bends); can't do this with a midi guitar, but could take pitch wheel info
-    bool * m_vibrato = false;
-    int m_vibrato_count = 0;
     // timing array (difference in timestamp)
     float * m_time_stamps;
     float * m_beat_stamps;
-    const char * m_interval_label[500];
+    // const char * m_interval_label[500];
     float m_delta_time_old;
     
-    // indices
-    int idx = 0;
 };
 
 class GFNoteStore {
@@ -112,36 +98,29 @@ public:
     int getIntonationCount(){ return m_in_key_count; }
     double getNotesPerHour();
     int * getPitchClasses(){ return m_pitch_classes; }
+    
+    // numb3rs
+    int m_notes[1000] = { };
+    int m_velocities[1000] = { };
+
     double m_notes_per_hour = 0.0f;
     int m_jump_count = 0;
     int m_power_chord_count = 0;
     int m_note_count = 0;
-
+    // int * m_key;
+    int m_pitch_classes[12] = { };
+    int m_intervals[1000] = { };
+    int m_in_key_count;
+    bool m_jumps[1000] = { };
+    
     
 private:
     vector<GFMIDIEvent> notes;
     vector<double> times;
     // counts
-    int m_key_size = 7;
-    int * m_key;
-    
-    // goals: move these to another file?
-    int m_note_goal = 500;
-    int m_dynamic_range_goal;
-    int m_jump_goal = 20;
-    int m_power_chord_goal = 20;
-    int * m_intervals;
-    int m_in_key_count;
-    int * m_pitch_classes;
     // store old delta time to detect if it's a power chord
     float m_delta_time_old;
 
-    
-    // not using these yet
-    int m_vibrato_count;
-    int m_bend_count;
-    int m_pitch_bend_goal;
-    int m_vibrato_goal;
     // to calculate simultaneity
     float time_thresh; // this should be global
     float velocity_thresh; // to avoid possible MIDI data glitchiness

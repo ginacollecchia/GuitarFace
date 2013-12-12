@@ -128,8 +128,8 @@ void Draw(cv::Mat &image, cv::Mat &shape, cv::Mat &con, cv::Mat &tri, cv::Mat &v
     
     
     /// Display
-    namedWindow("face tracker mask", WINDOW_AUTOSIZE );
-    imshow("face tracker mask", image );
+    // namedWindow("face tracker mask", WINDOW_AUTOSIZE );
+    // imshow("face tracker mask", image );
     
     return;
     

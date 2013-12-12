@@ -87,7 +87,7 @@ bool gf_gfx_init( int argc, const char ** argv )
         glutFullScreen();
     
     // set the idle function - called when idle. now calling glutTimerFunc instead
-    // glutIdleFunc( idleFunc );
+    glutIdleFunc( idleFunc );
     // set the display function - called when redrawing
     glutDisplayFunc( displayFunc );
     // set the reshape function - called when client area changes
@@ -99,7 +99,7 @@ bool gf_gfx_init( int argc, const char ** argv )
     // for arrow keys, etc
 	glutSpecialFunc (specialFunc );
     // display things at the right frame rate
-    glutTimerFunc(1000/30, myTimerFunc, 0);
+    // glutTimerFunc(1000/15, myTimerFunc, 0);
     
     // do our own initialization
     initialize_graphics();

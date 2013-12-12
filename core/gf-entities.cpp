@@ -114,10 +114,10 @@ void GFInfoBar::render(){
     glVertex2f(3.5, -2);
     glEnd();
     
-    paceX = ((Globals::data->m_notes_per_hour) / 3600.0f ) / 400.0f + 0.4f; // these numbers still need tweaking
+    paceX = sqrt(((Globals::data->m_notes_per_hour) / 3600.0f ) / 400.0f) + 0.4f; // these numbers still need tweaking
     if ( paceX > 0.9f )
         paceX = 0.9f;
-    cout << "Pace: " << paceX << endl;
+    // cout << "Pace: " << paceX << endl;
     
     // pace meter
     glColor4f(1.0f, 1.0f, 1.0f, 0.9f);
@@ -344,6 +344,8 @@ void GFCameraWall::render(){
         
         loadTexture_Mat(&frameCopy, &texture);
         
+        void ftDetect(Mat& frame);
+        
     }
 }
 
@@ -460,7 +462,7 @@ void GFOverlayMessage::render(){
     
     if ( Globals::messageMove )
     {
-        this->loc.z += 0.01;
+        this->loc.z += 0.05;
     }
     
     if ( this->loc.z > 0 ) {
