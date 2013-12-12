@@ -89,6 +89,7 @@ queue<GFMIDIEvent> Globals::note_queue;
 int Globals::idx = 0;
 
 queue<cv::Mat> Globals:: camQ;
+cv::Mat guitarFaceMat;
 XMutex Globals::mutex;
 // time is in milliseconds we think
 double Globals::t_game_start = 0;

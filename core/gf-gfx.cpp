@@ -554,8 +554,15 @@ void displayFunc( )
     Globals::mutex.acquire();
     // cout<<Globals::sim->m_simTime - Globals::t_last_guitarface<<endl;
     if(Globals::guitarFace && (Globals::sim->m_simTime - Globals::t_last_guitarface > Globals::d_guitarface_length)){
-        GFCameraWiggle *wiggle = new GFCameraWiggle();
-        Globals::sim->root().addChild(wiggle);
+        if(Globals::camQ.size() != 0){
+            cv::Mat image = Globals::camQ.front();
+            ftDetect2(image);
+            GFTextureWiggle *wiggle = new GFTextureWiggle(image);
+            Globals::camQ.pop();
+            Globals::sim->root().addChild(wiggle);
+        }
+//        GFCameraWiggle *wiggle = new GFCameraWiggle();
+//        Globals::sim->root().addChild(wiggle);
         Globals::guitarFace = false;
         Globals::t_last_guitarface = Globals::sim->m_simTime;
     }

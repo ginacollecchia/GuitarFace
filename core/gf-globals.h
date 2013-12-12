@@ -155,6 +155,7 @@ public:
     static int idx;
     
     static queue<cv::Mat> camQ;
+    static cv::Mat guitarFaceMat;
     static XMutex mutex;
     static double t_game_start;
     static double t_last_guitarface;

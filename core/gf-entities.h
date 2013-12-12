@@ -100,7 +100,6 @@ private:
     std::string filename;
 };
 
-
 //-----------------------------------------------------------------------------
 // name: class GFTunnel
 // desc: note tunnel
@@ -209,6 +208,19 @@ public:
     GFBackingTrackProgressBar();
     ~GFBackingTrackProgressBar();
     YText *timestamp;
+    void update(YTimeInterval dt);
+    void render();
+};
+
+class GFTextureWiggle : public YEntity {
+private:
+    int angle = 0;
+    int diff = 5;
+    int frameCount = 0;
+    GLuint texture;
+public:
+    GFTextureWiggle(cv::Mat image);
+    ~GFTextureWiggle();
     void update(YTimeInterval dt);
     void render();
 };

@@ -370,12 +370,12 @@ void GFCameraWall::render(){
     glBegin (GL_QUADS);
     
     double ratio = 640.0/480.0;
-    double scale = 3.0;
+    double scale = 1.5;
     // camera wall is the farthest back thing, at -10.0
-    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-10.0); //with our vertices we have to assign a texcoord
-    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-10.0); //so that our texture has some points to draw to
-    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-10.0);
-    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-10.0);
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-3.0);
     glEnd();
     glDisable( GL_TEXTURE_2D );
 
@@ -393,8 +393,6 @@ void GFCameraWall::render(){
         }
         
         loadTexture_Mat(&frameCopy, &texture);
-        
-        void ftDetect(Mat& frame);
         
     }
 }
@@ -779,5 +777,67 @@ void GFBackingTrackProgressBar::render() {
     // and text for timestamp (YText)
     
     glDisable( GL_LIGHTING );
+}
+
+
+//------------------------------------------------------------------------
+// name: GFTextureWiggle constructor
+// desc:
+//------------------------------------------------------------------------
+
+GFTextureWiggle::GFTextureWiggle(Mat img){
+    glGenTextures(1, &texture);
+    
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture to it's array
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 480,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
+    Mat frameCopy;
+    
+    cv::flip( img, frameCopy, -1 );
+    
+    loadTexture_Mat(&frameCopy, &texture);
+    GFTrackPlayer *player = new GFTrackPlayer("./data/widdly.mp3");
+    player->play();
+            //imshow("ft", frameCopy);
+}
+
+void GFTextureWiggle::render(){
+    frameCount++;
+    if(this->loc.z > 15)
+        this->active = false;
+    this->loc.z += 0.1;
+    angle += diff;
+    if(angle > 30){
+        diff = -5;
+    }
+    if(angle < -30){
+        diff = +5;
+    }
+    
+    glRotated(angle, 0, 0, 1);
+    
+    glEnable( GL_TEXTURE_2D ); //enable 2D texturing
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
+    glBegin (GL_QUADS);
+    
+    double ratio = 640.0/480.0;
+    double scale = 1.5;
+    // camera wall is the farthest back thing, at -10.0
+    glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
+    glTexCoord3d(1.0,0.0,-3.0); glVertex3d(+(ratio*scale),-scale,-3.0); //so that our texture has some points to draw to
+    glTexCoord3d(1.0,1.0,-3.0); glVertex3d(+(ratio*scale),+scale,-3.0);
+    glTexCoord3d(0.0,1.0,-3.0); glVertex3d(-(ratio*scale),+scale,-3.0);
+    glEnd();
+    glDisable( GL_TEXTURE_2D );
+    
+    
+
+    
+}
+
+void GFTextureWiggle::update(YTimeInterval dt){
 }
 
