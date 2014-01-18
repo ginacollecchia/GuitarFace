@@ -176,32 +176,32 @@ void GFTunnelLayer::update( YTimeInterval dt ){
 
 void GFTunnelLayer::render(){
     
-    bokeh = new YBokeh();
-    // set attributes
-    bokeh->set( size, 1.0f, 1.0f, 1.0f, TUNNEL_BOKEH_1 );
-    bokeh->sca.set( 1, 1, 1 );
-    // set bokeh
-    bokeh->setBokehParams( // initial time
-                          2,
-                          // freq
-                          0,
-                          // time step
-                          50,
-                          // location
-                          Vector3D( 0, 0, 0 ), // Vector3D(XFun::rand2f(-1,1),XFun::rand2f(-1,1), XFun::rand2f(-1,1)),
-                          // color
-                          color );
-    // alpha
-    bokeh->setAlpha( 1 );
-    // add to simulation
-    
+//    bokeh = new YBokeh();
+//    // set attributes
+//    bokeh->set( size, 1.0f, 1.0f, 1.0f, TUNNEL_BOKEH_1 );
+//    bokeh->sca.set( 1, 1, 1 );
+//    // set bokeh
+//    bokeh->setBokehParams( // initial time
+//                          2,
+//                          // freq
+//                          0,
+//                          // time step
+//                          50,
+//                          // location
+//                          Vector3D( 0, 0, 0 ), // Vector3D(XFun::rand2f(-1,1),XFun::rand2f(-1,1), XFun::rand2f(-1,1)),
+//                          // color
+//                          color );
+//    // alpha
+//    bokeh->setAlpha( 1 );
+//    // add to simulation
+//    
     this->loc.z -= deltaz;
     circle(0, 0, 2, 12);
     if(this->loc.z < -10){
         this->active = false;
     }
     
-    this->addChild( bokeh );
+//    this->addChild( bokeh );
     
 }
 
@@ -312,7 +312,7 @@ YTimeInterval GFTunnel::deltatime = 0;
 void GFTunnel::update(YTimeInterval dt){
     
     deltatime += dt;
-    if (deltatime>1.0){
+    if (deltatime>0.2){
         GFTunnelLayer *g = new GFTunnelLayer(5.0,Vector3D(0,0.5,0),0.15);
         //        GFTunnelLayer *g2 = new GFTunnelLayer(8.0, Vector3D(0,0,0.5),0.10);
         g->loc.z = 2;
@@ -808,7 +808,7 @@ void GFTextureWiggle::render(){
     frameCount++;
     if(this->loc.z > 15)
         this->active = false;
-    this->loc.z += 0.1;
+    this->loc.z += 0.02;
     angle += diff;
     if(angle > 30){
         diff = -5;

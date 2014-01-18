@@ -215,7 +215,7 @@ void initialize_graphics()
     // enable
     if( Globals::fog_filter ) glEnable( GL_FOG );
     
-    glutFullScreen();
+    //glutFullScreen();
     
     // check global flag
     if( Globals::fog )
@@ -586,6 +586,21 @@ void displayFunc( )
     } else if (Globals::data->m_note_count == 300)
     {
         GFOverlayMessage *reward3 = new GFOverlayMessage("300_notes.png");
+        Globals::sim->root().addChild( reward3 );
+        reward3->loc.z = -4;
+    } else if (Globals::data->m_note_count == 50)
+    {
+        GFOverlayMessage *reward3 = new GFOverlayMessage("fuck_yeah.png");
+        Globals::sim->root().addChild( reward3 );
+        reward3->loc.z = -4;
+    } else if (Globals::data->m_note_count == 150)
+    {
+        GFOverlayMessage *reward3 = new GFOverlayMessage("widdly_wahh.png.png");
+        Globals::sim->root().addChild( reward3 );
+        reward3->loc.z = -4;
+    } else if (Globals::data->m_note_count == 250)
+    {
+        GFOverlayMessage *reward3 = new GFOverlayMessage("nice.png");
         Globals::sim->root().addChild( reward3 );
         reward3->loc.z = -4;
     }

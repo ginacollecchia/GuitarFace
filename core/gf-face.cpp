@@ -162,7 +162,8 @@ void ftDetect(Mat& im){
     
     bool failed = true;
     
-    cv::flip(im,im,1); cv::cvtColor(im,gray,CV_BGR2GRAY);
+    cv::flip(im,im,1);
+    cv::cvtColor(im,gray,CV_BGR2GRAY);
     
     // track this image
     std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1;
