@@ -67,7 +67,7 @@ Vector3D Globals::ourSoftYellow( .7, .7, .1 );
 Vector3D Globals::ourPurple( .6, .25, .6 );
 
 std::string Globals::path = "";
-std::string Globals::relpath = "data/texture/";
+std::string Globals::relpath = "../../data/texture/";
 std::string Globals::datapath = "";
 std::string Globals::version = DEFAULT_VERSION;
 GLboolean Globals::messageMove = true;

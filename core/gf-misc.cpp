@@ -82,7 +82,8 @@ int loadTexture_Mat(cv::Mat *image, GLuint *text){
     if (image==NULL) return -1;
     
 	glBindTexture( GL_TEXTURE_2D, *text ); //bind the texture to it's array
-    // std::cerr<<image->cols<<" "<<image->rows<<" "<<*text<<std::endl;
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->cols,image->rows, GL_BGR,GL_UNSIGNED_BYTE, image->data);
+//    std::cerr<<image->cols<<" "<<image->rows<<" "<<*text<<std::endl;
+//    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image->cols,image->rows, GL_BGR,GL_UNSIGNED_BYTE, image->data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->cols, image->rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image->data);
     return 0;
 }

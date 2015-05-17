@@ -206,7 +206,7 @@ void GFTunnelLayer::render(){
 }
 
 GFTexture::GFTexture(string _filename):filename(_filename){
-    string path = "./data/texture/";
+    string path = "../../data/texture/";
     texture = gf_loadTexture(path + filename);
 }
 
@@ -350,7 +350,7 @@ GFCameraWall::GFCameraWall(){
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 480,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
     
     std::cout << "Camera opened successfully" << std::endl;
     
@@ -369,7 +369,7 @@ void GFCameraWall::render(){
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
     
-    double ratio = 640.0/480.0;
+    double ratio = 1280.0/720.0;
     double scale = 1.5;
     // camera wall is the farthest back thing, at -10.0
     glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord
@@ -379,6 +379,7 @@ void GFCameraWall::render(){
     glEnd();
     glDisable( GL_TEXTURE_2D );
 
+    
     IplImage *cameraFrame;
     
     if ((cameraFrame = cvQueryFrame(camCapture))) {
@@ -391,9 +392,7 @@ void GFCameraWall::render(){
         else{
             cv::flip( frame, frameCopy, 0 );
         }
-        
         loadTexture_Mat(&frameCopy, &texture);
-        
     }
 }
 
@@ -457,7 +456,7 @@ void GFVideoPlayer::update(YTimeInterval dt){
 //------------------------------------------------------------------------
 
 GFOverlayMessage::GFOverlayMessage(string _filename):filename(_filename){
-    string path = "./data/texture/";
+    string path = "../../data/texture/";
     texture = gf_loadTexture(path + filename);
 }
 
@@ -529,7 +528,7 @@ void GFOverlayMessage::render(){
 //------------------------------------------------------------------------
 
 GFBackgroundImage::GFBackgroundImage(string _filename):filename(_filename){
-    string path = "./data/texture/";
+    string path = "../../data/texture/";
     texture = gf_loadTexture(path + filename);
 }
 
@@ -685,7 +684,7 @@ void GFGuitarFace::update(YTimeInterval dt){
 //------------------------------------------------------------------------
 
 GFCameraWiggle::GFCameraWiggle(){
-    GFTrackPlayer *player = new GFTrackPlayer("./data/widdly.mp3");
+    GFTrackPlayer *player = new GFTrackPlayer("../../data/widdly.mp3");
     player->play();
 }
 
@@ -735,15 +734,18 @@ void GFBackingTrackProgressBar::update(YTimeInterval dt) {
     elapsedTime += dt; // this is in seconds
     seconds = (int)(fmod(elapsedTime, 60.0f));
     minutes = (int)(elapsedTime / 60.0f);
+    stringstream t;
     // convert time to string
     if (seconds < 10) {
-        t = SSTR(minutes << ":0" << seconds);
+//        t = SSTR(minutes << ":0" << seconds);
+        t << std::to_string(minutes) << ":0" << seconds;
     } else {
-        t = SSTR(minutes << ":" << seconds);
+//        t = SSTR(minutes << ":" << seconds);
+        t<<minutes << ":" << seconds;
     }
     
     // set the displayed time in minutes and seconds
-    timestamp->set(t);
+    timestamp->set(t.str());
 }
 
 void GFBackingTrackProgressBar::render() {
@@ -793,13 +795,13 @@ GFTextureWiggle::GFTextureWiggle(Mat img){
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 480,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720,0, GL_BGR, GL_UNSIGNED_BYTE, 0);
     Mat frameCopy;
     
     cv::flip( img, frameCopy, -1 );
     
     loadTexture_Mat(&frameCopy, &texture);
-    GFTrackPlayer *player = new GFTrackPlayer("./data/widdly.mp3");
+    GFTrackPlayer *player = new GFTrackPlayer("../../data/widdly.mp3");
     player->play();
             //imshow("ft", frameCopy);
 }
@@ -823,7 +825,7 @@ void GFTextureWiggle::render(){
     glBindTexture( GL_TEXTURE_2D, texture ); //bind the texture
     glBegin (GL_QUADS);
     
-    double ratio = 640.0/480.0;
+    double ratio = 1280.0/720.0;
     double scale = 1.5;
     // camera wall is the farthest back thing, at -10.0
     glTexCoord3d(0.0,0.0,-3.0); glVertex3d(-(ratio*scale),-scale,-3.0); //with our vertices we have to assign a texcoord

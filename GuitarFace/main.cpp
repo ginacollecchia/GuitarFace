@@ -20,7 +20,6 @@ int main( int argc, const char ** argv )
 {
     //gf_init_face_rec();
     
-    
     // invoke graphics setup and loop
     if( !gf_gfx_init( argc, argv ) )
     {

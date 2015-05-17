@@ -188,14 +188,14 @@ GFMIDIEvent::GFMIDIEvent( int note_on, int pitch, int vel, double t )
         
         
         // intonation
-        for( int i = 0; i < m_key_size; i++ )
-        {
-            if( m_pitch_class == m_key[i] )
-            {
-                Globals::data->m_in_key_count++;
-                break;
-            }
-        }
+//        for( int i = 0; i < m_key_size; i++ )
+//        {
+//            if( m_pitch_class == m_key[i] )
+//            {
+//                Globals::data->m_in_key_count++;
+//                break;
+//            }
+//        }
         
         // compute intervals
         // if greater than an octave, call it a "jump"

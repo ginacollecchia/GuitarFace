@@ -143,9 +143,9 @@ void ftDetect(Mat& im){
     int fpd = -1;
     bool show = true;
     
-    char ftFile[256] = "./data/face2.tracker";
-    char triFile[256] = "./data/face.tri";
-    char conFile[256] = "./data/face.con";
+    char ftFile[256] = "../../data/face2.tracker";
+    char triFile[256] = "../../data/face.tri";
+    char conFile[256] = "../../data/face.con";
     
     // set other tracking parameters
     std::vector<int> wSize1(1); wSize1[0] = 7;
@@ -233,9 +233,9 @@ void ftDetect2(Mat& im){
     int fpd = -1;
     bool show = true;
     
-    char ftFile[256] = "./data/face2.tracker";
-    char triFile[256] = "./data/face.tri";
-    char conFile[256] = "./data/face.con";
+    char ftFile[256] = "../../data/face2.tracker";
+    char triFile[256] = "../../data/face.tri";
+    char conFile[256] = "../../data/face.con";
     
     // set other tracking parameters
     std::vector<int> wSize1(1); wSize1[0] = 7;

@@ -259,7 +259,7 @@ void init_intro(){
     
     // start from black. increase opacity of logo and start track.
     // Globals::sim = new GFSim();
-    // GFTrackPlayer *introPlayer = new GFTrackPlayer("./data/intro-sabra.mp3");
+    // GFTrackPlayer *introPlayer = new GFTrackPlayer("../../data/intro-sabra.mp3");
     // Globals::sim->root().addChild( introPlayer );
    
     Globals::sim = new GFSim();
@@ -267,7 +267,7 @@ void init_intro(){
     logo->loc.z = -4;
     Globals::sim->root().addChild( logo );
 
-    GFTrackPlayer *introPlayer = new GFTrackPlayer("./data/intro-sabra.mp3");
+    GFTrackPlayer *introPlayer = new GFTrackPlayer("../../data/intro-sabra.mp3");
     introPlayer->play();
 
     // increase alpha, pause, then decrease
@@ -309,7 +309,7 @@ void init_game(){
     GFCameraWall *camwall = new GFCameraWall();
     GFBackingTrackProgressBar *progressBar = new GFBackingTrackProgressBar();
 
-    Globals::bt_player = new GFTrackPlayer("./data/jam.mp3");
+    Globals::bt_player = new GFTrackPlayer("../../data/jam.mp3");
     Globals::bt_player->play();
     // GFBackgroundImage *bimage = new GFBackgroundImage("tunnel_cropped.png");
     GFInfoBar *ibar = new GFInfoBar();
